@@ -1,0 +1,37 @@
+/* "System Design Interview" book figure style (draw.io look).
+   Colours sampled from data/examples/figure-1-6-L2YNDDKF.png. */
+:root {
+  --line: #2e68a1;        /* arrows */
+  --tier: #3ab4da;        /* cyan tier / group border */
+  --server: #7fba42;      /* green server */
+  --db: #2e73b8;          /* blue DB, load balancer */
+  --dns: #4d4d4d;         /* dark grey globe */
+  --device: #333333;      /* laptop / phone outlines */
+  --ink: #000000;
+  --code-bg: #f8f9fa;     /* grey highlight behind a code-like label */
+  --font: Arial, Helvetica, sans-serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: #fff; }
+body { font-family: var(--font); color: var(--ink); }
+
+/* Canvas: every element inside is absolutely positioned in CSS px. */
+.canvas { position: relative; overflow: hidden; background: #fff; }
+
+/* Tiers / groups: rounded box, solid or dashed cyan border, no fill */
+.tier { position: absolute; border: 5px solid var(--tier); border-radius: 44px; }
+
+/* Text labels; .code adds the grey highlight used for hostnames */
+.t { position: absolute; font-size: 42px; line-height: 1; white-space: nowrap; }
+.t.c { transform: translateX(-50%); }
+.t.mask { background: #fff; padding: 2px 6px; }   /* sits on top of a line */
+.t.code { background: var(--code-bg); padding: 2px 4px; }
+
+/* Icons are inline SVG placed with left/top */
+.icon { position: absolute; }
+
+/* Arrow layer: under the masked labels, over the boxes */
+svg.edges { position: absolute; inset: 0; overflow: visible; }
+svg.edges > path { fill: none; stroke: var(--line); stroke-width: 5; }
+svg.edges > rect.tier-dashed { fill: none; stroke: var(--tier); stroke-width: 5; stroke-dasharray: 20 12; }

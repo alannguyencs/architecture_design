@@ -1,0 +1,94 @@
+/* ByteByteGo animated style: white page, pastel icons with thick black
+   outlines, big curved flow lines, outlined step numbers, and icons that loop.
+   Colours sampled from data/examples/0_CqXxd5b308ZJ2DSJ.gif. */
+:root {
+  --ink: #111111;
+  --text: #3a3a3a;
+  --line: #474e6f;          /* flow arrows */
+  --pill: #52ad84;          /* title highlight */
+  --yellow: #ffe763;
+  --purple: #be9cff;
+  --lime: #cef76d;
+  --lime-db: #bdff4a;
+  --green-store: #428c29;   /* object store (initial) */
+  --pink-store: #d6278b;    /* object store (after) */
+  --redis: #dc261d;
+  --fill-api: #f7ffe7;      /* dashed service boxes */
+  --fill-status: #fff7e7;
+  --fill-server: #eff7ff;
+  --step-fill: #e7e7e8;
+  --orange-dot: #ffc04d;
+  --blue-dot: #8fa8f0;
+  --flow: #14ff87;          /* streak that runs along the flow lines */
+
+  /* One loop of the whole GIF. Every animation duration must divide it. */
+  --loop: 2.25s;
+  --half: 1.125s;
+  --third: 0.75s;
+
+  --font: "HarmonyOS Sans", "Inter", -apple-system, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+  --font-title: "Arial Black", "Helvetica Neue", Arial, sans-serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: #fff; }
+body { font-family: var(--font); color: var(--text); -webkit-font-smoothing: antialiased; }
+
+.canvas { position: relative; overflow: hidden; background: #fff; }
+.layer { position: absolute; inset: 0; overflow: visible; }
+
+/* Header: title with a highlight pill (no accent bar, no logo) */
+.title { position: absolute; font-family: var(--font-title); color: #000; letter-spacing: -1.5px; white-space: nowrap; line-height: 1; }
+.title-pill {
+  position: absolute; display: flex; align-items: center; justify-content: center;
+  background: var(--pill); color: #fff; border-radius: 34px 40px 36px 30px / 30px 36px 32px 38px;
+  font-family: var(--font-title); letter-spacing: -1.5px; white-space: nowrap;
+}
+.rule { position: absolute; height: 2px; background: #ececec; }
+
+/* Dashed service box: text on the left, icon on the right */
+.svc {
+  position: absolute; border: 2.5px dashed #222; border-radius: 20px;
+  display: flex; align-items: center; justify-content: space-between; padding: 0 16px 0 22px;
+  font-size: 22px; font-weight: 500; line-height: 1.35;
+}
+.svc span { white-space: nowrap; }
+.svc.api { background: var(--fill-api); }
+.svc.status { background: var(--fill-status); }
+.svc.server { background: var(--fill-server); }
+
+/* Outlined step number */
+.step {
+  position: absolute; width: 38px; height: 38px; margin: -19px 0 0 -19px; border-radius: 50%;
+  background: var(--step-fill); border: 3.5px solid #333; color: #222;
+  font-weight: 800; font-size: 23px; display: flex; align-items: center; justify-content: center;
+}
+
+/* Text */
+.t { position: absolute; font-size: 24px; font-weight: 500; line-height: 1.38; white-space: nowrap; }
+.t.c { transform: translateX(-50%); text-align: center; }
+.icon { position: absolute; transform: translate(-50%, -50%); overflow: visible; }
+
+/* Flow lines */
+svg.edges > path { fill: none; stroke: var(--line); stroke-width: 2.5; }
+/* Green streak: a copy of each edge (added by the template script) with one short
+   dash that enters at the start and leaves at the end once per loop. */
+svg.edges > path.flow {
+  stroke: var(--flow); stroke-width: 4; stroke-linecap: round;
+  stroke-dasharray: 90 1910; animation: flow var(--loop) linear infinite;
+}
+@keyframes flow { from { stroke-dashoffset: 90; } to { stroke-dashoffset: -1000; } }
+
+/* ---------- Icon animations (all loop inside --loop) ---------- */
+.anim { transform-box: fill-box; transform-origin: center; }
+@keyframes bob    { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
+@keyframes wiggle { 0%, 100% { transform: rotate(-7deg); } 50% { transform: rotate(7deg); } }
+@keyframes spin   { to { transform: rotate(360deg); } }
+@keyframes pulse  { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.18); } }
+@keyframes light  { 0%, 100% { fill: #fff; } 20%, 45% { fill: var(--purple); } 65% { fill: #fff; } }
+
+.a-bob    { animation: bob var(--half) ease-in-out infinite; }
+.a-wiggle { animation: wiggle var(--third) ease-in-out infinite; }
+.a-spin   { animation: spin var(--loop) linear infinite; transform-origin: center; }
+.a-pulse  { animation: pulse var(--third) ease-in-out infinite; }
+.a-light  { animation: light var(--loop) linear infinite; }

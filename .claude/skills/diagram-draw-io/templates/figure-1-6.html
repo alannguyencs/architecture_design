@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Figure 1-6</title>
+<!-- Re-creation of data/examples/figure-1-6-L2YNDDKF.png. Canvas 1725 × 1827 CSS px (render at --scale 1). -->
+<link rel="stylesheet" href="../assets/sdi-book.css">
+<style>
+  .canvas { width: 1725px; height: 1827px; }
+</style>
+</head>
+<body>
+<div class="canvas">
+
+  <!-- Tiers -->
+  <div class="tier" style="left:134px; top:1px; width:935px; height:315px;"></div>
+
+  <!-- Arrows (drawn before the labels so masked labels cover them) -->
+  <svg class="edges" width="1725" height="1827" viewBox="0 0 1725 1827">
+    <defs>
+      <!-- draw.io "classic" head: filled, with a notch -->
+      <marker id="ah" viewBox="0 0 12 10" refX="11" refY="5" markerUnits="userSpaceOnUse"
+              markerWidth="36" markerHeight="30" orient="auto-start-reverse">
+        <path d="M0 0 L12 5 L0 10 L3 5 Z" fill="#2e68a1"/>
+      </marker>
+    </defs>
+    <!-- Dashed tiers: SVG rects so the dash length can match draw.io -->
+    <rect class="tier-dashed" x="178" y="897" width="810" height="266" rx="36"/>  <!-- web tier -->
+    <rect class="tier-dashed" x="4" y="1523" width="1137" height="300" rx="36"/>  <!-- data tier -->
+    <path d="M1076 116 L1567 116" marker-end="url(#ah)"/>                 <!-- user → DNS -->
+    <path d="M1569 172 L1066 172" marker-end="url(#ah)"/>                 <!-- DNS → user -->
+    <path d="M398 314 L516 569" marker-end="url(#ah)"/>                   <!-- browser → LB -->
+    <path d="M746 312 L650 569" marker-end="url(#ah)"/>                   <!-- mobile → LB -->
+    <path d="M582 685 L384 894" marker-end="url(#ah)"/>                   <!-- LB → server 1 -->
+    <path d="M582 685 L786 894" marker-end="url(#ah)"/>                   <!-- LB → server 2 -->
+    <path d="M380 1165 L178 1520" marker-end="url(#ah)"/>                 <!-- S1 write -->
+    <path d="M786 1165 L206 1518" marker-end="url(#ah)"/>                 <!-- S2 write -->
+    <path d="M380 1165 L930 1520" marker-end="url(#ah)"/>                 <!-- S1 read -->
+    <path d="M786 1165 L962 1520" marker-end="url(#ah)"/>                 <!-- S2 read -->
+    <path d="M234 1659 L863 1657" marker-start="url(#ah)" marker-end="url(#ah)"/> <!-- replicate -->
+  </svg>
+
+  <!-- Laptop -->
+  <svg class="icon" style="left:330px; top:88px;" width="118" height="82" viewBox="0 0 118 82">
+    <rect x="9" y="4" width="100" height="64" rx="6" fill="#fff" stroke="#000" stroke-width="7"/>
+    <rect x="1" y="68" width="116" height="12" rx="4" fill="#000"/>
+    <rect x="44" y="71" width="30" height="4" rx="2" fill="#fff"/>
+  </svg>
+  <!-- Phone -->
+  <svg class="icon" style="left:700px; top:68px;" width="78" height="112" viewBox="0 0 78 112">
+    <rect x="4" y="4" width="70" height="104" rx="9" fill="#fff" stroke="#333" stroke-width="7"/>
+    <line x1="4" y1="20" x2="74" y2="20" stroke="#333" stroke-width="5"/>
+    <line x1="4" y1="90" x2="74" y2="90" stroke="#333" stroke-width="5"/>
+    <rect x="31" y="10" width="16" height="4" rx="2" fill="#333"/>
+    <rect x="31" y="96" width="16" height="6" rx="3" fill="#333"/>
+  </svg>
+  <!-- DNS globe -->
+  <svg class="icon" style="left:1570px; top:52px;" width="152" height="152" viewBox="0 0 152 152">
+    <g fill="none" stroke="#4d4d4d" stroke-width="9">
+      <circle cx="76" cy="76" r="70"/>
+      <ellipse cx="76" cy="76" rx="32" ry="70"/>
+      <line x1="76" y1="6" x2="76" y2="146"/>
+      <path d="M20 34 Q76 52 132 34"/><path d="M20 118 Q76 100 132 118"/>
+    </g>
+    <rect x="2" y="54" width="148" height="44" fill="#fff"/>
+    <text x="76" y="92" text-anchor="middle" font-family="Arial" font-weight="bold" font-size="50" fill="#4d4d4d">DNS</text>
+  </svg>
+  <!-- Load balancer -->
+  <svg class="icon" style="left:500px; top:571px;" width="166" height="114" viewBox="0 0 166 114">
+    <path d="M14 0 L152 0 L165 108 Q165 114 159 114 L7 114 Q1 114 1 108 Z" fill="#2e73b8"/>
+    <g stroke="#fff" stroke-width="4" fill="none" stroke-linecap="round">
+      <circle cx="81" cy="21" r="6" fill="#fff"/>
+      <line x1="81" y1="21" x2="81" y2="96"/>
+      <path d="M72 88 L81 98 L90 88"/>
+      <path d="M81 55 L52 78 M52 66 L52 78 L64 78"/>
+      <path d="M81 55 L110 78 M110 66 L110 78 L98 78"/>
+    </g>
+  </svg>
+  <!-- Servers -->
+  <svg class="icon" style="left:344px; top:917px;" width="84" height="164" viewBox="0 0 84 164">
+    <rect width="84" height="164" rx="3" fill="#7fba42"/>
+    <g fill="#fff"><rect x="16" y="21" width="52" height="6"/><rect x="16" y="118" width="52" height="6"/><rect x="16" y="139" width="52" height="6"/></g>
+  </svg>
+  <svg class="icon" style="left:734px; top:911px;" width="84" height="164" viewBox="0 0 84 164">
+    <rect width="84" height="164" rx="3" fill="#7fba42"/>
+    <g fill="#fff"><rect x="16" y="21" width="52" height="6"/><rect x="16" y="118" width="52" height="6"/><rect x="16" y="139" width="52" height="6"/></g>
+  </svg>
+  <!-- Databases -->
+  <svg class="icon" style="left:98px; top:1562px;" width="134" height="161" viewBox="0 0 134 161">
+    <path d="M0 18 L0 143 A67 18 0 0 0 134 143 L134 18 A67 18 0 0 0 0 18 Z" fill="#2e73b8"/>
+    <ellipse cx="67" cy="20" rx="50" ry="9" fill="#fff"/>
+    <text x="67" y="112" text-anchor="middle" font-family="Arial" font-size="62" fill="#fff">DB</text>
+  </svg>
+  <svg class="icon" style="left:871px; top:1563px;" width="134" height="161" viewBox="0 0 134 161">
+    <path d="M0 18 L0 143 A67 18 0 0 0 134 143 L134 18 A67 18 0 0 0 0 18 Z" fill="#2e73b8"/>
+    <ellipse cx="67" cy="20" rx="50" ry="9" fill="#fff"/>
+    <text x="67" y="112" text-anchor="middle" font-family="Arial" font-size="62" fill="#fff">DB</text>
+  </svg>
+
+  <!-- Labels -->
+  <div class="t" style="left:166px; top:42px;">User</div>
+  <div class="t" style="left:296px; top:194px;">Web browser</div>
+  <div class="t" style="left:640px; top:197px;">Mobile app</div>
+  <div class="t" style="left:1143px; top:56px;">www.mysite.com</div>
+  <div class="t" style="left:1145px; top:197px;">IP address</div>
+  <div class="t" style="left:60px; top:456px;">www.mysite.com</div>
+  <div class="t code" style="left:725px; top:451px;">api.mysite.com</div>
+  <div class="t" style="left:723px; top:604px;">Load balancer</div>
+  <div class="t" style="left:296px; top:1107px;">Server 1</div>
+  <div class="t" style="left:686px; top:1102px;">Server 2</div>
+  <div class="t" style="left:1027px; top:1012px;">Web tier</div>
+  <div class="t mask" style="left:187px; top:1344px;">Write</div>
+  <div class="t mask" style="left:394px; top:1344px;">Write</div>
+  <div class="t mask" style="left:626px; top:1350px;">Read</div>
+  <div class="t mask" style="left:839px; top:1350px;">Read</div>
+  <div class="t" style="left:500px; top:1597px;">Replicate</div>
+  <div class="t" style="left:52px; top:1750px;">Master DB</div>
+  <div class="t" style="left:830px; top:1750px;">Slave DB</div>
+  <div class="t" style="left:1183px; top:1667px;">Data tier</div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>How to Design a System Like YouTube</title>
+<!-- Re-creation of data/examples/0_CqXxd5b308ZJ2DSJ.gif. Canvas 1329 × 1536 CSS px (render at --scale 1).
+     Animated parts carry .a-* classes; scripts/render_gif.py steps them through one --loop. -->
+<link rel="stylesheet" href="../assets/bbg-animated.css">
+<style>
+  .canvas { width: 1329px; height: 1536px; }
+</style>
+</head>
+<body>
+<div class="canvas">
+
+<!-- ===== Header (title + pill only; no accent bar, no logo) ===== -->
+<div class="title" style="left:27px; top:57px; font-size:35px;">How to Design a</div>
+<div class="title-pill" style="left:331px; top:38px; width:478px; height:70px; font-size:37px;">System Like YouTube?</div>
+<div class="rule" style="left:10px; top:145px; width:1310px;"></div>
+
+<!-- ===== Flow lines (under the icons; icons have opaque fills and break the lines) ===== -->
+<svg class="layer edges" width="1329" height="1536" viewBox="0 0 1329 1536">
+  <defs>
+    <marker id="ah" viewBox="0 0 12 12" refX="10" refY="6" markerUnits="userSpaceOnUse"
+            markerWidth="14" markerHeight="14" orient="auto-start-reverse">
+      <path d="M0 1 L11 6 L0 11 Z" fill="#474e6f"/>
+    </marker>
+  </defs>
+  <path d="M617 302 V370" marker-end="url(#ah)"/>                              <!-- 1 upload → LB -->
+  <path d="M617 506 V562" marker-end="url(#ah)"/>                              <!-- LB → API -->
+  <path d="M668 423 C900 425 1120 470 1245 565" marker-end="url(#ah)"/>        <!-- 2 raw files → object store -->
+  <path d="M472 632 H382" marker-end="url(#ah)"/>                              <!-- API → user DB -->
+  <path d="M552 699 C505 728 480 760 479 807" marker-end="url(#ah)"/>          <!-- 3 API → cache -->
+  <path d="M682 699 C729 728 754 760 755 807" marker-end="url(#ah)"/>          <!-- 3 API → DB -->
+  <path d="M1242 770 V1037" marker-end="url(#ah)"/>                            <!-- 4 store → transcoding -->
+  <path d="M1145 1182 C1080 1300 900 1372 690 1372" marker-end="url(#ah)"/>    <!-- 5 transcoded → store -->
+  <path d="M1028 1110 H988" marker-end="url(#ah)"/>                            <!-- server → notification -->
+  <path d="M810 1110 H766" marker-end="url(#ah)"/>                             <!-- 6 notification → handler -->
+  <path d="M542 1046 C494 1020 479 990 479 943" marker-end="url(#ah)"/>        <!-- 7 handler → cache -->
+  <path d="M692 1046 C740 1020 755 990 755 943" marker-end="url(#ah)"/>        <!-- 7 handler → DB -->
+  <path d="M565 240 C450 246 320 320 240 440 C175 540 128 660 125 810" marker-end="url(#ah)"/>          <!-- 8 streaming request → CDN -->
+  <path d="M118 888 C114 1070 150 1170 215 1235 C290 1310 410 1366 534 1372" marker-start="url(#ah)" marker-end="url(#ah)"/> <!-- 9 CDN ↔ store (after) -->
+</svg>
+
+<!-- ===== Upload (monitor with bobbing arrow) ===== -->
+<svg class="icon" style="left:617px; top:251px;" width="88" height="90" viewBox="0 0 88 90">
+  <rect x="3" y="3" width="82" height="62" rx="12" fill="#ffe763" stroke="#111" stroke-width="3.5"/>
+  <path d="M44 65 V86 M30 87 H58" stroke="#111" stroke-width="3.5" stroke-linecap="round"/>
+  <g class="a-bob">
+    <path d="M44 6 L56 22 Q58 26 54 26 H34 Q30 26 32 22 Z" fill="#fff" stroke="#111" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M44 26 V50" stroke="#111" stroke-width="3.5" stroke-linecap="round"/>
+  </g>
+</svg>
+<div class="step" style="left:657px; top:338px;">1</div>
+<div class="t" style="left:685px; top:322px;">Upload Video Request</div>
+
+<!-- ===== Load balancer (fill runs through the nodes) ===== -->
+<svg class="icon" style="left:617px; top:426px;" width="90" height="90" viewBox="0 0 90 90">
+  <path d="M45 28 V48 M14 64 V48 H76 V64 M45 48 V64" fill="none" stroke="#111" stroke-width="3.5"/>
+  <circle class="a-light" cx="45" cy="16" r="12" stroke="#111" stroke-width="3.5" style="animation-delay:0s"/>
+  <circle class="a-light" cx="14" cy="75" r="11" stroke="#111" stroke-width="3.5" style="animation-delay:-1.69s"/>
+  <circle class="a-light" cx="45" cy="75" r="11" stroke="#111" stroke-width="3.5" style="animation-delay:-1.12s"/>
+  <circle class="a-light" cx="76" cy="75" r="11" stroke="#111" stroke-width="3.5" style="animation-delay:-0.56s"/>
+</svg>
+<div class="t c" style="left:617px; top:476px;">Load Balancer</div>
+
+<!-- ===== Video file icons (wiggle) — reused on arcs 2, 4, 9 ===== -->
+<svg class="icon" style="left:915px; top:442px;" width="66" height="72" viewBox="0 0 66 72">
+  <g class="anim a-wiggle">
+    <path d="M10 4 H40 L60 24 V64 Q60 68 56 68 H24" fill="#fff" stroke="#111" stroke-width="3.5" stroke-linejoin="round"/>
+    <path d="M40 4 V24 H60 Z" fill="#cef76d" stroke="#111" stroke-width="3.5" stroke-linejoin="round"/>
+    <path d="M10 4 Q6 4 6 8 V30" fill="none" stroke="#111" stroke-width="3.5"/>
+    <rect x="4" y="36" width="32" height="28" rx="6" fill="#cef76d" stroke="#111" stroke-width="3.5"/>
+    <path d="M36 44 L46 38 V62 L36 56 Z" fill="#cef76d" stroke="#111" stroke-width="3.5" stroke-linejoin="round"/>
+  </g>
+</svg>
+<div class="step" style="left:993px; top:433px;">2</div>
+<div class="t" style="left:1030px; top:400px; line-height:33px;">Raw Video Files<br>Stored in Object Storage</div>
+
+<svg class="icon" style="left:1240px; top:885px;" width="66" height="72" viewBox="0 0 66 72">
+  <g class="anim a-wiggle" style="animation-delay:-0.25s">
+    <path d="M10 4 H40 L60 24 V64 Q60 68 56 68 H24" fill="#fff" stroke="#111" stroke-width="3.5" stroke-linejoin="round"/>
+    <path d="M40 4 V24 H60 Z" fill="#cef76d" stroke="#111" stroke-width="3.5" stroke-linejoin="round"/>
+    <path d="M10 4 Q6 4 6 8 V30" fill="none" stroke="#111" stroke-width="3.5"/>
+    <rect x="4" y="36" width="32" height="28" rx="6" fill="#cef76d" stroke="#111" stroke-width="3.5"/>
+    <path d="M36 44 L46 38 V62 L36 56 Z" fill="#cef76d" stroke="#111" stroke-width="3.5" stroke-linejoin="round"/>
+  </g>
+</svg>
+<div class="step" style="left:1118px; top:830px;">4</div>
+<div class="t c" style="left:1118px; top:855px; line-height:33px;">Video sent for<br>transcoding</div>
+
+<svg class="icon" style="left:211px; top:1212px;" width="66" height="72" viewBox="0 0 66 72">
+  <g class="anim a-wiggle" style="animation-delay:-0.5s">
+    <path d="M10 4 H40 L60 24 V64 Q60 68 56 68 H24" fill="#fff" stroke="#111" stroke-width="3.5" stroke-linejoin="round"/>
+    <path d="M40 4 V24 H60 Z" fill="#cef76d" stroke="#111" stroke-width="3.5" stroke-linejoin="round"/>
+    <path d="M10 4 Q6 4 6 8 V30" fill="none" stroke="#111" stroke-width="3.5"/>
+    <rect x="4" y="36" width="32" height="28" rx="6" fill="#cef76d" stroke="#111" stroke-width="3.5"/>
+    <path d="M36 44 L46 38 V62 L36 56 Z" fill="#cef76d" stroke="#111" stroke-width="3.5" stroke-linejoin="round"/>
+  </g>
+</svg>
+<div class="step" style="left:268px; top:1335px;">9</div>
+<div class="t c" style="left:268px; top:1359px; line-height:33px;">CDN fetches video<br>from Storage</div>
+
+<!-- ===== Object store (initial) ===== -->
+<svg class="icon" style="left:1242px; top:633px;" width="118" height="120" viewBox="0 0 118 120">
+  <rect x="0" y="0" width="118" height="120" rx="16" fill="#428c29"/>
+  <g fill="none" stroke="#fff" stroke-width="2.5" stroke-linejoin="round">
+    <ellipse cx="59" cy="36" rx="34" ry="10"/>
+    <path d="M25 36 L33 92 Q59 102 85 92 L93 36"/>
+    <path d="M58 60 L84 72"/><circle cx="58" cy="60" r="3" fill="#fff"/>
+  </g>
+</svg>
+<div class="t c" style="left:1242px; top:705px; line-height:31px;">Object Store<br>(Initial)</div>
+
+<!-- ===== API server ===== -->
+<div class="svc api" style="left:478px; top:568px; width:281px; height:130px;">
+  <span>API<br>Server</span>
+  <svg width="74" height="72" viewBox="0 0 74 72">
+    <g stroke="#111" stroke-width="3.5" stroke-linejoin="round">
+      <path d="M4 14 Q4 4 14 4 H60 Q70 4 70 14 V18 H4 Z" fill="#ff8a8a"/>
+      <path d="M4 18 H70 V14" fill="#cef76d"/>
+      <rect x="4" y="18" width="66" height="16" fill="#fff"/>
+      <rect x="4" y="34" width="66" height="16" rx="0" fill="#fff"/>
+      <path d="M37 50 V62 M8 66 H66" fill="none" stroke-linecap="round"/>
+      <circle cx="37" cy="66" r="3.5" fill="#fff"/>
+    </g>
+    <g stroke="#111" stroke-width="3.5" stroke-linecap="round">
+      <path d="M14 26 H16 M26 26 H58 M14 42 H16 M26 42 H58"/>
+    </g>
+  </svg>
+</div>
+
+<!-- ===== User database (head bobs) ===== -->
+<svg class="icon" style="left:323px; top:627px;" width="96" height="80" viewBox="0 0 96 80">
+  <circle class="a-bob" cx="30" cy="18" r="15" fill="#be9cff" stroke="#111" stroke-width="3.5"/>
+  <path d="M6 72 Q4 48 30 46 Q44 46 50 54 Q44 60 44 72 Z" fill="#be9cff" stroke="#111" stroke-width="3.5" stroke-linejoin="round"/>
+  <g fill="#fff" stroke="#111" stroke-width="3.5">
+    <path d="M60 60 L84 46 M60 60 L84 72" fill="none"/>
+    <circle cx="58" cy="60" r="7"/><circle cx="85" cy="44" r="7"/><circle cx="85" cy="74" r="7"/>
+  </g>
+</svg>
+<div class="t c" style="left:323px; top:686px;">User Database</div>
+
+<!-- ===== Metadata cache (Redis-like layers) and DB ===== -->
+<div class="step" style="left:612px; top:733px;">3</div>
+<div class="t c" style="left:612px; top:758px; line-height:33px;">Metadata<br>Saved</div>
+
+<svg class="icon" style="left:479px; top:857px;" width="88" height="78" viewBox="0 0 88 78">
+  <g fill="#dc261d">
+    <path d="M44 4 L84 16 L44 30 L4 16 Z"/>
+    <path d="M4 22 L44 36 L84 22 V30 L44 44 L4 30 Z"/>
+    <path d="M4 36 L44 50 L84 36 V44 L44 58 L4 44 Z"/>
+    <path d="M4 50 L44 64 L84 50 V58 L44 72 L4 58 Z"/>
+  </g>
+  <g fill="#fff">
+    <path d="M50 8 L53 12 L58 12 L54 15 L56 19 L50 16 L45 19 L47 15 L42 12 L48 12 Z"/>
+    <path d="M22 16 L34 12 L32 20 Z"/>
+    <ellipse cx="62" cy="18" rx="7" ry="3"/>
+  </g>
+</svg>
+<div class="t c" style="left:479px; top:902px;">Metadata Cache</div>
+
+<svg class="icon" style="left:756px; top:858px;" width="80" height="80" viewBox="0 0 80 80">
+  <g stroke="#111" stroke-width="3.5" fill="#bdff4a">
+    <path d="M4 14 V66 A36 11 0 0 0 76 66 V14"/>
+    <path d="M4 40 A36 11 0 0 0 76 40" fill="none"/>
+    <ellipse cx="40" cy="14" rx="36" ry="11"/>
+  </g>
+</svg>
+<div class="t c" style="left:756px; top:902px;">Metadata DB</div>
+
+<div class="step" style="left:612px; top:938px;">7</div>
+<div class="t c" style="left:612px; top:963px; line-height:33px;">Metadata<br>updated</div>
+
+<!-- ===== CDN ===== -->
+<svg class="icon" style="left:124px; top:849px;" width="104" height="70" viewBox="0 0 104 70">
+  <rect x="8" y="8" width="88" height="54" fill="#fff" stroke="#111" stroke-width="3.5"/>
+  <circle cx="8" cy="8" r="6" fill="#fff" stroke="#111" stroke-width="3"/>
+  <circle cx="96" cy="8" r="6" fill="#fff" stroke="#111" stroke-width="3"/>
+  <circle class="a-light" cx="8" cy="62" r="6" stroke="#111" stroke-width="3" style="animation-delay:-0.6s"/>
+  <circle class="a-light" cx="96" cy="62" r="6" stroke="#111" stroke-width="3"/>
+  <text x="52" y="44" text-anchor="middle" font-family="Arial Black, Arial" font-weight="900" font-size="22" fill="#111">CDN</text>
+</svg>
+
+<!-- ===== Streaming request (camera wiggles) ===== -->
+<div class="step" style="left:288px; top:250px;">8</div>
+<div class="t c" style="left:288px; top:276px; line-height:33px;">Video Streaming<br>Request</div>
+<svg class="icon" style="left:230px; top:466px;" width="76" height="68" viewBox="0 0 76 68">
+  <g class="anim a-wiggle" style="animation-delay:-0.4s">
+    <rect x="22" y="6" width="50" height="56" rx="14" fill="#ffe763" stroke="#111" stroke-width="3.5"/>
+    <path d="M22 20 L6 16 Q3 16 3 20 V48 Q3 52 6 52 L22 48" fill="#ffe763" stroke="#111" stroke-width="3.5" stroke-linejoin="round"/>
+  </g>
+</svg>
+
+<!-- ===== Transcoding status handler / notification / server ===== -->
+<div class="svc status" style="left:478px; top:1047px; width:281px; height:131px;">
+  <span>Transcoding<br>Status Handler</span>
+  <svg width="80" height="80" viewBox="0 0 80 80">
+    <circle cx="38" cy="40" r="30" fill="none" stroke="#111" stroke-width="3.5" stroke-dasharray="11 8"/>
+    <g class="a-spin" style="transform-origin:38px 40px">
+      <path d="M32 31 L48 40 L32 49 Z" fill="none" stroke="#111" stroke-width="3.5" stroke-linejoin="round"/>
+      <path d="M59 61 L54 56" stroke="#111" stroke-width="3.5" stroke-linecap="round"/>
+      <circle cx="62" cy="64" r="7" fill="#ffc04d" stroke="#111" stroke-width="3"/>
+    </g>
+  </svg>
+</div>
+
+<div class="step" style="left:902px; top:1042px;">6</div>
+<svg class="icon" style="left:895px; top:1111px;" width="174" height="86" viewBox="0 0 174 86">
+  <path d="M30 3 H162 Q171 3 171 12 V74 Q171 83 162 83 H30 L3 43 Z" fill="#fff" stroke="#111" stroke-width="3"/>
+  <g class="a-bob" style="animation-delay:0s">
+    <rect x="30" y="27" width="35" height="31" rx="5" fill="#ffe763" stroke="#111" stroke-width="3"/><path d="M31 30 L47 44 L64 30" fill="none" stroke="#111" stroke-width="3"/>
+  </g>
+  <g class="a-bob" style="animation-delay:-0.37s">
+    <rect x="75" y="27" width="35" height="31" rx="5" fill="#ffe763" stroke="#111" stroke-width="3"/><path d="M76 30 L92 44 L109 30" fill="none" stroke="#111" stroke-width="3"/>
+  </g>
+  <g class="a-bob" style="animation-delay:-0.75s">
+    <rect x="120" y="27" width="35" height="31" rx="5" fill="#ffe763" stroke="#111" stroke-width="3"/><path d="M121 30 L137 44 L154 30" fill="none" stroke="#111" stroke-width="3"/>
+  </g>
+</svg>
+<div class="t c" style="left:895px; top:1165px; line-height:33px;">Transcoding Complete<br>Notification</div>
+
+<div class="svc server" style="left:1030px; top:1047px; width:271px; height:131px;">
+  <span>Transcoding<br>Server</span>
+  <svg width="80" height="80" viewBox="0 0 80 80">
+    <circle cx="38" cy="40" r="30" fill="none" stroke="#111" stroke-width="3.5" stroke-dasharray="11 8"/>
+    <g class="a-spin" style="transform-origin:38px 40px; animation-delay:-0.3s">
+      <path d="M32 31 L48 40 L32 49 Z" fill="none" stroke="#111" stroke-width="3.5" stroke-linejoin="round"/>
+      <path d="M59 61 L54 56" stroke="#111" stroke-width="3.5" stroke-linecap="round"/>
+      <circle cx="62" cy="64" r="7" fill="#8fa8f0" stroke="#111" stroke-width="3"/>
+    </g>
+  </svg>
+</div>
+
+<!-- ===== Transcoded video (clapper, play pulses) ===== -->
+<svg class="icon" style="left:965px; top:1330px;" width="72" height="70" viewBox="0 0 72 70">
+  <rect x="4" y="6" width="64" height="58" rx="8" fill="#fff" stroke="#111" stroke-width="3.5"/>
+  <path d="M4 22 H68 M4 14 Q4 6 12 6 H60 Q68 6 68 14 V22 H4 Z" fill="#cef76d" stroke="#111" stroke-width="3.5" stroke-linejoin="round"/>
+  <path d="M22 6 L16 22 M40 6 L34 22 M58 6 L52 22" stroke="#111" stroke-width="3"/>
+  <path class="anim a-pulse" d="M28 32 L48 43 L28 54 Z" fill="#cef76d" stroke="#111" stroke-width="3.5" stroke-linejoin="round"/>
+</svg>
+<div class="step" style="left:950px; top:1418px;">5</div>
+<div class="t" style="left:988px; top:1383px; line-height:33px;">Transcoded Video Uploaded<br>to Object Storage</div>
+
+<!-- ===== Object store (after transcoding) ===== -->
+<svg class="icon" style="left:617px; top:1372px;" width="120" height="120" viewBox="0 0 120 120">
+  <rect x="0" y="0" width="120" height="120" rx="16" fill="#d6278b"/>
+  <g fill="none" stroke="#fff" stroke-width="2.5" stroke-linejoin="round">
+    <ellipse cx="60" cy="36" rx="34" ry="10"/>
+    <path d="M26 36 L34 92 Q60 102 86 92 L94 36"/>
+    <path d="M59 60 L85 72"/><circle cx="59" cy="60" r="3" fill="#fff"/>
+  </g>
+</svg>
+<div class="t c" style="left:617px; top:1445px; line-height:31px;">Object Store<br>(After Transcoding)</div>
+
+</div>
+<script>
+  // Add a green streak copy of every flow line (pathLength 1000 makes the dash
+  // the same share of every path). Mark a path class="no-flow" to skip it.
+  document.querySelectorAll('svg.edges > path:not(.no-flow)').forEach(p => {
+    const f = p.cloneNode();
+    f.removeAttribute('marker-start'); f.removeAttribute('marker-end');
+    f.setAttribute('class', 'flow'); f.setAttribute('pathLength', '1000');
+    p.after(f);
+  });
+</script>
+</body>
+</html>

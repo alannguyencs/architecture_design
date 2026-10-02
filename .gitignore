@@ -1,0 +1,25 @@
+# Secrets
+.env
+.env.*
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Rendered diagrams — rebuild with the .claude/skills/diagram-* render scripts
+data/generated/
+results/
+*_frames/
+
+# Claude Code: keep shared skills, ignore personal settings
+.claude/settings.local.json
+
+# Third-party reference images (ByteByteGo posts, book figures) — kept local only
+data/examples/
