@@ -30,7 +30,10 @@ Proposal:
 
 1. **Update both skills** with a shared icon set, more edge styles and a few extra shapes. This makes the 285 drawable images easy to build (section 5).
 2. **Make one new skill**, `diagram-bytebytego-concept`, for the 207 "concept" images — tables, cell grids, sequences, timelines, rings, trees and mind maps, maps and spatial grids (section 6). About 186 of them can be drawn fully; the other ~21 sit on real map imagery and need a base map.
-3. **Leave 23 images out of scope**: screenshots, product UIs, logo grids and one cartoon (section 4.11).
+3. **Make a second new skill**, `diagram-bytebytego-mockup`, for the 18 product screenshots and UIs — phone and browser screens, search boxes, lists, forms, header panels — redrawn as plain wireframes (section 8.4). It also adds a small browser-page part to the shared kit, which the flow skill needs for 2 drawable figures.
+4. **Leave 5 images out of scope**: four logo grids and one cartoon (section 4.11).
+
+After both proposals were carried out, **492 of 515** images (96 %) can be drawn; only the 23 out-of-scope images remain (section 9).
 
 ## 2. Coverage per chapter
 
@@ -225,7 +228,7 @@ These are not diagrams. A skill would gain little from supporting them.
 
 | Kind | Images | Suggestion |
 |---|---|---|
-| Product screenshots and UI | url-shortener 8-1; notification-system 10-1; news-feed 11-1; search-autocomplete 13-1, 13-3, 13-12; youtube 14-1; google-drive 15-1, 15-2, 15-3, 15-9; proximity-service 1; nearby-friends 1; metrics-monitoring 21; hotel-reservation 9; distributed-email 9; payment-system 3, 5 | Skip, or use the screenshot as an image |
+| Product screenshots and UI (18) | url-shortener 8-1; notification-system 10-1; news-feed 11-1; search-autocomplete 13-1, 13-3, 13-12; youtube 14-1; google-drive 15-1, 15-2, 15-3, 15-9; proximity-service 1; nearby-friends 1; metrics-monitoring 21; hotel-reservation 9; distributed-email 9; payment-system 3, 5 | Redraw as wireframes with the new `diagram-bytebytego-mockup` skill (section 8.4) |
 | Logo grids | chat-system 12-1; distributed-message-queue 1; metrics-monitoring 1; distributed-email 1 | Skip — real brand marks |
 | Cartoon | rate-limiter 4-4 (token bucket with coins) | Draw by hand, or use 4-5 instead |
 
@@ -356,5 +359,57 @@ Animation can come later. Several of these suit the animated skill's approach we
 
 - [x] Fill in the icons and edge styles each of the 285 drawable images needs in `261014_bytebytego_figures.csv`. Outcome: every drawable image now lists its icons, edge styles, parts, real gaps (`not_in_kit`), brand logos and, where an apparent gap is already covered, the kit part to use (`in_kit_hint`). 202 of the 285 can be drawn with the kit as it is; 20 more need only a brand logo, drawn as a look-alike or a labelled box; 63 need something the kit lacks — most often a person icon without a laptop (13), tinted icons or coloured outlines (8), filled zone backgrounds (7), stacked boxes for multiple instances (7) and more edge colours (7).
 - [x] Decide the borderline calls in section 7 (google-drive 15-8, payment 12, email 12, message-queue 7, 17, 23, google-maps 9) and update the counts. Outcome: all seven are drawable; message-queue 17 and google-maps 9 moved from "cannot draw", giving 285 drawable / 230 not.
-- [ ] Re-run the coverage count after each skill update, and mark the images that become drawable in the CSV.
+- [x] Re-run the coverage count after each skill update, and mark the images that become drawable in the CSV. Outcome: `docs/reports/261014_coverage.py` recounts from the CSV and the concept skill's components and writes the `drawable_now` column; after 8.1 and 8.2, 492 of 515 images (96 %) are drawable — see section 9.
 - [ ] Keep every figure rebuilt from the book internal, and keep `data/` and `data.zip` out of git.
+
+### 8.4 Build `diagram-bytebytego-mockup` (Proposal 3)
+
+A second review of the 23 out-of-scope images (section 4.11) found that 18 of them are one kind of picture: **a screen of a product**. They are not boxes and arrows, and not data-placed shapes, so neither the flow nor the concept skill fits. But they are made of a small set of repeating UI parts — a phone or browser frame, a search box with suggestions, a list of rows, a form, a header panel. One of them, news-feed 11-1, is already a pastel wireframe in the ByteByteGo look, which shows the target style. The other 5 (four logo grids and the token-bucket cartoon) stay out of scope.
+
+The new skill redraws these screens as **wireframes**, not as copies: grey text bars or short neutral text, pastel image blocks, no real brand marks, the same tokens and icons as the other skills.
+
+| Component | What it draws | Images |
+|---|---|---|
+| `frame` | Phone (status bar, title bar, tab bar, home bar), browser window (URL bar, tabs), desktop app window; light and dark theme; several frames side by side with captions | news-feed 11-1; notification 10-1; google-drive 15-1, 15-2; youtube 14-1; nearby-friends 1; hotel 9; proximity 1; metrics 21 |
+| `search` | Input with typed prefix and caret, suggestion list with the completed part in bold, search icon | autocomplete 13-1, 13-3; google-drive 15-1, 15-2; proximity 1; youtube 14-1 |
+| `list` | Rows with icon or avatar, title, subtitle, trailing meta (distance, date, owner, `⋯`); header row; highlighted row | google-drive 15-1, 15-2, 15-9; nearby-friends 1; proximity 1 |
+| `form` | Labelled text fields, checkbox, radio list, select, primary / secondary buttons, "or" divider, progress stepper, price lines and total | payment 3, 5; hotel 9; proximity 1 |
+| `card` | Feed post (avatar, text bars, image or video block), thumbnail grid with titles, notification banner, chat bubbles, email view | news-feed 11-1; youtube 14-1; notification 10-1; proximity 1 |
+| `kvpanel` | `key: value` lines (devtools headers, mail header), monospace values, status chip, red or black box around chosen rows | url-shortener 8-1; autocomplete 13-12; distributed-email 9 |
+| `filetree` | Indented folders and files with open / closed triangles; before / after pair with an "expand" arrow | google-drive 15-3 |
+| embedded concept parts | A panel grid that hosts `BBG.timeline` charts (dashboard), and a `BBG.spatial` street grid with numbered pins (map panel) | metrics 21; proximity 1 |
+
+Action items:
+
+- [ ] Set up the skill: `SKILL.md`, `assets/bbg-mockup.js` / `bbg-mockup.css`, and the shared `bbg-flow.css`, icons, parts and `render.py` through `_shared/sync.py`. Rules in `SKILL.md`: wireframe, not screenshot; no real brand marks or product names (use look-alike names such as "Drive", "Pay"); never draw a working-looking login or payment page — fields stay as empty wireframe boxes with a "Mockup" look.
+- [ ] Build `frame` and the placeholder parts (text bars, pastel image block, avatar circle). Template: `design-a-news-feed-system/figure-11-1` (phone with feed cards).
+- [ ] Build `search` and `list`. Template: `design-a-search-autocomplete-system/figure-13-1` (search box with suggestions); check it on 13-3, google-drive 15-2 and 15-9, nearby-friends 1.
+- [ ] Build `form`. Template: `hotel-reservation-system/figure-9` (stepper, price lines, card fields, button); check it on payment 3 and 5 drawn as generic, unbranded pages.
+- [ ] Build `kvpanel` and `filetree`. Template: `design-a-url-shortener/figure-8-1` (headers with red boxes); check it on 13-12, distributed-email 9 and google-drive 15-3.
+- [ ] Build `card` and the composite screens that reuse concept parts: notification 10-1 (three phones), youtube 14-1 (video grid), google-drive 15-1 (desktop app), metrics 21 (dashboard with `BBG.timeline`), proximity 1 (list plus map with `BBG.spatial`).
+- [ ] Add a small browser-page part (window dots, URL bar, link lines) to `_shared/bbg-parts`, so the flow skill can draw web-crawler 9-1 and payment-system 4, which list "browser window with page content" as their only gap.
+- [ ] Add animation helpers that `render_gif.py` can seek: typing into the search box while the suggestion list changes (autocomplete), a notification banner sliding in, a feed scrolling, a folder opening.
+- [ ] Update this report and `261014_bytebytego_figures.csv`: give the 18 images their own status and component, move web-crawler 9-1 and payment-system 4 to "drawable with the kit", and leave 5 images out of scope.
+
+## 9. Coverage after the updates
+
+Recounted after carrying out sections 5 and 6 (action items 8.1 and 8.2), with
+`python3 docs/reports/261014_coverage.py --write`. The script reads the CSV and the
+components that `diagram-bytebytego-concept` actually defines, and writes the
+`drawable_now` column; re-run it after any skill update.
+
+| Drawable now with | Images |
+|---|---|
+| The flow / animated kit as it is | 202 |
+| The flow kit, with brand logos as look-alikes or labelled boxes | 20 |
+| The flow kit, plus a small addition it still lacks (`not_in_kit`) | 63 |
+| A concept component: `table` 36, `cells` 34, `spatial` 29, `sequence` 28, `timeline` 25, `tree` 24, `ring` 23, `code` 6, `venn` / `funnel` 2 | 207 |
+| **Drawable** | **492 (96 %)** |
+| Not drawable: out of scope (section 4.11) | 23 |
+
+What "drawable" means here:
+
+- The skills have every building block the image needs. Each block has been tried on at least one rebuilt book figure (the templates named in section 8), but most images have not been rebuilt yet.
+- The 63 "small addition" images need one of a short list of kit parts: a person icon without a laptop (13 images), tinted icons or coloured outlines (8), filled zone backgrounds (7), stacked boxes for multiple instances (7), more edge colours (7), and a few one-offs (CSV column `not_in_kit`).
+- About 21 of the 29 spatial images sit on real map imagery in the book. They are drawn on the `spatial` world base (Natural Earth) or the schematic street grid instead — the content is kept, the photographic map is not.
+- Every chapter is now fully drawable except for its out-of-scope images.
