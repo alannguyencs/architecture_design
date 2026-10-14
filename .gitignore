@@ -4,6 +4,8 @@
 
 # OS / editor
 .DS_Store
+# macOS AppleDouble files (this drive is exFAT, so macOS writes them everywhere)
+._*
 .idea/
 .vscode/
 
@@ -24,3 +26,6 @@ results/
 # Third-party reference images (ByteByteGo posts, book figures) — kept local only
 data/examples/
 data/system-design-interview/
+# Everything under data/, and its archive, stays out of git
+data/
+data.zip
