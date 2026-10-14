@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Denormalized Leaderboard Table</title>
+<!-- Book-figure template: System Design Interview, real-time gaming leaderboard figure 22
+     (denormalized view of the leaderboard and user tables) in the ByteByteGo look. One
+     BBG.table call with a group header row, a monospace score column and a "…" row.
+     Canvas 960 × 470 CSS px (render at --scale 1). -->
+<link rel="stylesheet" href="../assets/bbg-flow.css">
+<link rel="stylesheet" href="../assets/bbg-parts.css">
+<link rel="stylesheet" href="../assets/bbg-concept.css">
+<style>
+  .canvas { width: 960px; height: 470px; }
+</style>
+</head>
+<body>
+<div class="canvas">
+<script src="../assets/bbg-icons.js"></script>
+<div class="title" style="left:30px; top:28px; font-size:48px;">Denormalized Leaderboard Table</div>
+</div>
+<script src="../assets/bbg-concept.js"></script>
+<script>
+  BBG.table({
+    x: 40, y: 120, size: 19,
+    groups: [{ label: 'Primary key', span: 1 }, { label: 'Attributes', span: 4 }],
+    columns: [
+      { label: 'user_id', weight: 700 },
+      { label: 'score', align: 'right', mono: true },
+      'email', 'profile_pic', 'leaderboard_name',
+    ],
+    rows: [
+      ['lovelove', 309, 'love@test.com', 'https://cdn.example/3.png', 'chess#2020-02'],
+      ['i_love_tofu', 209, 'test@test.com', 'https://cdn.example/p.png', 'chess#2020-02'],
+      ['golden_gate', 103, 'gold@test.com', 'https://cdn.example/2.png', 'chess#2020-03'],
+      ['pizza_or_bread', 203, 'piz@test.com', 'https://cdn.example/31.png', 'chess#2021-05'],
+      ['ocean', 10, 'oce@test.com', 'https://cdn.example/32.png', 'chess#2020-02'],
+      ['…', '…', '…', '…', '…'],
+    ],
+  });
+</script>
+<script src="../assets/bbg-parts.js"></script>
+</body>
+</html>

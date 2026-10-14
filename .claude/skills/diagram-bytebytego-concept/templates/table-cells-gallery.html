@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Table and Cells Gallery</title>
+<!-- One sample of each table and cells option, each modelled on a book figure:
+     url schema (8-4), chat message schema (12-9), ranking list (leaderboard 1), order book
+     (stock-exchange 2), users table in a shard (1-22), Snowflake ID (7-5), partition log with
+     segments (message-queue 9), consumer offsets (message-queue 14), key buckets (6-13),
+     skip-list base list (leaderboard 9), queue stacks (9-6), erasure-coding grid (s3 16).
+     Render it to check the components: canvas 1280 × 1720. -->
+<link rel="stylesheet" href="../assets/bbg-flow.css">
+<link rel="stylesheet" href="../assets/bbg-parts.css">
+<link rel="stylesheet" href="../assets/bbg-concept.css">
+<style>
+  .canvas { width: 1280px; height: 1720px; }
+  .h2 { position: absolute; font-size: 26px; font-weight: 700; }
+</style>
+</head>
+<body>
+<div class="canvas">
+<script src="../assets/bbg-icons.js"></script>
+<div class="title" style="left:30px; top:28px; font-size:44px;">table and cells</div>
+<div class="h2" style="left:30px; top:100px;">table</div>
+<div class="h2" style="left:30px; top:880px;">cells</div>
+</div>
+<script src="../assets/bbg-concept.js"></script>
+<script>
+  // ---- table ----
+  BBG.table({ x: 30, y: 150, title: 'url', size: 18, grid: 'header',
+    rows: [{ cells: ['id'], key: 'PK' }, ['shortURL'], ['longURL']] });
+
+  BBG.table({ x: 250, y: 150, title: 'message', grid: 'none', headFill: 'c-soft',
+    columns: [{ label: '' }, { label: '', align: 'right', muted: true, mono: true }],
+    rows: [{ cells: [{ t: 'message_id', weight: 800 }, 'bigint'] }, ['message_from', 'bigint'], ['message_to', 'bigint'],
+           ['content', 'text'], ['created_at', 'timestamp']] });
+
+  BBG.table({ x: 590, y: 150, grid: 'rows', headFill: 'c-purple',
+    columns: [{ label: 'Rank', align: 'center' }, { label: 'Player', width: 220 }, { label: 'Points', align: 'right' }],
+    rows: [{ cells: [1, 'Aquaboys', 976], hl: true }, [2, 'B team', 956], [3, "Berlin's Angels", 890], [4, 'GrendelTeam', 878]] });
+
+  BBG.table({ x: 990, y: 150, grid: 'none', title: 'APPLE stock', titleFill: 'c-white',
+    columns: ['', { label: 'Price', mono: true }, { label: 'Qty', align: 'right', mono: true }],
+    rows: [['best ask', '100.10', { t: '1800', cls: 'c-pink' }], ['best bid', '100.08', { t: '2000', cls: 'c-green' }]] });
+
+  BBG.table({ x: 30, y: 430, frame: 'cylinder', frameLabel: 'Shard 0', size: 15, title: 'Users', titleFill: 'c-blue',
+    columns: ['user_id', '…'], rows: [['0\n4\n8\n12\n…', '']] });
+
+  BBG.table({ x: 300, y: 430, size: 15,
+    groups: [{ label: 'Primary key', span: 1 }, { label: 'Attributes', span: 3 }],
+    columns: ['user_id', { label: 'score', align: 'right', mono: true }, 'email', 'name'],
+    rows: [['lovelove', 309, 'love@test.com', 'Lovelace'], { cells: ['i_love_tofu', 209, 'test@test.com', 'Tofu'], strike: true },
+           { cells: ['golden_gate', 103, 'gold@test.com', 'Gate'], fill: 'c-soft' }, ['…', '…', '…', '…']] });
+
+  // ---- cells ----
+  BBG.cells({ x: 30, y: 960, size: 14,
+    cells: [{ t: '0', w: 34 }, { t: 'timestamp', w: 330 }, { t: 'datacenter ID', w: 130 }, { t: 'machine ID', w: 120 }, { t: 'sequence number', w: 200 }],
+    top: ['1 bit', '41 bits', '5 bits', '5 bits', '12 bits'] });
+
+  BBG.cells({ x: 1010, y: 960, cols: 4, count: 12, start: 1, w: 46, h: 40, gap: 10, hl: [7], frame: true, frameLabel: 'server 1', size: 15 });
+
+  BBG.cells({ x: 190, y: 1090, count: 16, w: 44, h: 44, ghost: [15], label: 'Partition-1',
+    spans: [{ from: 0, to: 9, label: 'segment-1' }, { from: 10, to: 15, label: 'segment-2' }],
+    pointers: [{ at: 0, side: 'above', label: '1st record', len: 40 }, { at: 15, side: 'above', label: 'next record written', len: 40 }] });
+
+  const log = BBG.cells({ x: 30, y: 1290, count: 16, w: 44, h: 44, on: [0, 1, 2, 3, 4, 5, 6], ghost: [15],
+    pointers: [{ at: 6, side: 'below', label: 'consumer 1: last offset = 6', len: 44, pos: 'right' },
+               { at: 13, side: 'above', label: 'consumer 2: last offset = 13', len: 40, pos: 'right' }] });
+
+  BBG.cells({ x: 800, y: 1370, cells: [1, 4, 8, 10, 15, 26, 36, { t: '45', cls: 'c-purple' }, 60], w: 32, h: 32, gap: 24, link: true, size: 14, label: 'Base list' });
+
+  [0, 1, 2].forEach(i => BBG.cells({ x: 880 + i * 120, y: 1440, count: 6, dir: 'v', w: 62, h: 24, label: `b${i + 1}`, labelSide: 'top', cells: ['', '', '', '', '', ''], on: i === 1 ? [5, 4] : [5] }));
+
+  BBG.cells({ x: 30, y: 1460, cols: 6, w: 36, h: 36, gap: 10, count: 18, cells: Array(18).fill(''),
+    on: [1, 8, 15], hl: [4, 11], frame: true, frameLabel: 'Failure domain' });
+
+  BBG.cells({ x: 430, y: 1480, cells: ['k1', 'k2', 'k3', 'k4', 'k5'], w: 70, h: 44, dir: 'h', fill: 'c-soft', mono: true,
+    bottom: ['v1', 'v2', 'v3', 'v4', 'v5'], label: 'bucket 1' });
+</script>
+<script src="../assets/bbg-parts.js"></script>
+</body>
+</html>

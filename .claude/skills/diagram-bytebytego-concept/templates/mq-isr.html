@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>How ISR Works</title>
+<!-- Book-figure template: System Design Interview, distributed message queue figure 24
+     (how in-sync replicas work) in the ByteByteGo look. The four replica logs are
+     BBG.cells strips; the edges are drawn from each strip's .at() positions, so moving a
+     strip moves its edges. Canvas 1280 × 800 CSS px (render at --scale 1). -->
+<link rel="stylesheet" href="../assets/bbg-flow.css">
+<link rel="stylesheet" href="../assets/bbg-parts.css">
+<link rel="stylesheet" href="../assets/bbg-concept.css">
+<style>
+  .canvas { width: 1280px; height: 800px; }
+  .t.lft { transform: none; text-align: left; }
+</style>
+</head>
+<body>
+<div class="canvas">
+<script src="../assets/bbg-icons.js"></script>
+
+<!-- ===== Back layer: one zone per replica, the leader in green ===== -->
+<svg class="layer" width="1280" height="800" viewBox="0 0 1280 800">
+  <rect class="group" x="40" y="300" width="440" height="270" rx="20"/>
+  <rect class="section" x="830" y="110" width="400" height="170" rx="20"/>
+  <rect class="section" x="830" y="330" width="400" height="170" rx="20"/>
+  <rect class="section" x="830" y="550" width="400" height="170" rx="20"/>
+</svg>
+
+<div class="title" style="left:30px; top:28px; font-size:48px;">How ISR Works</div>
+
+<div class="pill" style="left:135px; top:278px; width:250px; height:44px; font-size:22px;">replica-1 · leader</div>
+<div class="pill" style="left:915px; top:88px; width:230px; height:44px; font-size:22px;">replica-2 · follower</div>
+<div class="pill" style="left:915px; top:308px; width:230px; height:44px; font-size:22px;">replica-3 · follower</div>
+<div class="pill" style="left:915px; top:528px; width:230px; height:44px; font-size:22px;">replica-4 · follower</div>
+
+<div class="legend" style="left:40px; top:610px; font-size:16px;">
+  <div><svg viewBox="0 0 48 14"><rect x="10" y="0" width="28" height="14" fill="#fde97a" stroke="#111" stroke-width="2" stroke-dasharray="5 3"/></svg>written, not yet committed</div>
+</div>
+<div class="t lft mono" style="left:40px; top:730px; font-size:21px;">ISR: {replica-1, replica-2, replica-3}</div>
+
+</div>
+<script src="../assets/bbg-concept.js"></script>
+<script>
+  const W = 60, H = 90;
+  const uncommitted = { cls: 'c-yellow', ghost: true };
+  const offsets = (from, to) => Array.from({ length: to - from + 1 }, (_, i) => from + i);
+  const strip = (x, y, last, pending = []) => BBG.cells({
+    x, y, w: W, h: H, size: 22,
+    cells: offsets(10, last).map(o => (pending.includes(o) ? { t: o, ...uncommitted } : o)),
+  });
+
+  const leader = BBG.cells({
+    x: 80, y: 350, w: W, h: H, size: 22,
+    cells: [10, 11, 12, 13, { t: 14, ...uncommitted }, { t: 15, ...uncommitted }],
+    pointers: [{ at: 3, side: 'below', label: 'committed offset = 13', len: 62 }],
+  });
+  const r2 = strip(880, 160, 14, [14]);
+  const r3 = strip(880, 380, 13);
+  const r4 = strip(880, 600, 11);
+
+  // Edges from the leader's right edge to each follower's left edge.
+  const svg = BBG.layer();
+  // at: where along the edge the label sits (0 = start, 1 = end).
+  const edge = (from, to, label, dashed, at = 0.5) => {
+    const [x1, y1] = from, [x2, y2] = to;
+    BBG.el('path', { d: `M${x1} ${y1} L${x2 - 4} ${y2}`, class: `c-line${dashed ? ' c-dash' : ''}`, 'marker-end': 'url(#m-arrow)' }, svg);
+    BBG.label(svg, x1 + (x2 - x1) * at, y1 + (y2 - y1) * at, label, { size: 20 });
+  };
+  const [lx, ly] = leader.at(5, 'right');
+  edge([lx, ly - 25], r2.at(0, 'left'), 'fetch');
+  edge([lx, ly], r3.at(0, 'left'), 'fetch');
+  edge([lx, ly + 25], r4.at(0, 'left'), 'not caught up', true, 0.6);
+</script>
+<script src="../assets/bbg-parts.js"></script>
+</body>
+</html>

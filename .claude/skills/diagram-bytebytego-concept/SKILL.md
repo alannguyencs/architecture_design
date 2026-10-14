@@ -16,8 +16,8 @@ for boxes and arrows), `diagram-bytebytego-animated` (looping GIF).
 ## Status
 
 The skill is being built in the order of report item 8.2
-(`docs/reports/261014_bytebytego.md`). Done: the setup and the core helpers below.
-Planned components, each to be added as `BBG.<name>(spec)`: `table`, `cells`,
+(`docs/reports/261014_bytebytego.md`). Done: the setup, the core helpers and the
+`table` and `cells` components. Planned, each to be added as `BBG.<name>(spec)`:
 `sequence`, `timeline`, `ring`, `tree` (with a mind-map mode), then `spatial`,
 `code`, `venn`, `funnel`. Until a component exists, draw with the core helpers.
 
@@ -25,12 +25,15 @@ Planned components, each to be added as `BBG.<name>(spec)`: `table`, `cells`,
 
 | Path (relative to this skill) | What it is |
 |---|---|
-| `assets/bbg-concept.js` | Core helpers on `window.BBG`: `el`, `group`, `text`, `icon`, `layer`, and `define` for components |
-| `assets/bbg-concept.css` | Styles for drawn marks: `.c-box`, `.c-cell`, `.c-line`, `.c-thin`, `.c-dash`, `.c-muted`, fills `.c-green` … `.c-orange` |
+| `assets/bbg-concept.js` | Core helpers on `window.BBG` (`el`, `group`, `text`, `label`, `measure`, `icon`, `layer`, `define`) and the components `BBG.table`, `BBG.cells` |
+| `assets/bbg-concept.css` | Styles for drawn marks: `.c-box`, `.c-outline`, `.c-cell`, `.c-line`, `.c-thin`, `.c-dash`, `.c-strike`, `.c-muted`, fills `.c-green` … `.c-orange`, `text.mono` |
 | `assets/bbg-flow.css` | The flow look's tokens and building blocks (generated copy) |
 | `assets/bbg-icons.js` | Shared icon sprite and edge markers (generated copy) |
 | `assets/bbg-parts.css`, `assets/bbg-parts.js` | Shared extra parts: edge styles, labels, shapes, boxes, variants (generated copies) |
 | `templates/starter.html` | Starter page: load order, a strip of cells from an array, servers placed on a circle |
+| `templates/table-cells-gallery.html` | One sample of every `table` and `cells` option, each modelled on a book figure — render it to look up an option |
+| `templates/mq-isr.html` | Book figure: message-queue 24 (how ISR works) — `cells` strips joined by edges from `.at()` |
+| `templates/leaderboard-table.html` | Book figure: gaming-leaderboard 22 (denormalized table) — `table` with a group header |
 | `scripts/render.py` | HTML → PNG (`--scale`, `--webp`, `--compare`, `--variant`; generated copy) |
 
 Needs Python `playwright` (with Chromium: `python3 -m playwright install chromium`) and Pillow.
@@ -50,6 +53,7 @@ Needs Python `playwright` (with Chromium: `python3 -m playwright install chromiu
    - `BBG.group(parent, x, y, cls)` — a `<g>` moved to `(x, y)`, so a component can
      draw at `0, 0`;
    - `BBG.text(parent, x, y, 'two\nlines', { size, weight, anchor })` — centred text;
+   - `BBG.label(parent, x, y, 'fetch', { size })` — text on a white backing, for edges;
    - `BBG.icon(parent, 'db', x, y, w, h)` — a shared icon centred on `(x, y)`.
 
    Style marks with the `.c-*` classes rather than inline colours; arrows use the
@@ -63,6 +67,45 @@ Needs Python `playwright` (with Chromium: `python3 -m playwright install chromiu
    ```
 
    Look at the PNG (Read tool) and adjust; use `--scale 2` for the final export.
+
+## Components
+
+Every component takes one object, draws into `spec.parent || BBG.layer()`, and
+returns a `<g>` with `width`, `height` and `at(…)`, which gives page coordinates
+for edges: `const [x, y] = leader.at(5, 'right')`. The full option list is in the
+comment above each component in `assets/bbg-concept.js`; the gallery template
+shows each option.
+
+**`BBG.table`** — schema tables, record rows, ranking lists.
+
+```js
+BBG.table({ x: 40, y: 120, title: 'url',              // optional title bar
+  groups: [{ label: 'Primary key', span: 1 }, { label: 'Attributes', span: 4 }],
+  columns: ['user_id', { label: 'score', align: 'right', mono: true }],
+  rows: [{ cells: ['id', 'bigint'], key: 'PK' },       // key → adds a key column
+         { cells: [...], hl: true }, { cells: [...], strike: true }, ['…', '…']],
+  grid: 'all' | 'rows' | 'header' | 'none', frame: 'cylinder', frameLabel: 'Shard 0' });
+```
+
+Cells can be objects (`{ t: '2000', cls: 'c-green' }`); columns size themselves
+to their text unless `width` is given. `at(row, col, side)` — row `-1` is the
+header.
+
+**`BBG.cells`** — strips and grids of cells: logs, partitions, arrays, bit
+layouts, buckets, linked lists, queues.
+
+```js
+BBG.cells({ x: 80, y: 350, w: 60, h: 90,
+  cells: [10, 11, { t: 14, cls: 'c-yellow', ghost: true }] /* or count: 16, start: 0 */,
+  dir: 'h' | 'v', cols: 4, gap: 0, on: [0, 1], hl: [3], ghost: [15],
+  link: true,                        // linked list; needs gap >= 24
+  top: ['1 bit', …], bottom: [...], label: 'Partition-1', frame: true, frameLabel: 'server 1',
+  spans: [{ from: 0, to: 9, label: 'segment-1' }],
+  pointers: [{ at: 13, side: 'below', label: 'committed offset = 13' }] });
+```
+
+Give a cell its own `w` for a bit layout. `at(i, side)` returns the position of
+cell `i`.
 
 ## Adding a component
 
