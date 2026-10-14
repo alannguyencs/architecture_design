@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>301 Redirect Headers</title>
+<!-- Book-figure template: System Design Interview, URL shortener figure 8-1 (the request and
+     response headers of a short-URL redirect, with the key lines boxed in red) as a
+     ByteByteGo wireframe: a browser frame holding one BBM.kvpanel. Generic URLs only.
+     Canvas 1100 × 620 CSS px (render at --scale 1). -->
+<link rel="stylesheet" href="../assets/bbg-flow.css">
+<link rel="stylesheet" href="../assets/bbg-parts.css">
+<link rel="stylesheet" href="../assets/bbg-mockup.css">
+<style>
+  .canvas { width: 1100px; height: 620px; }
+</style>
+</head>
+<body>
+<div class="canvas">
+<script src="../assets/bbg-icons.js"></script>
+<div class="title" style="left:30px; top:28px; font-size:48px;">Short URL: the 301 Redirect</div>
+</div>
+<script src="../assets/bbg-mockup.js"></script>
+<script>
+  const { frame, kvpanel, h, css, place } = BBM;
+  const tools = frame({ kind: 'window', app: 'Developer tools — Network', x: 40, y: 110, w: 1020, h: 400 });
+  tools.body.append(kvpanel({ size: 16, rows: [
+    ['Request URL', 'https://short.example/qtj5opu', { mark: true }],
+    ['Request Method', 'GET'],
+    ['Status Code', '301 Moved Permanently', { mark: true, chip: '●' }],
+    ['Remote Address', '[2606:4700:10::6814:391e]:443'],
+    ['Referrer Policy', 'no-referrer-when-downgrade'],
+    { group: '▾ Response Headers' },
+    ['cache-control', 'max-age=0, no-cache, private'],
+    ['content-type', 'text/html; charset=UTF-8'],
+    ['date', 'Fri, 10 Apr 2020 22:00:23 GMT'],
+    ['server', 'edge'],
+    ['location', 'https://www.shop.example/dp/B017V4NTFA?pLink=63eaef76-979c', { mark: true }],
+  ] }));
+  place(css(h('div', 'tlist', 'The short URL answers with 301 and a location header;', h('br'),
+                              'the browser then requests the long URL itself.'), { fontSize: '16px' }), 40, 535);
+</script>
+<script src="../assets/bbg-parts.js"></script>
+</body>
+</html>

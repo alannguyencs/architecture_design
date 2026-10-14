@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Panel and Tree Gallery</title>
+<!-- BBM.kvpanel and BBM.filetree checked on three more book figures, as wireframes:
+     a cached autocomplete response's headers with cache-control boxed (autocomplete 13-12),
+     an email's header details with the authentication results boxed (distributed email 9),
+     and a folder tree before and after expanding (google-drive 15-3). Canvas 1280 × 900. -->
+<link rel="stylesheet" href="../assets/bbg-flow.css">
+<link rel="stylesheet" href="../assets/bbg-parts.css">
+<link rel="stylesheet" href="../assets/bbg-mockup.css">
+<style>
+  .canvas { width: 1280px; height: 900px; }
+</style>
+</head>
+<body>
+<div class="canvas">
+<script src="../assets/bbg-icons.js"></script>
+<div class="title" style="left:30px; top:28px; font-size:44px;">kvpanel and filetree</div>
+</div>
+<script src="../assets/bbg-mockup.js"></script>
+<script>
+  const { frame, kvpanel, filetree, h, css, place, bar } = BBM;
+
+  // Autocomplete 13-12: the suggestion response is cached by the browser.
+  const dev = frame({ kind: 'window', app: 'Developer tools — Network', x: 30, y: 110, w: 600, h: 440, caption: 'autocomplete 13-12' });
+  dev.body.append(kvpanel({ size: 13, rows: [
+    ['Request URL', 'https://search.example/complete/search?q=system+design'],
+    ['Request Method', 'GET'], ['Status Code', '200', { chip: '●' }],
+    { group: '▾ Response headers' },
+    ['alt-svc', 'quic=":443"; ma=2592000', { color: 'purple' }],
+    ['cache-control', 'private, max-age=3600', { mark: 'black', color: 'purple' }],
+    ['content-encoding', 'br', { color: 'purple' }], ['content-type', 'application/json', { color: 'purple' }],
+    ['date', 'Tue, 17 Dec 2019 22:52:01 GMT', { color: 'purple' }], ['expires', 'Tue, 17 Dec 2019 22:52:01 GMT', { color: 'purple' }],
+  ] }));
+
+  // Distributed email 9: header details of one message.
+  const mail = frame({ kind: 'window', app: 'Mail — show original', x: 660, y: 110, w: 590, h: 440, caption: 'distributed email 9' });
+  mail.body.append(kvpanel({ size: 15, mono: false, rows: [
+    ['Message ID', '<617.3471674588.2021050301@mail.example>', { color: 'green' }],
+    ['Created at', 'Sun, May 2, 2021 at 6:41 PM'],
+    ['From', 'Bank Alerts <alerts@bank.example>'],
+    ['To', bar(160, 'dark')],
+    ['Subject', 'Your account statement is ready'],
+    ['SPF', 'PASS with IP 63.239.204.146', { mark: 'black' }],
+    ['DKIM', "'PASS' with domain bank.example", { mark: 'black' }],
+    ['DMARC', "'PASS'", { mark: 'black' }],
+  ] }));
+
+  // Google-drive 15-3: a folder tree, then the same tree expanded.
+  place(filetree({ size: 18, items: [
+    { name: 'drive', depth: 0, open: true }, { name: 'user1', depth: 1 }, { name: 'user2', depth: 1 }, { name: 'user3', depth: 1 },
+  ] }), 120, 640);
+  place(filetree({ size: 18, items: [
+    { name: 'drive', depth: 0, open: true }, { name: 'user1', depth: 1, open: true }, { name: 'recipes', depth: 2 },
+    { name: 'chicken_soup.txt', depth: 2, file: true }, { name: 'user2', depth: 1, open: true }, { name: 'football.mov', depth: 2, file: true },
+    { name: 'sports.txt', depth: 2, file: true }, { name: 'user3', depth: 1, open: true }, { name: 'best_pic_ever.png', depth: 2, file: true },
+  ] }), 560, 600);
+  place(css(h('div', null, 'expand'), { fontWeight: 700, fontSize: '18px' }), 360, 650);
+  const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  svg.setAttribute('width', 1280); svg.setAttribute('height', 900); svg.setAttribute('class', 'layer edges');
+  svg.innerHTML = '<path class="dash" d="M340 690 H520" marker-end="url(#m-arrow)"/>';
+  document.querySelector('.canvas').append(svg);
+  place(h('div', 'm-caption', 'google-drive 15-3'), 640, 870);
+</script>
+<script src="../assets/bbg-parts.js"></script>
+</body>
+</html>
