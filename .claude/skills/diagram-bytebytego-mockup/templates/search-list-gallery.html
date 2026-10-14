@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Search and List Gallery</title>
+<!-- BBM.search and BBM.list checked on four more book figures, as wireframes: big
+     square suggestions (autocomplete 13-3), a drive app's phone file list with tabs and a
+     floating button (google-drive 15-2), a conflicted-copy file list (google-drive 15-9),
+     and a nearby-friends contact list (nearby friends 1). Canvas 1280 × 980 CSS px. -->
+<link rel="stylesheet" href="../assets/bbg-flow.css">
+<link rel="stylesheet" href="../assets/bbg-parts.css">
+<link rel="stylesheet" href="../assets/bbg-mockup.css">
+<style>
+  .canvas { width: 1280px; height: 980px; }
+</style>
+</head>
+<body>
+<div class="canvas">
+<script src="../assets/bbg-icons.js"></script>
+<div class="title" style="left:30px; top:28px; font-size:44px;">search and list</div>
+</div>
+<script src="../assets/bbg-mockup.js"></script>
+<script>
+  const { place, search, list, frame, tabs, fab, css, h, ui } = BBM;
+
+  // 13-3: big square suggestion list.
+  place(search({ value: 'tw', caret: true, big: true, square: true, size: 22,
+                 suggestions: ['tweet', 'twist', 'twilight', 'twin peaks', 'twinkle lights'] }), 30, 110, 340);
+  place(h('div', 'm-caption', 'autocomplete 13-3'), 200, 495);
+
+  // 15-9: two files, one a conflicted copy.
+  place(css(list({ size: 13, rows: [
+    { icon: 'doc', fill: 'var(--blue)', title: 'SystemDesignInterview', meta: 'shared' },
+    { icon: 'doc', fill: 'var(--blue)', title: 'SystemDesignInterview_user2_conflicted_copy_2019-05-01', meta: 'shared', hl: true },
+  ] }), { background: '#fff' }), 20, 560, 390);
+  place(h('div', 'm-caption', 'google-drive 15-9'), 215, 665);
+
+  // 15-2: drive app on a phone.
+  const drive = frame({ kind: 'phone', x: 430, y: 100, w: 380, h: 820, time: '1:58' });
+  drive.body.append(
+    search({ placeholder: 'Search Drive', avatar: 'var(--orange)', size: 17 }),
+    tabs(['My files', 'Computers'], 0),
+    css(h('div', 'm-row-flex', h('b', null, 'Name ↑'), css(ui('grid', 22), { marginLeft: 'auto' })), { fontSize: '15px', padding: '4px 2px' }),
+    list({ size: 16, rows: [
+      { icon: 'folder', title: 'Recipes', sub: 'Modified Dec 23', more: true },
+      { icon: 'folder', title: 'Salad', sub: 'Modified Dec 23', more: true },
+      { icon: 'folder', title: 'Soup', sub: 'Modified Dec 23', more: true },
+      { icon: 'doc', fill: 'var(--pink)', title: 'Getting started', sub: 'Modified Nov 12', more: true },
+      { icon: 'doc', fill: 'var(--blue)', title: 'Lemon shortbread', sub: 'Modified Dec 23', more: true },
+      { img: { w: 30, h: 30, fill: 'var(--orange)' }, title: 'Pasta.jpg', sub: 'Modified Dec 23', more: true },
+      { icon: 'doc', fill: 'var(--blue)', title: 'Pizza', sub: 'Modified Dec 23', more: true },
+    ] }));
+  fab(drive.body, { right: 18, bottom: 16 });
+  drive.el.insertBefore(h('div', 'm-tabbar', [['home', 'Home'], ['star', 'Starred'], ['users', 'Shared'], ['grid', 'Files']].map(([i, l], k) =>
+    h('div', `m-tab${k === 3 ? ' on' : ''}`, ui(i, 24), l))), drive.el.querySelector('.m-home'));
+  place(h('div', 'm-caption', 'google-drive 15-2'), 620, 935);
+
+  // Nearby friends 1.
+  const nb = frame({ kind: 'phone', x: 870, y: 100, w: 380, h: 820, time: '10:52', title: 'Nearby Friends', left: 'back', right: 'gear',
+    tabs: [{ icon: 'home', label: 'Feed' }, { icon: 'users', label: 'Requests' }, { icon: 'chat', label: 'Chat' },
+           { icon: 'bell', label: 'Alerts', on: true }, { icon: 'menu', label: 'More' }] });
+  nb.body.append(h('div', 'm-section', 'Near San Francisco, CA'), list({ size: 17, rows: [
+    { avatar: { size: 56, fill: 'var(--purple)', icon: 'person' }, title: 'Mallow', sub: '0.5 mi' },
+    { avatar: { size: 56, fill: 'var(--orange)', icon: 'person' }, title: 'Alice', sub: '1.3 mi' },
+    { avatar: { size: 56, fill: '#fff', icon: 'person' }, title: 'Oliver', sub: '2 mi' },
+    { avatar: { size: 56, fill: 'var(--blue)', icon: 'person' }, title: 'Ava', sub: '2.5 mi' },
+    { avatar: { size: 56, fill: 'var(--green)', icon: 'person' }, title: 'Frank', sub: '3 mi' },
+  ] }));
+  place(h('div', 'm-caption', 'nearby friends 1'), 1060, 935);
+</script>
+<script src="../assets/bbg-parts.js"></script>
+</body>
+</html>

@@ -35,6 +35,7 @@
     gear: 'M12 9a3 3 0 1 0 0 6 3 3 0 0 0 0-6zM12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1',
     home: 'M4 11l8-7 8 7v9h-5v-6H9v6H4z',
     star: 'M12 3.5l2.6 5.4 5.9.8-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.3-4.1 5.9-.8z',
+    person: 'M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4 21c.6-4.5 3.8-7 8-7s7.4 2.5 8 7',
     users: 'M9 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM2.5 20c.5-4 3.2-6 6.5-6s6 2 6.5 6M16 4.5a3.5 3.5 0 0 1 0 6.5M18.5 14c2 .8 3 2.8 3.2 6',
     bell: 'M6 16V11a6 6 0 0 1 12 0v5l2 2H4zM10 20.5a2 2 0 0 0 4 0',
     chat: 'M4 5h16v11H9l-5 4z',
@@ -132,8 +133,8 @@
     const node = h('div', `m-search${s.square ? ' square' : ''}`);
     if (s.size) node.style.setProperty('--m-fs', `${s.size}px`);
     const input = h('div', 'm-input', s.big ? null : css(ui('search', 20), { color: '#777' }),
-      s.value ? h('span', 'm-typed', s.value) : h('span', 'm-ph', s.placeholder || 'Search'),
-      s.caret ? h('span', 'm-caret') : null);
+      s.value ? h('span', 'm-typed', s.value, s.caret ? h('span', 'm-caret') : null)
+              : h('span', 'm-ph', s.caret ? h('span', 'm-caret') : null, s.placeholder || 'Search'));
     if (s.mic) input.append(css(ui('mic', 22, 'var(--m-accent)'), { marginLeft: 'auto' }));
     if (s.avatar) input.append(css(avatar({ size: 30, fill: s.avatar }), { marginLeft: 'auto' }));
     node.append(input);
@@ -276,6 +277,20 @@
     return side;
   }
 
+  // ---- section tabs and floating action button ----
+  // BBM.tabs(['My files', 'Computers'], 0, { size })     underlined tabs; the index is the open one
+  function tabs(names, on = 0, { size = null } = {}) {
+    const node = h('div', 'm-seg', names.map((n, i) => h('div', i === on ? 'on' : null, n)));
+    if (size) node.style.setProperty('--m-fs', `${size}px`);
+    return node;
+  }
+  // BBM.fab(frame.body, { right: 18, bottom: 18, icon: 'plus' })   a round button floating over the body
+  function fab(parent, { right = 18, bottom = 18, icon: id = 'plus', color = 'var(--m-accent)' } = {}) {
+    const node = css(h('div', 'm-fab', ui(id, 30, color)), { right: `${right}px`, bottom: `${bottom}px` });
+    parent.append(node);
+    return node;
+  }
+
   // ---- dashboard panel: a dark box whose inner rect hosts BBG.timeline / BBG.spatial ----
   // const p = BBM.panel({ x, y, w, h, title }); p.inner → { x, y, w, h } in canvas px.
   function panel(s) {
@@ -313,7 +328,7 @@
 
   const BBM = {
     h, css, place, ui, icon, bar, bars, img, avatar, chip,
-    frame, search, list, form, card, kvpanel, filetree, sidebar, panel,
+    frame, search, list, form, card, kvpanel, filetree, sidebar, panel, tabs, fab,
     LOOP: 3000, states, slideIn, scroll, animate: anim,
   };
   window.BBM = BBM;

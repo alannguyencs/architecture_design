@@ -147,3 +147,9 @@
 /* ---------- Dashboard panel ---------- */
 .m-panel { position: absolute; border: 2px solid #3a404a; border-radius: 6px; background: #262b33; color: var(--m-dark-fg); }
 .m-panel .m-ptitle { position: absolute; left: 0; right: 0; top: 6px; text-align: center; font-size: 13px; font-weight: 700; }
+
+/* ---------- Section tabs and floating button ---------- */
+.m-seg { display: flex; border-bottom: 2px solid var(--m-line); font-size: var(--m-fs, 17px); font-weight: 600; color: #777; }
+.m-seg > div { flex: 1; text-align: center; padding: 10px 0 8px; border-bottom: 3px solid transparent; margin-bottom: -2px; }
+.m-seg > div.on { color: var(--m-accent); border-bottom-color: var(--m-accent); }
+.m-fab { position: absolute; width: 58px; height: 58px; border-radius: 50%; border: 2.5px solid var(--ink); background: #fff; display: flex; align-items: center; justify-content: center; box-shadow: 0 3px 0 var(--ink); }

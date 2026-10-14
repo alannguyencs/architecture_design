@@ -383,7 +383,7 @@ Action items:
 
 - [x] Set up the skill: `SKILL.md`, `assets/bbg-mockup.js` / `bbg-mockup.css`, and the shared `bbg-flow.css`, icons, parts and `render.py` through `_shared/sync.py`. Rules in `SKILL.md`: wireframe, not screenshot; no real brand marks or product names (use look-alike names such as "Drive", "Pay"); never draw a working-looking login or payment page — fields stay as empty wireframe boxes with a "Mockup" look.
 - [x] Build `frame` and the placeholder parts (text bars, pastel image block, avatar circle). Template: `design-a-news-feed-system/figure-11-1` (phone with feed cards).
-- [ ] Build `search` and `list`. Template: `design-a-search-autocomplete-system/figure-13-1` (search box with suggestions); check it on 13-3, google-drive 15-2 and 15-9, nearby-friends 1.
+- [x] Build `search` and `list`. Template: `design-a-search-autocomplete-system/figure-13-1` (search box with suggestions); check it on 13-3, google-drive 15-2 and 15-9, nearby-friends 1.
 - [ ] Build `form`. Template: `hotel-reservation-system/figure-9` (stepper, price lines, card fields, button); check it on payment 3 and 5 drawn as generic, unbranded pages.
 - [ ] Build `kvpanel` and `filetree`. Template: `design-a-url-shortener/figure-8-1` (headers with red boxes); check it on 13-12, distributed-email 9 and google-drive 15-3.
 - [ ] Build `card` and the composite screens that reuse concept parts: notification 10-1 (three phones), youtube 14-1 (video grid), google-drive 15-1 (desktop app), metrics 21 (dashboard with `BBG.timeline`), proximity 1 (list plus map with `BBG.spatial`).

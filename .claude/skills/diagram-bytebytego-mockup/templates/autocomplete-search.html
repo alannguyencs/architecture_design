@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Search Autocomplete</title>
+<!-- Book-figure template: System Design Interview, search autocomplete figure 13-1 (a search
+     box suggesting completions as the user types "dinner") as a ByteByteGo wireframe. One
+     BBM.search call: the typed prefix is plain, the suggested rest is bold. No real search
+     engine's logo or name. Canvas 1000 × 760 CSS px (render at --scale 1). -->
+<link rel="stylesheet" href="../assets/bbg-flow.css">
+<link rel="stylesheet" href="../assets/bbg-parts.css">
+<link rel="stylesheet" href="../assets/bbg-mockup.css">
+<style>
+  .canvas { width: 1000px; height: 760px; }
+  .wordmark { position: absolute; left: 500px; top: 108px; transform: translateX(-50%); font-size: 44px; font-weight: 800; letter-spacing: -1px; }
+</style>
+</head>
+<body>
+<div class="canvas">
+<script src="../assets/bbg-icons.js"></script>
+<div class="title" style="left:30px; top:28px; font-size:48px;">Search Autocomplete</div>
+<div class="wordmark">Search</div>
+</div>
+<script src="../assets/bbg-mockup.js"></script>
+<script>
+  const box = BBM.search({ value: 'dinner', caret: true, mic: true, size: 18,
+    suggestions: ['dinner ideas', 'dinner recipes', 'dinner near me', 'dinner', 'dinnerly', 'dinner in spanish',
+                  'dinner nearby', 'dinner tonight', 'dinner rolls', 'dinnerware sets'],
+    buttons: ['Search', 'Random result'] });
+  BBM.place(box, 210, 180, 580);
+  const note = BBM.h('div', 'tlist', 'Typed so far: "dinner"', BBM.h('br'), 'Bold: the completion each suggestion adds');
+  BBM.place(BBM.css(note, { fontSize: '15px' }), 210, 670);
+</script>
+<script src="../assets/bbg-parts.js"></script>
+</body>
+</html>
