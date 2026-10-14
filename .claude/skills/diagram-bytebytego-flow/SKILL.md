@@ -24,6 +24,7 @@ Related skills: `diagram-bytebytego-animated` (looping GIF) and
 | `templates/scale-web-data-tier.html` | Book figure 1-11 (web tier, data tier, cache, CDN) in this look — the template to copy for book figures |
 | `templates/youtube-dag-variants.html` | Variant example: book figures 14-10 … 14-21 from one page (`data-hl`) |
 | `templates/mq-ack-variants.html` | Variant example: message-queue figures 25–27 from one page (`data-only`), with `.qstrip` cells |
+| `templates/web-crawler-pages.html` | Book figure 9-1 (web pages linked into a graph) — uses the shared `.webpage` part |
 | `templates/kit-gallery.html` | Every shared icon by id, and a sample of each edge, shape and box — render it to look up a part |
 | `scripts/render.py` | HTML → PNG (`--scale`), optional `--webp`, `--compare <reference>` side-by-side sheet, `--variant NAME` (repeatable; generated copy) |
 
@@ -93,7 +94,8 @@ any gap by editing the template; re-render until both sides match.
    — `diamond`, `hexagon`, `ellipse`, `cylinder`, `parallelogram`, `brace`, `bracket`
    (`data-dir`), drawn by `bbg-parts.js` (load it last in `<body>`). Other boxes:
    `.hbox` (header + bullets), `.split` (cells, `.v` stacks), `.tlist` (+ `.mono`),
-   `.qstrip` (small cell strip), fills `.f-*`, states `.hl` and `.failed`; zones
+   `.qstrip` (small cell strip), `.webpage` (a small browser page: window dots, blue
+   `<a>` link lines or grey `.wp-line` text lines), fills `.f-*`, states `.hl` and `.failed`; zones
    `svg .lane` (divider line) and `svg .solid` (solid outline).
 7. Several figures that differ only in a highlight or a few labels: write one page
    and mark elements with `data-hl="v1 v2"`, `data-only="v1"` or `data-not="v1"`;

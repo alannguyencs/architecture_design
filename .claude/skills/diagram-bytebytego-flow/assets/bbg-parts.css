@@ -138,3 +138,23 @@ svg .solid { stroke-dasharray: none !important; }
 }
 .step.sm { width: 32px; height: 32px; margin: -16px 0 0 -16px; font-size: 15px; }
 .step.lbl.sm { width: auto; min-width: 32px; padding: 0 8px; margin: 0; }
+
+/* ---------- Browser page (a small web page inside an architecture figure) ----------
+   <div class="webpage" style="left:…; top:…; width:…; height:…">
+     <a>www.a.com</a><a>www.b.com</a>          blue link lines
+     <span class="wp-line" style="width:70%"></span>   grey text lines
+   </div>
+   The window bar (three dots) is drawn by the class; add .wp-url text with <i class="wp-url">a.com</i>. */
+.webpage {
+  position: absolute; display: flex; flex-direction: column; gap: 5px; padding: 26px 10px 8px;
+  background: #fff; border: 3px solid var(--ink); border-radius: 9px; overflow: hidden; font-size: 13px; font-weight: 600;
+}
+.webpage::before {   /* window bar with three dots */
+  content: ""; position: absolute; left: 0; right: 0; top: 0; height: 17px; border-bottom: 2.5px solid var(--ink);
+  background: radial-gradient(circle at 10px 8px, var(--edge-blue) 3.2px, transparent 3.6px),
+              radial-gradient(circle at 20px 8px, var(--edge-blue) 3.2px, transparent 3.6px),
+              radial-gradient(circle at 30px 8px, var(--edge-blue) 3.2px, transparent 3.6px), var(--grey-fill, #f5f5f5);
+}
+.webpage a { color: var(--edge-blue); text-decoration: underline; white-space: nowrap; }
+.webpage .wp-line { display: block; height: 7px; border-radius: 4px; background: #cfd4dc; flex: none; }
+.webpage .wp-url { position: absolute; top: 1px; left: 40px; font-size: 11px; font-style: normal; color: #555; }

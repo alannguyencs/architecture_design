@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Crawling the Web as a Graph</title>
+<!-- Book-figure template: System Design Interview, web crawler figure 9-1 (pages are nodes,
+     links are edges: from a seed page the crawler follows links to more pages) in the
+     ByteByteGo flow look, using the shared .webpage part from bbg-parts.css. Generic domains.
+     Canvas 1240 × 860 CSS px (render at --scale 1). -->
+<link rel="stylesheet" href="../assets/bbg-flow.css">
+<link rel="stylesheet" href="../assets/bbg-parts.css">
+<style>
+  .canvas { width: 1240px; height: 860px; }
+  .cap { position: absolute; transform: translateX(-50%); font-size: 14px; font-weight: 700; white-space: nowrap; }
+</style>
+</head>
+<body>
+<div class="canvas">
+<script src="../assets/bbg-icons.js"></script>
+<div class="title" style="left:30px; top:28px; font-size:48px;">Crawling the Web as a Graph</div>
+
+<svg class="layer edges" width="1240" height="860" viewBox="0 0 1240 860">
+  <path class="blue" d="M210 420 L430 230" marker-end="url(#m-arrow-blue)"/>
+  <path class="blue" d="M210 470 H430" marker-end="url(#m-arrow-blue)"/>
+  <path class="blue" d="M210 520 L430 690" marker-end="url(#m-arrow-blue)"/>
+  <path class="blue" d="M600 200 L820 135" marker-end="url(#m-arrow-blue)"/>
+  <path class="blue" d="M600 225 H820" marker-end="url(#m-arrow-blue)"/>
+  <path class="blue" d="M600 250 L820 315" marker-end="url(#m-arrow-blue)"/>
+  <path class="blue" d="M600 470 H820" marker-end="url(#m-arrow-blue)"/>
+  <path class="blue" d="M600 680 L820 625" marker-end="url(#m-arrow-blue)"/>
+  <path class="blue" d="M600 705 L820 760" marker-end="url(#m-arrow-blue)"/>
+</svg>
+
+<!-- Seed page -->
+<div class="webpage" style="left:40px; top:400px; width:170px; height:116px; font-size:14px;">
+  <i class="wp-url">seed</i><a>www.a.com</a><a>www.b.com</a><a>www.c.com</a>
+</div>
+<div class="pill" style="left:65px; top:340px; width:120px; height:40px; font-size:18px;">Seed URL</div>
+
+<!-- Level 1 -->
+<div class="webpage" style="left:430px; top:165px; width:170px; height:116px;"><a>www.lime.com</a><a>www.peach.com</a><a>www.mango.com</a></div>
+<div class="cap" style="left:515px; top:290px;">a.com page</div>
+<div class="webpage" style="left:430px; top:430px; width:170px; height:80px;"><a>www.banana.com</a></div>
+<div class="cap" style="left:515px; top:518px;">b.com page</div>
+<div class="webpage" style="left:430px; top:640px; width:170px; height:100px;"><a>www.orange.com</a><a>www.plum.com</a></div>
+<div class="cap" style="left:515px; top:748px;">c.com page</div>
+
+<!-- Level 2 -->
+<div class="webpage" style="left:820px; top:100px; width:130px; height:70px;"><span class="wp-line" style="width:80%"></span><span class="wp-line" style="width:60%"></span></div>
+<div class="cap" style="left:885px; top:176px;">lime.com page</div>
+<div class="webpage" style="left:820px; top:198px; width:130px; height:70px;"><span class="wp-line" style="width:75%"></span><span class="wp-line" style="width:55%"></span></div>
+<div class="cap" style="left:885px; top:274px;">peach.com page</div>
+<div class="webpage" style="left:820px; top:296px; width:130px; height:70px;"><span class="wp-line" style="width:85%"></span><span class="wp-line" style="width:50%"></span></div>
+<div class="cap" style="left:885px; top:372px;">mango.com page</div>
+<div class="webpage" style="left:820px; top:435px; width:130px; height:70px;"><span class="wp-line" style="width:70%"></span><span class="wp-line" style="width:60%"></span></div>
+<div class="cap" style="left:885px; top:511px;">banana.com page</div>
+<div class="webpage" style="left:820px; top:590px; width:130px; height:70px;"><span class="wp-line" style="width:80%"></span><span class="wp-line" style="width:45%"></span></div>
+<div class="cap" style="left:885px; top:666px;">orange.com page</div>
+<div class="webpage" style="left:820px; top:725px; width:130px; height:70px;"><span class="wp-line" style="width:65%"></span><span class="wp-line" style="width:55%"></span></div>
+<div class="cap" style="left:885px; top:801px;">plum.com page</div>
+
+<div class="tlist" style="left:1000px; top:400px; font-size:15px; line-height:1.6;">
+  Page = node<br>Link = edge<br>Crawl = graph<br>traversal (BFS)
+</div>
+</div>
+<script src="../assets/bbg-parts.js"></script>
+</body>
+</html>
