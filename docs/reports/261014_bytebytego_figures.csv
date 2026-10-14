@@ -1,0 +1,516 @@
+chapter,file,figure,status,missing_block,what_it_shows
+a-framework-for-system-design-interviews,figure-3-1-ZIAGKIG7.png,3-1,drawable,,
+a-framework-for-system-design-interviews,figure-3-2-4TY6XZV7.png,3-2,drawable,,
+a-framework-for-system-design-interviews,figure-3-3-OEFRG37K.png,3-3,drawable,,
+a-framework-for-system-design-interviews,figure-3-4-4ZXFIXDU.png,3-4,drawable,,
+ad-click-event-aggregation,figure-1-rtb-process-5E2OUEKS.svg,1,drawable,,
+ad-click-event-aggregation,figure-10-lambda-and-kappa-architectures-QONSAGXY.svg,10,drawable,,
+ad-click-event-aggregation,figure-11-recalculation-service-TBQYOE5V.svg,11,drawable,,
+ad-click-event-aggregation,figure-12-late-events-XK3WSQ7H.svg,12,cannot draw,timeline,"Event vs processing time, watermark, tumbling and sliding windows"
+ad-click-event-aggregation,figure-13-miss-events-in-an-aggregation-window-2BY3C3JD.svg,13,cannot draw,timeline,"Event vs processing time, watermark, tumbling and sliding windows"
+ad-click-event-aggregation,figure-14-watermark-ATBVC4CB.svg,14,cannot draw,timeline,"Event vs processing time, watermark, tumbling and sliding windows"
+ad-click-event-aggregation,figure-15-tumbling-window-2JXIXGIH.svg,15,cannot draw,timeline,"Event vs processing time, watermark, tumbling and sliding windows"
+ad-click-event-aggregation,figure-16-sliding-window-OTVSYTQA.svg,16,cannot draw,timeline,"Event vs processing time, watermark, tumbling and sliding windows"
+ad-click-event-aggregation,figure-17-duplicate-data-3OV4V7EK.svg,17,cannot draw,sequence,"Duplicates, offset commit, distributed transaction"
+ad-click-event-aggregation,figure-18-record-the-offset-S65QC3DH.svg,18,cannot draw,sequence,"Duplicates, offset commit, distributed transaction"
+ad-click-event-aggregation,figure-19-save-offset-after-receiving-ack-ISTJJLCH.svg,19,cannot draw,sequence,"Duplicates, offset commit, distributed transaction"
+ad-click-event-aggregation,figure-2-aggregation-workflow-ILOBUVRV.svg,2,drawable,,
+ad-click-event-aggregation,figure-20-distributed-transaction-7V2ITRYZ.svg,20,cannot draw,sequence,"Duplicates, offset commit, distributed transaction"
+ad-click-event-aggregation,figure-21-add-consumers-BXUUD54I.svg,21,drawable,,
+ad-click-event-aggregation,figure-22-aggregation-service-BW4ELD2M.svg,22,drawable,,
+ad-click-event-aggregation,figure-23-multi-threading-5R7SCVSP.svg,23,drawable,,
+ad-click-event-aggregation,figure-24-virtual-nodes-MDUN2MVN.png,24,cannot draw,ring,Virtual nodes
+ad-click-event-aggregation,figure-25-allocate-more-aggregation-nodes-KLEMMHRW.svg,25,drawable,,
+ad-click-event-aggregation,figure-26-data-in-a-snapshot-LYYIZPTJ.svg,26,cannot draw,cells,Snapshot of per-minute counts
+ad-click-event-aggregation,figure-27-aggregation-node-failover-XJC6Z35G.svg,27,drawable,,
+ad-click-event-aggregation,figure-28-final-design-Z676QMSA.svg,28,drawable,,
+ad-click-event-aggregation,figure-29-alternative-design-PS4NXR5P.svg,29,drawable,,
+ad-click-event-aggregation,figure-3-high-level-design-IPIRUMTL.svg,3,drawable,,
+ad-click-event-aggregation,figure-4-end-to-end-exactly-once-TJGYUBWJ.svg,4,drawable,,
+ad-click-event-aggregation,figure-5-aggregation-service-EDCFAVGD.svg,5,drawable,,
+ad-click-event-aggregation,figure-6-map-operation-VBQHMZF6.svg,6,drawable,,
+ad-click-event-aggregation,figure-7-reduce-node-7MQQ64OQ.svg,7,drawable,,
+ad-click-event-aggregation,figure-8-aggregate-the-number-of-clicks-GC2SNO2T.svg,8,drawable,,
+ad-click-event-aggregation,figure-9-return-top-n-most-clicked-ads-OAIQEEIN.svg,9,drawable,,
+ad-click-event-aggregation,chapter-summary-3GZY2XSW.png,chapter-summary,cannot draw,mind map,
+back-of-the-envelope-estimation,figure-2-1-E4JWSLDE.svg,2-1,cannot draw,cells,Latency numbers as blocks of squares
+design-a-chat-system,figure-12-1-J3Z5T7TL.png,12-1,out of scope,,Logo grids
+design-a-chat-system,figure-12-10-2TIQVS3D.png,12-10,cannot draw,table,"`message`, `group_message` schemas"
+design-a-chat-system,figure-12-11-FGGY42QW.png,12-11,drawable,,
+design-a-chat-system,figure-12-12-5BTRQZRL.png,12-12,drawable,,
+design-a-chat-system,figure-12-13-YB54XAJ3.png,12-13,drawable,,
+design-a-chat-system,figure-12-14-DRZR5QM7.png,12-14,drawable,,
+design-a-chat-system,figure-12-15-WJ6BSAG2.png,12-15,drawable,,
+design-a-chat-system,figure-12-16-IUZRWUV6.png,12-16,drawable,,
+design-a-chat-system,figure-12-17-GJTW7H57.png,12-17,drawable,,
+design-a-chat-system,figure-12-18-CTDI4PAJ.svg,12-18,cannot draw,sequence,"Polling, long polling, WebSocket, heartbeat"
+design-a-chat-system,figure-12-19-KY63S3WN.png,12-19,drawable,,
+design-a-chat-system,figure-12-2-CA3ZOSQI.png,12-2,drawable,,
+design-a-chat-system,figure-12-3-WYSR7WB4.svg,12-3,cannot draw,sequence,"Polling, long polling, WebSocket, heartbeat"
+design-a-chat-system,figure-12-4-6KL7KY4X.svg,12-4,cannot draw,sequence,"Polling, long polling, WebSocket, heartbeat"
+design-a-chat-system,figure-12-5-VPDI2T2E.svg,12-5,cannot draw,sequence,"Polling, long polling, WebSocket, heartbeat"
+design-a-chat-system,figure-12-6-6UUW2AUS.png,12-6,drawable,,
+design-a-chat-system,figure-12-7-YA7UWFS6.png,12-7,drawable,,
+design-a-chat-system,figure-12-8-3R5ORNVB.png,12-8,drawable,,
+design-a-chat-system,figure-12-9-356WMC2A.png,12-9,cannot draw,table,"`message`, `group_message` schemas"
+design-a-key-value-store,figure-6-1-D3AZLP5W.svg,6-1,cannot draw,venn/funnel,CAP theorem (Venn)
+design-a-key-value-store,figure-6-10-U4WMW34H.svg,6-10,cannot draw,ring,"Replication on the ring, coordinator, heartbeat mesh, sloppy quorum"
+design-a-key-value-store,figure-6-11-SHKPJFQN.svg,6-11,cannot draw,table,Gossip membership table (+ hash ring)
+design-a-key-value-store,figure-6-12-TCHVLATH.svg,6-12,cannot draw,ring,"Replication on the ring, coordinator, heartbeat mesh, sloppy quorum"
+design-a-key-value-store,figure-6-13-2LCEPIWQ.svg,6-13,cannot draw,cells,Buckets and key → value rows on two servers
+design-a-key-value-store,figure-6-14-S2QAQ6NW.svg,6-14,cannot draw,cells,Buckets and key → value rows on two servers
+design-a-key-value-store,figure-6-15-I46TOGGB.svg,6-15,cannot draw,cells,Buckets and key → value rows on two servers
+design-a-key-value-store,figure-6-16-5GFGLUJW.svg,6-16,cannot draw,tree,Merkle tree
+design-a-key-value-store,figure-6-17-727LAZC5.svg,6-17,cannot draw,ring,"Replication on the ring, coordinator, heartbeat mesh, sloppy quorum"
+design-a-key-value-store,figure-6-18-VIXXZUFG.svg,6-18,drawable,,
+design-a-key-value-store,figure-6-19-L5VIQL76.svg,6-19,drawable,,
+design-a-key-value-store,figure-6-2-KZYRLJFF.svg,6-2,drawable,,
+design-a-key-value-store,figure-6-20-CMQ6VUZJ.svg,6-20,drawable,,
+design-a-key-value-store,figure-6-21-WBKMXPRG.svg,6-21,drawable,,
+design-a-key-value-store,figure-6-3-3AXO446L.svg,6-3,drawable,,
+design-a-key-value-store,figure-6-4-SVUGPDYI.svg,6-4,cannot draw,ring,"Replication on the ring, coordinator, heartbeat mesh, sloppy quorum"
+design-a-key-value-store,figure-6-5-NG3WIQQO.svg,6-5,cannot draw,ring,"Replication on the ring, coordinator, heartbeat mesh, sloppy quorum"
+design-a-key-value-store,figure-6-6-RNMG7AUI.svg,6-6,cannot draw,ring,"Replication on the ring, coordinator, heartbeat mesh, sloppy quorum"
+design-a-key-value-store,figure-6-7-MX7NGSSF.svg,6-7,drawable,,
+design-a-key-value-store,figure-6-8-WXAQYDBT.svg,6-8,drawable,,
+design-a-key-value-store,figure-6-9-APUHGGQW.svg,6-9,drawable,,
+design-a-news-feed-system,figure-11-1-UFCYN5DT.svg,11-1,out of scope,,Product screenshots and UI
+design-a-news-feed-system,figure-11-2-DHBRUF3G.png,11-2,drawable,,
+design-a-news-feed-system,figure-11-3-DJSVC462.png,11-3,drawable,,
+design-a-news-feed-system,figure-11-4-XQVJN6AJ.png,11-4,drawable,,
+design-a-news-feed-system,figure-11-5-RFHWCGXD.svg,11-5,drawable,,
+design-a-news-feed-system,figure-11-7-VBGEYZ3E.png,11-7,drawable,,
+design-a-news-feed-system,figure-11-8-XPCIBE53.svg,11-8,drawable,,
+design-a-notification-system,figure-10-1-4EEWILYD.svg,10-1,out of scope,,Product screenshots and UI
+design-a-notification-system,figure-10-10-VPOYUWTG.png,10-10,drawable,,
+design-a-notification-system,figure-10-11-IAFMAASK.svg,10-11,drawable,,
+design-a-notification-system,figure-10-12-WMFNVPQI.svg,10-12,cannot draw,timeline,Metric line chart
+design-a-notification-system,figure-10-13-LUL4UIPV.svg,10-13,drawable,,
+design-a-notification-system,figure-10-14-XSG2DEDM.png,10-14,drawable,,
+design-a-notification-system,figure-10-2-LRDI5SEA.png,10-2,drawable,,
+design-a-notification-system,figure-10-3-5PEUMLEX.png,10-3,drawable,,
+design-a-notification-system,figure-10-4-VBM7JWLQ.png,10-4,drawable,,
+design-a-notification-system,figure-10-5-XJUEYKYB.png,10-5,drawable,,
+design-a-notification-system,figure-10-6-OWRSE4LF.png,10-6,drawable,,
+design-a-notification-system,figure-10-7-W32A7UNW.png,10-7,drawable,,
+design-a-notification-system,figure-10-8-GYVHLNWP.svg,10-8,cannot draw,table,user / device schemas
+design-a-notification-system,figure-10-9-62C2GFUU.png,10-9,drawable,,
+design-a-rate-limiter,figure-4-1-5NU243KC.png,4-1,drawable,,
+design-a-rate-limiter,figure-4-10-AI6H6IIX.svg,4-10,cannot draw,timeline,"Token bucket over time; fixed, sliding-log, sliding-counter windows"
+design-a-rate-limiter,figure-4-11-R2MDCFXL.svg,4-11,cannot draw,timeline,"Token bucket over time; fixed, sliding-log, sliding-counter windows"
+design-a-rate-limiter,figure-4-12-HDGSAAHQ.png,4-12,drawable,,
+design-a-rate-limiter,figure-4-13-G2VF2RCQ.png,4-13,drawable,,
+design-a-rate-limiter,figure-4-14-VGQOSEYS.svg,4-14,drawable,,
+design-a-rate-limiter,figure-4-15-Q55WVCBS.png,4-15,drawable,,
+design-a-rate-limiter,figure-4-16-JQMOMJUG.png,4-16,drawable,,
+design-a-rate-limiter,figure-4-17-AWRJL2OI.png,4-17,cannot draw,spatial,Europe map with edge servers
+design-a-rate-limiter,figure-4-2-GC455Q56.png,4-2,drawable,,
+design-a-rate-limiter,figure-4-3-KLFLUVLJ.png,4-3,drawable,,
+design-a-rate-limiter,figure-4-4-37HFRAED.svg,4-4,out of scope,,Cartoon
+design-a-rate-limiter,figure-4-5-FGZ35C5S.svg,4-5,drawable,,
+design-a-rate-limiter,figure-4-6-STPNU6NF.svg,4-6,cannot draw,timeline,"Token bucket over time; fixed, sliding-log, sliding-counter windows"
+design-a-rate-limiter,figure-4-7-AI26NI2Y.svg,4-7,drawable,,
+design-a-rate-limiter,figure-4-8-WZZYUXFU.svg,4-8,cannot draw,timeline,"Token bucket over time; fixed, sliding-log, sliding-counter windows"
+design-a-rate-limiter,figure-4-9-52MK6L22.svg,4-9,cannot draw,timeline,"Token bucket over time; fixed, sliding-log, sliding-counter windows"
+design-a-search-autocomplete-system,figure-13-1-KCZCT7DP.png,13-1,out of scope,,Product screenshots and UI
+design-a-search-autocomplete-system,figure-13-10-JX4JXRHK.svg,13-10,cannot draw,tree,"Trie, with frequencies, top-k lookup, cached top-k, trie as key-value rows, update"
+design-a-search-autocomplete-system,figure-13-11-S7BTGS2A.png,13-11,drawable,,
+design-a-search-autocomplete-system,figure-13-12-IKMFWP5J.svg,13-12,out of scope,,Product screenshots and UI
+design-a-search-autocomplete-system,figure-13-13-IHQGNBZV.svg,13-13,cannot draw,tree,"Trie, with frequencies, top-k lookup, cached top-k, trie as key-value rows, update"
+design-a-search-autocomplete-system,figure-13-14-TDM2D22J.png,13-14,drawable,,
+design-a-search-autocomplete-system,figure-13-15-6H4WZOA6.svg,13-15,drawable,,
+design-a-search-autocomplete-system,figure-13-2-5FQ3SDWF.svg,13-2,cannot draw,table,Query frequency table as queries arrive
+design-a-search-autocomplete-system,figure-13-3-P3IEBIJH.png,13-3,out of scope,,Product screenshots and UI
+design-a-search-autocomplete-system,figure-13-4-QFNBMQOX.svg,13-4,cannot draw,code,SQL prefix query
+design-a-search-autocomplete-system,figure-13-5-6HIZZOES.svg,13-5,cannot draw,tree,"Trie, with frequencies, top-k lookup, cached top-k, trie as key-value rows, update"
+design-a-search-autocomplete-system,figure-13-6-M5EZD5SL.svg,13-6,cannot draw,tree,"Trie, with frequencies, top-k lookup, cached top-k, trie as key-value rows, update"
+design-a-search-autocomplete-system,figure-13-7-KXYAA5K3.svg,13-7,cannot draw,tree,"Trie, with frequencies, top-k lookup, cached top-k, trie as key-value rows, update"
+design-a-search-autocomplete-system,figure-13-8-4HDDZCTY.svg,13-8,cannot draw,tree,"Trie, with frequencies, top-k lookup, cached top-k, trie as key-value rows, update"
+design-a-search-autocomplete-system,figure-13-9-O7NXHK4L.svg,13-9,drawable,,
+design-a-unique-id-generator-in-distributed-systems,figure-7-1-VGKGPLH3.svg,7-1,cannot draw,table,`user_id` values
+design-a-unique-id-generator-in-distributed-systems,figure-7-2-4ZOIVNTR.svg,7-2,drawable,,
+design-a-unique-id-generator-in-distributed-systems,figure-7-3-Y3ZNPIH3.svg,7-3,drawable,,
+design-a-unique-id-generator-in-distributed-systems,figure-7-4-TJJLCKSS.svg,7-4,drawable,,
+design-a-unique-id-generator-in-distributed-systems,figure-7-5-R4B5RGNK.svg,7-5,cannot draw,cells,Snowflake 64-bit layout (same picture twice)
+design-a-unique-id-generator-in-distributed-systems,figure-7-6-33JFUIC3.svg,7-6,cannot draw,cells,Snowflake 64-bit layout (same picture twice)
+design-a-unique-id-generator-in-distributed-systems,figure-7-7-PNNDQIF5.svg,7-7,drawable,,
+design-a-url-shortener,figure-8-1-GSSWK66W.svg,8-1,out of scope,,Product screenshots and UI
+design-a-url-shortener,figure-8-2-KMMJ65HT.png,8-2,cannot draw,sequence,301 redirect
+design-a-url-shortener,figure-8-3-YHOCRGSP.svg,8-3,drawable,,
+design-a-url-shortener,figure-8-4-3R6D55TD.svg,8-4,cannot draw,table,`url` schema; base-62 long division
+design-a-url-shortener,figure-8-5-KWG6EFZC.svg,8-5,drawable,,
+design-a-url-shortener,figure-8-6-OHTOBFS7.svg,8-6,cannot draw,table,`url` schema; base-62 long division
+design-a-url-shortener,figure-8-7-A3ZKM2XP.svg,8-7,drawable,,
+design-a-url-shortener,figure-8-8-VBPJ6PXY.png,8-8,drawable,,
+design-a-web-crawler,figure-9-1-SY5VC26X.png,9-1,drawable,,
+design-a-web-crawler,figure-9-10-5LXJJMYX.svg,9-10,drawable,,
+design-a-web-crawler,figure-9-2-U6DZBW26.svg,9-2,drawable,,
+design-a-web-crawler,figure-9-3-NSRQJPYK.svg,9-3,cannot draw,code,HTML source
+design-a-web-crawler,figure-9-4-OKNDJITV.svg,9-4,drawable,,
+design-a-web-crawler,figure-9-5-65ZDPY5L.svg,9-5,drawable,,
+design-a-web-crawler,figure-9-6-4NQUTTWR.svg,9-6,cannot draw,cells,Front and back FIFO queues
+design-a-web-crawler,figure-9-7-H7KUNVWF.svg,9-7,cannot draw,cells,Front and back FIFO queues
+design-a-web-crawler,figure-9-8-Y4EGITZY.svg,9-8,cannot draw,cells,Front and back FIFO queues
+design-a-web-crawler,figure-9-9-TCZ34KRE.svg,9-9,drawable,,
+design-consistent-hashing,figure-5-1-JYB5LSFH.svg,5-1,drawable,,
+design-consistent-hashing,figure-5-10-FCDAIIM2.svg,5-10,cannot draw,ring,"Ring, servers and keys, add / remove server, virtual nodes (5-14 and 5-15 look the same as 5-8 and 5-9)"
+design-consistent-hashing,figure-5-11-BZXRZPW7.svg,5-11,cannot draw,ring,"Ring, servers and keys, add / remove server, virtual nodes (5-14 and 5-15 look the same as 5-8 and 5-9)"
+design-consistent-hashing,figure-5-12-JS3PL6KQ.svg,5-12,cannot draw,ring,"Ring, servers and keys, add / remove server, virtual nodes (5-14 and 5-15 look the same as 5-8 and 5-9)"
+design-consistent-hashing,figure-5-13-EH76K4PV.svg,5-13,cannot draw,ring,"Ring, servers and keys, add / remove server, virtual nodes (5-14 and 5-15 look the same as 5-8 and 5-9)"
+design-consistent-hashing,figure-5-14-HZNKA3J3.svg,5-14,cannot draw,ring,"Ring, servers and keys, add / remove server, virtual nodes (5-14 and 5-15 look the same as 5-8 and 5-9)"
+design-consistent-hashing,figure-5-15-PNWYOYZO.svg,5-15,cannot draw,ring,"Ring, servers and keys, add / remove server, virtual nodes (5-14 and 5-15 look the same as 5-8 and 5-9)"
+design-consistent-hashing,figure-5-2-25DSOGUM.svg,5-2,drawable,,
+design-consistent-hashing,figure-5-3-REYWWCBF.svg,5-3,cannot draw,cells,Hash space as a strip
+design-consistent-hashing,figure-5-4-IYSYQWO7.svg,5-4,cannot draw,ring,"Ring, servers and keys, add / remove server, virtual nodes (5-14 and 5-15 look the same as 5-8 and 5-9)"
+design-consistent-hashing,figure-5-5-4LOAYCHE.svg,5-5,cannot draw,ring,"Ring, servers and keys, add / remove server, virtual nodes (5-14 and 5-15 look the same as 5-8 and 5-9)"
+design-consistent-hashing,figure-5-6-SDSBYUI6.svg,5-6,cannot draw,ring,"Ring, servers and keys, add / remove server, virtual nodes (5-14 and 5-15 look the same as 5-8 and 5-9)"
+design-consistent-hashing,figure-5-7-OIUSEHJP.svg,5-7,cannot draw,ring,"Ring, servers and keys, add / remove server, virtual nodes (5-14 and 5-15 look the same as 5-8 and 5-9)"
+design-consistent-hashing,figure-5-8-OBPLVFJF.svg,5-8,cannot draw,ring,"Ring, servers and keys, add / remove server, virtual nodes (5-14 and 5-15 look the same as 5-8 and 5-9)"
+design-consistent-hashing,figure-5-9-NK63F2OI.svg,5-9,cannot draw,ring,"Ring, servers and keys, add / remove server, virtual nodes (5-14 and 5-15 look the same as 5-8 and 5-9)"
+design-google-drive,figure-15-1-VUB67E7Q.png,15-1,out of scope,,Product screenshots and UI
+design-google-drive,figure-15-10-2WLH5XOU.png,15-10,drawable,,
+design-google-drive,figure-15-11-BEAEA7OA.png,15-11,drawable,,
+design-google-drive,figure-15-12-D5XZ44NY.svg,15-12,drawable,,
+design-google-drive,figure-15-13-CIXDH45A.svg,15-13,cannot draw,table,user / workspace / file / block / device schemas
+design-google-drive,figure-15-14-5VZHP7AD.svg,15-14,cannot draw,sequence,Upload and download flows
+design-google-drive,figure-15-15-UVIR3ZHW.svg,15-15,cannot draw,sequence,Upload and download flows
+design-google-drive,figure-15-2-P45WHNY7.svg,15-2,out of scope,,Product screenshots and UI
+design-google-drive,figure-15-3-UCYFVHR2.svg,15-3,out of scope,,Product screenshots and UI
+design-google-drive,figure-15-4-VPBWB2FK.png,15-4,drawable,,
+design-google-drive,figure-15-5-JX5ZE3VR.svg,15-5,drawable,,
+design-google-drive,figure-15-6-CUJNKWVX.svg,15-6,drawable,,
+design-google-drive,figure-15-7-FNASJ54U.png,15-7,drawable,,
+design-google-drive,figure-15-8-E3QIHG3J.svg,15-8,drawable,,
+design-google-drive,figure-15-9-K34FLC6R.svg,15-9,out of scope,,Product screenshots and UI
+design-youtube,figure-14-1-POM4N7ME.png,14-1,out of scope,,Product screenshots and UI
+design-youtube,figure-14-10-YWOCJMVV.svg,14-10,drawable,,
+design-youtube,figure-14-11-VKQRKCM2.svg,14-11,drawable,,
+design-youtube,figure-14-12-FKWX3DRN.svg,14-12,drawable,,
+design-youtube,figure-14-13-LRTFEHXK.png,14-13,cannot draw,code,Task config snippets
+design-youtube,figure-14-14-TZNQCING.svg,14-14,drawable,,
+design-youtube,figure-14-15-DBQMPINY.svg,14-15,drawable,,
+design-youtube,figure-14-16-D65ZJKSR.svg,14-16,drawable,,
+design-youtube,figure-14-17-RHMGJC6L.svg,14-17,drawable,,
+design-youtube,figure-14-18-24OH4P2W.svg,14-18,drawable,,
+design-youtube,figure-14-19-Y5ZPZAJT.svg,14-19,drawable,,
+design-youtube,figure-14-2-DVJHFDA4.png,14-2,cannot draw,table,CDN price per region
+design-youtube,figure-14-20-VAG7ZAYZ.svg,14-20,drawable,,
+design-youtube,figure-14-21-AZ4TQFF2.svg,14-21,drawable,,
+design-youtube,figure-14-22-3EM25VLA.svg,14-22,cannot draw,cells,Video split into GOP cells
+design-youtube,figure-14-23-YQDZDVEV.png,14-23,drawable,,
+design-youtube,figure-14-24-LIPZPHHR.svg,14-24,cannot draw,spatial,World map with upload centres
+design-youtube,figure-14-25-4VSMBFLW.svg,14-25,drawable,,
+design-youtube,figure-14-26-DQ2B7KIJ.svg,14-26,drawable,,
+design-youtube,figure-14-27-GVQ6JW3A.png,14-27,drawable,,
+design-youtube,figure-14-28-Q7VI7TYL.png,14-28,drawable,,
+design-youtube,figure-14-3-S2A555CM.png,14-3,drawable,,
+design-youtube,figure-14-4-ADSJBRI3.png,14-4,drawable,,
+design-youtube,figure-14-5-PWL5A5PM.png,14-5,drawable,,
+design-youtube,figure-14-6-IK5S43FH.png,14-6,drawable,,
+design-youtube,figure-14-7-25E4UND4.png,14-7,drawable,,
+design-youtube,figure-14-8-6TUJKWRP.svg,14-8,drawable,,
+design-youtube,figure-14-9-363XWSRP.svg,14-9,drawable,,
+digital-wallet,figure-1-digital-wallet-UNQ6753B.svg,1,drawable,,
+digital-wallet,figure-10-phase-status-table-45KR4FXX.svg,10,drawable,,
+digital-wallet,figure-11-unbalanced-state-ESMXLPTG.svg,11,cannot draw,sequence,"2PC, TCC phases, out-of-order, event sourcing over time"
+digital-wallet,figure-12-out-of-order-execution-OSSZ5U7M.svg,12,cannot draw,sequence,"2PC, TCC phases, out-of-order, event sourcing over time"
+digital-wallet,figure-13-saga-workflow-Y7UCCTUD.svg,13,drawable,,
+digital-wallet,figure-14-static-view-of-event-sourcing-3BMIV7QG.svg,14,drawable,,
+digital-wallet,figure-15-dynamic-view-of-event-sourcing-2C2OZVDV.svg,15,cannot draw,sequence,"2PC, TCC phases, out-of-order, event sourcing over time"
+digital-wallet,figure-16-command-queue-WXJN4Y22.svg,16,drawable,,
+digital-wallet,figure-17-how-state-machine-works-67HWC4DZ.svg,17,drawable,,
+digital-wallet,figure-18-reproduce-states-VHMK3NBY.svg,18,drawable,,
+digital-wallet,figure-19-cqrs-architecture-KIHA24BO.svg,19,drawable,,
+digital-wallet,figure-2-cross-wallet-balance-transfer-2TDVWONK.svg,2,drawable,,
+digital-wallet,figure-20-file-based-command-and-event-storage-LLKHXZ5X.svg,20,drawable,,
+digital-wallet,figure-21-file-based-solution-for-command-event-and-state-TBSB5CJG.svg,21,drawable,,
+digital-wallet,figure-22-snapshot-2B35C27A.svg,22,drawable,,
+digital-wallet,figure-23-raft-YUKRLGJR.svg,23,drawable,,
+digital-wallet,figure-24-raft-node-group-EFJORSSU.svg,24,drawable,,
+digital-wallet,figure-25-periodical-pulling-CFHWDXCB.svg,25,drawable,,
+digital-wallet,figure-26-pull-model-with-reverse-proxy-S7JBWCC6.svg,26,drawable,,
+digital-wallet,figure-27-push-model-C7LYOOFM.svg,27,drawable,,
+digital-wallet,figure-28-final-design-36NRH5KI.svg,28,drawable,,
+digital-wallet,figure-29-final-design-in-a-numbered-sequence-RLSHN3GF.svg,29,drawable,,
+digital-wallet,figure-3-in-memory-solution-3RY7RCB4.svg,3,drawable,,
+digital-wallet,figure-4-relational-database-L3DEQYTB.svg,4,drawable,,
+digital-wallet,figure-5-two-phase-commit-W3HB4IJO.svg,5,cannot draw,sequence,"2PC, TCC phases, out-of-order, event sourcing over time"
+digital-wallet,figure-6-coordinator-crashes-MTPFFNSD.svg,6,cannot draw,sequence,"2PC, TCC phases, out-of-order, event sourcing over time"
+digital-wallet,figure-7-try-phase-PCD3MQ6F.svg,7,cannot draw,sequence,"2PC, TCC phases, out-of-order, event sourcing over time"
+digital-wallet,figure-8-confirm-phase-LJRYUDAO.svg,8,cannot draw,sequence,"2PC, TCC phases, out-of-order, event sourcing over time"
+digital-wallet,figure-9-cancel-phase-4VJNJGDS.svg,9,cannot draw,sequence,"2PC, TCC phases, out-of-order, event sourcing over time"
+digital-wallet,chapter-summary-HVK66BBF.png,chapter-summary,cannot draw,mind map,
+distributed-email-service,figure-1-popular-email-providers-3H2F466J.png,1,out of scope,,Logo grids
+distributed-email-service,figure-10-elasticsearch-MNL6TTHR.svg,10,drawable,,
+distributed-email-service,figure-11-lsm-tree-QD2BNIN2.png,11,drawable,,
+distributed-email-service,figure-12-multi-data-center-setup-FMIYSNFF.svg,12,drawable,,
+distributed-email-service,figure-2-mx-records-BAWCU7VV.png,2,cannot draw,code,`nslookup` MX output
+distributed-email-service,figure-3-traditional-mail-servers-F4GDMZFR.png,3,drawable,,
+distributed-email-service,figure-4-maildir-CI7G42PH.svg,4,cannot draw,tree,Maildir folder tree
+distributed-email-service,figure-5-high-level-design-AZNVIABQ.png,5,drawable,,
+distributed-email-service,figure-6-email-sending-flow-U5I4QIEM.png,6,drawable,,
+distributed-email-service,figure-7-email-receiving-flow-HRTYUDLO.png,7,drawable,,
+distributed-email-service,figure-8-handle-feedback-loop-PFZ6YW6X.svg,8,drawable,,
+distributed-email-service,figure-9-an-example-of-a-gmail-header-OW5IKA3C.png,9,out of scope,,Product screenshots and UI
+distributed-email-service,chapter-summary-MSPMW4ME.png,chapter-summary,cannot draw,mind map,
+distributed-email-service,table-1-folders-by-user-Q23KYRQB.png,table-1,cannot draw,table,Mail schemas
+distributed-email-service,table-2-emails-by-folder-Y3QS42Z5.png,table-2,cannot draw,table,Mail schemas
+distributed-email-service,table-3-emails-by-user-TDJAPLOC.png,table-3,cannot draw,table,Mail schemas
+distributed-email-service,table-4-read-and-unread-emails-I5YQBZY7.png,table-4,cannot draw,table,Mail schemas
+distributed-message-queue,figure-1-popular-distributed-message-queues-NHCVSN5F.png,1,out of scope,,Logo grids
+distributed-message-queue,figure-10-data-segment-file-distribution-in-topic-partitions-TZBXX5CG.svg,10,drawable,,
+distributed-message-queue,figure-11-routing-layer-LA4CPIQY.svg,11,drawable,,
+distributed-message-queue,figure-12-producer-with-buffer-and-routing-TEGPFRV4.svg,12,drawable,,
+distributed-message-queue,figure-13-the-choice-of-the-batch-size-EERC6LE5.svg,13,cannot draw,timeline,"Batch-size trade-off chart; rebalance, broker crash / add, partition increase / decrease as frames"
+distributed-message-queue,figure-14-consumer-flow-R7FTOUWG.svg,14,cannot draw,cells,"Partitions, offsets, segments, ISR, tagged messages"
+distributed-message-queue,figure-15-pull-model-R7AR2RKW.svg,15,drawable,,
+distributed-message-queue,figure-16-coordinator-of-consumer-groups-NBLTTJF7.svg,16,drawable,,
+distributed-message-queue,figure-17-consumer-rebalance-TXRF6U5L.svg,17,cannot draw,timeline,"Batch-size trade-off chart; rebalance, broker crash / add, partition increase / decrease as frames"
+distributed-message-queue,figure-18-new-consumer-joins-RTLIWBQS.svg,18,cannot draw,sequence,Consumer joins / leaves / crashes
+distributed-message-queue,figure-19-existing-consumer-leaves-THOA2BTG.svg,19,cannot draw,sequence,Consumer joins / leaves / crashes
+distributed-message-queue,figure-2-key-components-in-a-message-queue-EVGQ4EYZ.svg,2,drawable,,
+distributed-message-queue,figure-20-existing-consumer-crashes-TCUIE3U5.svg,20,cannot draw,sequence,Consumer joins / leaves / crashes
+distributed-message-queue,figure-21-last-consumed-offset-of-consumer-groups-VMQCMBNR.svg,21,cannot draw,cells,"Partitions, offsets, segments, ISR, tagged messages"
+distributed-message-queue,figure-22-zookeeper-UZGQ22ZY.svg,22,drawable,,
+distributed-message-queue,figure-23-replication-7QLW3XIH.svg,23,drawable,,
+distributed-message-queue,figure-24-how-isr-works-QVUWXQ6W.svg,24,cannot draw,cells,"Partitions, offsets, segments, ISR, tagged messages"
+distributed-message-queue,figure-25-ack-all-O4UUVPX5.svg,25,drawable,,
+distributed-message-queue,figure-26-ack-1-MPIADGCG.svg,26,drawable,,
+distributed-message-queue,figure-27-ack-0-KMQEZDTJ.svg,27,drawable,,
+distributed-message-queue,figure-28-broker-node-crashes-AVEQQUXB.svg,28,cannot draw,timeline,"Batch-size trade-off chart; rebalance, broker crash / add, partition increase / decrease as frames"
+distributed-message-queue,figure-29-add-new-broker-node-M6LJQ27W.svg,29,cannot draw,timeline,"Batch-size trade-off chart; rebalance, broker crash / add, partition increase / decrease as frames"
+distributed-message-queue,figure-3-point-to-point-model-RKDLREMI.svg,3,drawable,,
+distributed-message-queue,figure-30-partition-increase-GHEZJURI.svg,30,cannot draw,timeline,"Batch-size trade-off chart; rebalance, broker crash / add, partition increase / decrease as frames"
+distributed-message-queue,figure-31-partition-decrease-5BIKBEGT.svg,31,cannot draw,timeline,"Batch-size trade-off chart; rebalance, broker crash / add, partition increase / decrease as frames"
+distributed-message-queue,figure-32-at-most-once-K2T4LCNS.svg,32,drawable,,
+distributed-message-queue,figure-33-at-least-once-RET6CWUQ.svg,33,drawable,,
+distributed-message-queue,figure-34-exactly-once-TVG4DWIJ.svg,34,drawable,,
+distributed-message-queue,figure-35-message-filtering-by-tags-KGQRK6OD.svg,35,cannot draw,cells,"Partitions, offsets, segments, ISR, tagged messages"
+distributed-message-queue,figure-36-delayed-messages-DVK62AVT.svg,36,drawable,,
+distributed-message-queue,figure-4-publish-subscribe-model-HKA6TRGS.svg,4,drawable,,
+distributed-message-queue,figure-5-partitions-53G6JYSP.svg,5,cannot draw,cells,"Partitions, offsets, segments, ISR, tagged messages"
+distributed-message-queue,figure-6-message-queue-cluster-B3TAY3V2.svg,6,drawable,,
+distributed-message-queue,figure-7-consumer-groups-BBTZB7CF.svg,7,drawable,,
+distributed-message-queue,figure-8-high-level-design-5GF6PDU2.svg,8,drawable,,
+distributed-message-queue,figure-9-append-new-messages-7IQA6BDN.svg,9,cannot draw,cells,"Partitions, offsets, segments, ISR, tagged messages"
+distributed-message-queue,chapter-summary-CUMXKARP.png,chapter-summary,cannot draw,mind map,
+google-maps,figure-1-latitude-and-longitude-3HRLJEPU.png,1,cannot draw,spatial,"Globe, projections, geohash, road graph on map, routing tiles, zoom levels"
+google-maps,figure-10-cdn-RT3AMXIB.svg,10,drawable,,
+google-maps,figure-11-without-cdn-vs-with-cdn-SHVP3SHZ.png,11,drawable,,
+google-maps,figure-12-map-rendering-CHTHBLFS.svg,12,drawable,,
+google-maps,figure-13-precomputed-tiles-WXTG5KSB.svg,13,cannot draw,spatial,"Globe, projections, geohash, road graph on map, routing tiles, zoom levels"
+google-maps,figure-14-user-location-database-OYEBRJD3.svg,14,drawable,,
+google-maps,figure-15-location-data-is-used-by-other-services-EREYYC3G.svg,15,drawable,,
+google-maps,figure-16-zoom-levels-QGEJ7C5F.png,16,cannot draw,spatial,"Globe, projections, geohash, road graph on map, routing tiles, zoom levels"
+google-maps,figure-17-navigation-service-MW336TYJ.svg,17,drawable,,
+google-maps,figure-18-graph-traversal-32VJU57E.png,18,cannot draw,spatial,"Globe, projections, geohash, road graph on map, routing tiles, zoom levels"
+google-maps,figure-19-navigation-route-SM4SJVK3.svg,19,cannot draw,cells,Location batches; route as tile cells r_1…r_7
+google-maps,figure-2-map-projectionse-BEFJVLCR.png,2,cannot draw,spatial,"Globe, projections, geohash, road graph on map, routing tiles, zoom levels"
+google-maps,figure-20-build-routing-tiles-F7ZG5KH4.svg,20,cannot draw,spatial,"Globe, projections, geohash, road graph on map, routing tiles, zoom levels"
+google-maps,figure-21-final-design-IORF6NBL.svg,21,drawable,,
+google-maps,figure-3-geohashing-LXRUGRGR.png,3,cannot draw,spatial,"Globe, projections, geohash, road graph on map, routing tiles, zoom levels"
+google-maps,figure-4-map-as-a-graph-DP2SPNZU.svg,4,cannot draw,spatial,"Globe, projections, geohash, road graph on map, routing tiles, zoom levels"
+google-maps,figure-5-routing-tiles-BDKBAEUR.svg,5,cannot draw,spatial,"Globe, projections, geohash, road graph on map, routing tiles, zoom levels"
+google-maps,figure-6-routing-tiles-of-varying-sizes-T5ONSL2L.png,6,cannot draw,spatial,"Globe, projections, geohash, road graph on map, routing tiles, zoom levels"
+google-maps,figure-7-high-level-design-QJSXR6J4.svg,7,drawable,,
+google-maps,figure-8-location-service-OYEBRJD3.svg,8,drawable,,
+google-maps,figure-9-batch-requests-JJ26U6BQ.svg,9,cannot draw,cells,Location batches; route as tile cells r_1…r_7
+google-maps,chapter-summary-PQLESOHW.png,chapter-summary,cannot draw,mind map,
+hotel-reservation-system,figure-1-qps-distribution-4LPSPNX4.svg,1,cannot draw,venn/funnel,QPS levels as an inverted pyramid
+hotel-reservation-system,figure-10-unique-constraint-violation-DHYT3GIN.svg,10,cannot draw,code,SQL INSERTs; unique-constraint error
+hotel-reservation-system,figure-11-race-condition-7TTL5LW7.svg,11,cannot draw,timeline,Race condition and locking on a time axis
+hotel-reservation-system,figure-12-pessimistic-locking-DLAKLD67.svg,12,cannot draw,timeline,Race condition and locking on a time axis
+hotel-reservation-system,figure-13-optimistic-locking-KQUA2477.svg,13,drawable,,
+hotel-reservation-system,figure-14-database-constraint-GWRAPFAG.svg,14,cannot draw,timeline,Race condition and locking on a time axis
+hotel-reservation-system,figure-15-database-sharding-GER3MC5O.svg,15,drawable,,
+hotel-reservation-system,figure-16-caching-LQA6WZX7.png,16,drawable,,
+hotel-reservation-system,figure-17-monolithic-vs-microservice-5V7CXVAI.svg,17,drawable,,
+hotel-reservation-system,figure-18-monolithic-architecture-4WZWZO7V.svg,18,cannot draw,sequence,Idempotent booking; local vs microservice transactions
+hotel-reservation-system,figure-19-microservice-architecture-7FGGR4AA.svg,19,cannot draw,sequence,Idempotent booking; local vs microservice transactions
+hotel-reservation-system,figure-2-database-schema-3WL3FJJ5.png,2,cannot draw,table,Service schemas
+hotel-reservation-system,figure-3-reservation-status-J57N4ZZV.svg,3,drawable,,
+hotel-reservation-system,figure-4-high-level-design-4TSKHYJP.svg,4,drawable,,
+hotel-reservation-system,figure-5-connections-between-services-7TQS6ISN.svg,5,drawable,,
+hotel-reservation-system,figure-6-updated-schema-UUO2LOBS.png,6,cannot draw,table,Service schemas
+hotel-reservation-system,figure-7-two-reservations-are-made-ZWW4GV4K.svg,7,cannot draw,code,SQL INSERTs; unique-constraint error
+hotel-reservation-system,figure-8-unique-constraint-PN2XNUXS.svg,8,cannot draw,sequence,Idempotent booking; local vs microservice transactions
+hotel-reservation-system,figure-9-confirmation-page-EUDNWWUU.png,9,out of scope,,Product screenshots and UI
+hotel-reservation-system,chapter-summary-HKFZ3FPJ.png,chapter-summary,cannot draw,mind map,
+metrics-monitoring-and-alerting-system,figure-1-popular-metrics-monitoring-and-alerting-services-TAZBQ5OC.png,1,out of scope,,Logo grids
+metrics-monitoring-and-alerting-system,figure-10-pull-model-in-detail-DLFOSFKN.svg,10,drawable,,
+metrics-monitoring-and-alerting-system,figure-11-consistent-hashing-ZNCJBMK3.png,11,cannot draw,ring,Collectors on a ring
+metrics-monitoring-and-alerting-system,figure-12-push-model-BT4OPMTB.svg,12,drawable,,
+metrics-monitoring-and-alerting-system,figure-13-load-balancer-PRCVTUJJ.svg,13,drawable,,
+metrics-monitoring-and-alerting-system,figure-14-metrics-transmission-pipeline-UCGFUXRF.svg,14,drawable,,
+metrics-monitoring-and-alerting-system,figure-15-add-queues-X32N6UM5.svg,15,drawable,,
+metrics-monitoring-and-alerting-system,figure-16-kafka-partition-YTQUBKKN.svg,16,drawable,,
+metrics-monitoring-and-alerting-system,figure-17-cache-layer-QNXQFTQK.svg,17,drawable,,
+metrics-monitoring-and-alerting-system,figure-18-data-encoding-B45QOSIH.svg,18,cannot draw,timeline,CPU line chart; time-series points; delta encoding on a time axis
+metrics-monitoring-and-alerting-system,figure-19-alerting-system-HCBLCMMP.svg,19,drawable,,
+metrics-monitoring-and-alerting-system,figure-2-five-components-of-the-system-4UF4TGR7.png,2,cannot draw,mind map,
+metrics-monitoring-and-alerting-system,figure-20-merge-alerts-NZGFQ4S3.svg,20,drawable,,
+metrics-monitoring-and-alerting-system,figure-21-grafana-ui-NWP2X5V6.png,21,out of scope,,Product screenshots and UI
+metrics-monitoring-and-alerting-system,figure-22-final-design-777Y6AAM.svg,22,drawable,,
+metrics-monitoring-and-alerting-system,figure-3-cpu-load-7S6NAAND.svg,3,cannot draw,timeline,CPU line chart; time-series points; delta encoding on a time axis
+metrics-monitoring-and-alerting-system,figure-4-data-access-pattern-6W53MWUY.svg,4,cannot draw,timeline,CPU line chart; time-series points; delta encoding on a time axis
+metrics-monitoring-and-alerting-system,figure-5-influxdb-benchmarking-THBHSESS.png,5,cannot draw,table,InfluxDB benchmark
+metrics-monitoring-and-alerting-system,figure-6-high-level-design-NO6K42P6.svg,6,drawable,,
+metrics-monitoring-and-alerting-system,figure-7-metrics-collection-flow-AERNBFZG.svg,7,drawable,,
+metrics-monitoring-and-alerting-system,figure-8-pull-model-JCYTADKY.svg,8,drawable,,
+metrics-monitoring-and-alerting-system,figure-9-service-discovery-DXWPRSYP.svg,9,drawable,,
+metrics-monitoring-and-alerting-system,chapter-summary-W7L5LHM3.png,chapter-summary,cannot draw,mind map,
+nearby-friends,figure-1-facebook-nearby-friends-XALOYO46.png,1,out of scope,,Product screenshots and UI
+nearby-friends,figure-10-figure-out-the-correct-redis-pub-sub-server-2WS7WJK6.png,10,cannot draw,ring,Pub/sub servers on a ring
+nearby-friends,figure-11-replace-pub-sub-server-CIN6EUJH.png,11,cannot draw,ring,Pub/sub servers on a ring
+nearby-friends,figure-12-redis-pub-sub-channels-AHZA4ALB.svg,12,cannot draw,spatial,Geohash cells as channels; nine geohash cells
+nearby-friends,figure-13-publish-location-update-to-random-nearby-person-F2B3VI3L.svg,13,drawable,,
+nearby-friends,figure-14-nine-geohash-grids-IGQKWUYU.png,14,cannot draw,spatial,Geohash cells as channels; nine geohash cells
+nearby-friends,figure-2-peer-to-peer-TDFPCCFK.svg,2,drawable,,
+nearby-friends,figure-3-shared-backend-JI6MRFAF.svg,3,drawable,,
+nearby-friends,figure-4-high-level-design-35BO5JE4.svg,4,drawable,,
+nearby-friends,figure-5-restful-api-request-flow-SL4EZ27Z.svg,5,drawable,,
+nearby-friends,figure-6-redis-pub-sub-KDAMADYD.svg,6,drawable,,
+nearby-friends,figure-7-periodic-location-update-KBIO53BB.svg,7,drawable,,
+nearby-friends,figure-8-send-location-update-to-friends-DUUPBXZN.svg,8,drawable,,
+nearby-friends,figure-9-consistent-hashing-LKSFU4ZN.png,9,cannot draw,ring,Pub/sub servers on a ring
+nearby-friends,chapter-summary-YIHPTBWL.png,chapter-summary,cannot draw,mind map,
+payment-system,figure-1-simplified-pay-in-and-pay-out-flow-3FEH6LGJ.svg,1,drawable,,
+payment-system,figure-10-handle-failed-payments-ZFR5VAJK.svg,10,drawable,,
+payment-system,figure-11-retry-SUMHMG67.svg,11,cannot draw,sequence,Retries
+payment-system,figure-12-idempotency-DC3RCILB.svg,12,drawable,,
+payment-system,figure-2-pay-in-flow-5S6II6AU.png,2,drawable,,
+payment-system,figure-3-hosted-pay-with-paypal-page-EZOP6LZ2.png,3,out of scope,,Product screenshots and UI
+payment-system,figure-4-hosted-payment-flow-EL5HSZY6.png,4,drawable,,
+payment-system,figure-5-hosted-payment-page-by-stripe-A4FT5636.png,5,out of scope,,Product screenshots and UI
+payment-system,figure-6-reconciliation-HZKEQ3KA.png,6,drawable,,
+payment-system,figure-7-message-queue-7BXIY252.svg,7,drawable,,
+payment-system,figure-8-single-receiver-for-each-message-OZR5UDDF.svg,8,drawable,,
+payment-system,figure-9-multiple-receivers-for-the-same-message-FKQDW57G.svg,9,drawable,,
+payment-system,chapter-summary-IBDWNX6M.png,chapter-summary,cannot draw,mind map,
+proximity-service,figure-1-neary-search-on-yelp-PIX55ZBV.png,1,out of scope,,Product screenshots and UI
+proximity-service,figure-10-no-shared-prefix-MFLTKKDZ.png,10,cannot draw,spatial,"Search radius, lat/long, geohash grids, quadtree over a map, Hilbert curve, geofence, regions"
+proximity-service,figure-11-boundary-issue-XJWRE2EX.png,11,cannot draw,spatial,"Search radius, lat/long, geohash grids, quadtree over a map, Hilbert curve, geofence, regions"
+proximity-service,figure-12-expand-the-search-process-ZN5TJYNX.png,12,cannot draw,spatial,"Search radius, lat/long, geohash grids, quadtree over a map, Hilbert curve, geofence, regions"
+proximity-service,figure-13-quadtree-MWKA5XCK.png,13,cannot draw,spatial,"Search radius, lat/long, geohash grids, quadtree over a map, Hilbert curve, geofence, regions"
+proximity-service,figure-14-build-quadtree-ZV3JS35E.svg,14,cannot draw,tree,Quadtree; quadtree update path
+proximity-service,figure-15-real-world-example-of-a-quadtree-WENVCDJ2.png,15,cannot draw,spatial,"Search radius, lat/long, geohash grids, quadtree over a map, Hilbert curve, geofence, regions"
+proximity-service,figure-16-hilbert-curve-A42ZBOV2.png,16,cannot draw,spatial,"Search radius, lat/long, geohash grids, quadtree over a map, Hilbert curve, geofence, regions"
+proximity-service,figure-17-geofence-PIWNFXYE.png,17,cannot draw,spatial,"Search radius, lat/long, geohash grids, quadtree over a map, Hilbert curve, geofence, regions"
+proximity-service,figure-18-remove-a-business-ELAJOMXR.png,18,cannot draw,table,geohash ↔ business rows; business and index schemas
+proximity-service,figure-19-update-quadtree-OCBKLCXE.svg,19,cannot draw,tree,Quadtree; quadtree update path
+proximity-service,figure-2-high-level-design-OLWE4F2G.svg,2,drawable,,
+proximity-service,figure-20-deploy-lbs-closer-to-the-user-OVZHVKZ6.png,20,cannot draw,spatial,"Search radius, lat/long, geohash grids, quadtree over a map, Hilbert curve, geofence, regions"
+proximity-service,figure-21-design-diagram-ORKTOGMW.png,21,drawable,,
+proximity-service,figure-3-two-dimensional-search-UCK2KWKU.png,3,cannot draw,spatial,"Search radius, lat/long, geohash grids, quadtree over a map, Hilbert curve, geofence, regions"
+proximity-service,figure-4-intersect-two-datasets-XGXW3FF3.png,4,cannot draw,spatial,"Search radius, lat/long, geohash grids, quadtree over a map, Hilbert curve, geofence, regions"
+proximity-service,figure-5-different-types-of-geospatial-indexes-FFADHPSV.svg,5,drawable,,
+proximity-service,figure-6-global-map-NWAMEPOX.png,6,cannot draw,spatial,"Search radius, lat/long, geohash grids, quadtree over a map, Hilbert curve, geofence, regions"
+proximity-service,figure-7-geohash-XY4L6XHV.png,7,cannot draw,spatial,"Search radius, lat/long, geohash grids, quadtree over a map, Hilbert curve, geofence, regions"
+proximity-service,figure-8-divide-grid-Z5AJ3TFS.png,8,cannot draw,spatial,"Search radius, lat/long, geohash grids, quadtree over a map, Hilbert curve, geofence, regions"
+proximity-service,figure-9-shared-prefix-K37LAGTS.png,9,cannot draw,spatial,"Search radius, lat/long, geohash grids, quadtree over a map, Hilbert curve, geofence, regions"
+proximity-service,chapter-summary-CNKPFTKZ.png,chapter-summary,cannot draw,mind map,
+proximity-service,table-10-business_id-is-a-single-id-3ZNAELVH.png,table-10,cannot draw,table,geohash ↔ business rows; business and index schemas
+proximity-service,table-3-business-table-72LHQZZP.png,table-3,cannot draw,table,geohash ↔ business rows; business and index schemas
+proximity-service,table-9-list_of_business_ids-is-a-json-array-HUAEOYZJ.png,table-9,cannot draw,table,geohash ↔ business rows; business and index schemas
+real-time-gaming-leaderboard,figure-1-leaderboard-NWJTV4ZV.svg,1,cannot draw,table,"Rankings, sorted set, DynamoDB tables, scatter-gather"
+real-time-gaming-leaderboard,figure-10-skip-list-with-5-levels-of-indexes-K5QMZDBC.svg,10,cannot draw,cells,Skip list
+real-time-gaming-leaderboard,figure-11-a-user-scores-a-point-XGFZPTLE.png,11,drawable,,
+real-time-gaming-leaderboard,figure-12-fetch-top-10-global-leaderboard-KOUPGTUC.png,12,drawable,,
+real-time-gaming-leaderboard,figure-13-fetch-a-users-leaderboard-position-YUJM3G3J.png,13,drawable,,
+real-time-gaming-leaderboard,figure-14-fetch-4-players-above-and-below-DNN7J5ML.svg,14,cannot draw,table,"Rankings, sorted set, DynamoDB tables, scatter-gather"
+real-time-gaming-leaderboard,figure-15-manage-our-own-services-T3VHGXIJ.png,15,drawable,,
+real-time-gaming-leaderboard,figure-16-score-a-point-TJAYZUVE.png,16,drawable,,
+real-time-gaming-leaderboard,figure-17-retrieve-leaderboard-4UMUHLST.png,17,drawable,,
+real-time-gaming-leaderboard,figure-18-fixed-partition-2DM4XVL6.svg,18,drawable,,
+real-time-gaming-leaderboard,figure-19-hash-partition-BNBRIQB7.png,19,drawable,,
+real-time-gaming-leaderboard,figure-2-high-level-design-XQWDCF72.svg,2,drawable,,
+real-time-gaming-leaderboard,figure-20-scatter-gather-KXBJYDNB.png,20,cannot draw,table,"Rankings, sorted set, DynamoDB tables, scatter-gather"
+real-time-gaming-leaderboard,figure-21-dynamodb-solution-QSI6N2FT.png,21,drawable,,
+real-time-gaming-leaderboard,figure-22-denormalized-view-of-the-leaderboard-and-user-tables-PGST2M7Z.png,22,cannot draw,table,"Rankings, sorted set, DynamoDB tables, scatter-gather"
+real-time-gaming-leaderboard,figure-23-partition-key-and-sort-key-NMM4PK4Z.png,23,cannot draw,table,"Rankings, sorted set, DynamoDB tables, scatter-gather"
+real-time-gaming-leaderboard,figure-24-updated-partition-key-WDZGBZGP.png,24,cannot draw,table,"Rankings, sorted set, DynamoDB tables, scatter-gather"
+real-time-gaming-leaderboard,figure-25-scatter-gather-TTZSXIYA.png,25,cannot draw,table,"Rankings, sorted set, DynamoDB tables, scatter-gather"
+real-time-gaming-leaderboard,figure-3-who-sets-the-leaderboard-score-O6AIP5UI.svg,3,drawable,,
+real-time-gaming-leaderboard,figure-4-game-scores-are-used-by-multiple-services-UWBWILEE.svg,4,drawable,,
+real-time-gaming-leaderboard,figure-5-leaderboard-table-WGJD5HTB.png,5,cannot draw,table,"Rankings, sorted set, DynamoDB tables, scatter-gather"
+real-time-gaming-leaderboard,figure-6-a-user-wins-a-point-FN3VKT66.svg,6,drawable,,
+real-time-gaming-leaderboard,figure-7-find-a-users-leaderboard-position-6WVQDZK3.svg,7,drawable,,
+real-time-gaming-leaderboard,figure-8-february-leaderboard-is-represented-by-the-sorted-set-G3APTESM.png,8,cannot draw,table,"Rankings, sorted set, DynamoDB tables, scatter-gather"
+real-time-gaming-leaderboard,figure-9-skip-list-WNOCIURA.svg,9,cannot draw,cells,Skip list
+real-time-gaming-leaderboard,chapter-summary-DXV7IGUO.png,chapter-summary,cannot draw,mind map,
+s3-like-object-storage,figure-1-three-different-storage-options-WEC7EEGI.svg,1,cannot draw,cells,"Block storage, inode blocks, segment files, erasure-coding grids, compaction (13 and 26 also need a table)"
+s3-like-object-storage,figure-10-data-persistence-flow-7TJ7KRXK.png,10,drawable,,
+s3-like-object-storage,figure-11-trade-off-between-consistency-and-latency-M5BFWVFW.svg,11,cannot draw,sequence,Replication options; multipart upload
+s3-like-object-storage,figure-12-store-multiple-small-objects-in-one-big-file-VOZCHVGT.svg,12,cannot draw,cells,"Block storage, inode blocks, segment files, erasure-coding grids, compaction (13 and 26 also need a table)"
+s3-like-object-storage,figure-13-updated-data-persistence-flow-WV6KYPEI.svg,13,cannot draw,cells,"Block storage, inode blocks, segment files, erasure-coding grids, compaction (13 and 26 also need a table)"
+s3-like-object-storage,figure-14-multi-datacenter-replication-NTRDXDU5.svg,14,drawable,,
+s3-like-object-storage,figure-15-erasure-coding-WXEDUOMP.svg,15,drawable,,
+s3-like-object-storage,figure-16-8-4-erasure-coding-SPQ6N2I3.svg,16,cannot draw,cells,"Block storage, inode blocks, segment files, erasure-coding grids, compaction (13 and 26 also need a table)"
+s3-like-object-storage,figure-17-extra-space-for-replication-and-erasure-coding-JXD3Y3GX.svg,17,cannot draw,cells,"Block storage, inode blocks, segment files, erasure-coding grids, compaction (13 and 26 also need a table)"
+s3-like-object-storage,figure-18-generate-checksum-TOHMO3NC.svg,18,drawable,,
+s3-like-object-storage,figure-19-compare-checksums-CQGRDK6J.svg,19,drawable,,
+s3-like-object-storage,figure-2-unix-file-system-and-object-store-DCHSEP2D.svg,2,cannot draw,cells,"Block storage, inode blocks, segment files, erasure-coding grids, compaction (13 and 26 also need a table)"
+s3-like-object-storage,figure-20-add-checksum-to-data-node-ICOVBL6G.svg,20,cannot draw,cells,"Block storage, inode blocks, segment files, erasure-coding grids, compaction (13 and 26 also need a table)"
+s3-like-object-storage,figure-21-database-tables-DAGCX3WM.png,21,cannot draw,table,bucket / object / object_mapping schemas
+s3-like-object-storage,figure-22-object-versioning-RHMOOBIT.svg,22,drawable,,
+s3-like-object-storage,figure-23-versioned-metadata-RKJ5JZER.svg,23,drawable,,
+s3-like-object-storage,figure-24-delete-object-by-inserting-a-delete-marker-NTTDXHAH.svg,24,drawable,,
+s3-like-object-storage,figure-25-multipart-upload-KDHGYB2U.svg,25,cannot draw,sequence,Replication options; multipart upload
+s3-like-object-storage,figure-26-compaction-GGRMBRFH.svg,26,cannot draw,cells,"Block storage, inode blocks, segment files, erasure-coding grids, compaction (13 and 26 also need a table)"
+s3-like-object-storage,figure-3-bucket-and-object-A4GTINXY.svg,3,drawable,,
+s3-like-object-storage,figure-4-high-level-design-JIVBP5X2.svg,4,drawable,,
+s3-like-object-storage,figure-5-uploading-an-object-ASOV6ZCY.svg,5,drawable,,
+s3-like-object-storage,figure-6-downloading-an-object-V3F76264.svg,6,drawable,,
+s3-like-object-storage,figure-7-upload-and-download-an-object-YPKTXFPC.svg,7,drawable,,
+s3-like-object-storage,figure-8-data-store-components-BMATQ3EZ.png,8,drawable,,
+s3-like-object-storage,figure-9-virtual-cluster-map-ESBSZKSE.svg,9,drawable,,
+s3-like-object-storage,chapter-summary-CM6JBEGR.png,chapter-summary,cannot draw,mind map,
+s3-like-object-storage,table-3-object_mapping-table-N2BUA76T.png,table-3,cannot draw,table,bucket / object / object_mapping schemas
+scale-from-zero-to-millions-of-users,figure-1-1-WCFZBBLA.png,1-1,drawable,,
+scale-from-zero-to-millions-of-users,figure-1-10-E6HDAMPH.png,1-10,drawable,,
+scale-from-zero-to-millions-of-users,figure-1-11-VI5Z74Q2.png,1-11,drawable,,
+scale-from-zero-to-millions-of-users,figure-1-12-WTWFBLWX.png,1-12,drawable,,
+scale-from-zero-to-millions-of-users,figure-1-13-WILHQ2SA.png,1-13,drawable,,
+scale-from-zero-to-millions-of-users,figure-1-14-CCBCQMO6.png,1-14,drawable,,
+scale-from-zero-to-millions-of-users,figure-1-15-GICUI26J.png,1-15,drawable,,
+scale-from-zero-to-millions-of-users,figure-1-16-DUWJTBCU.png,1-16,drawable,,
+scale-from-zero-to-millions-of-users,figure-1-17-J2NLNRNY.svg,1-17,drawable,,
+scale-from-zero-to-millions-of-users,figure-1-18-P3WDK5LN.svg,1-18,drawable,,
+scale-from-zero-to-millions-of-users,figure-1-19-MOPDW7TD.png,1-19,drawable,,
+scale-from-zero-to-millions-of-users,figure-1-2-GPY73ZNO.png,1-2,drawable,,
+scale-from-zero-to-millions-of-users,figure-1-20-VLGHMELC.svg,1-20,drawable,,
+scale-from-zero-to-millions-of-users,figure-1-21-ZDWDWEO5.svg,1-21,drawable,,
+scale-from-zero-to-millions-of-users,figure-1-22-FI2MHR5M.svg,1-22,cannot draw,table,Users table inside each shard cylinder
+scale-from-zero-to-millions-of-users,figure-1-23-3IYFN6Q6.png,1-23,drawable,,
+scale-from-zero-to-millions-of-users,figure-1-3-2P4MNG7C.png,1-3,drawable,,
+scale-from-zero-to-millions-of-users,figure-1-4-2EGRRANZ.png,1-4,drawable,,
+scale-from-zero-to-millions-of-users,figure-1-5-TJLQVE5N.svg,1-5,drawable,,
+scale-from-zero-to-millions-of-users,figure-1-6-L2YNDDKF.png,1-6,drawable,,
+scale-from-zero-to-millions-of-users,figure-1-7-GGNXNZX6.svg,1-7,drawable,,
+scale-from-zero-to-millions-of-users,figure-1-8-AVKYQBAQ.png,1-8,drawable,,
+scale-from-zero-to-millions-of-users,figure-1-9-SA7OOP7O.svg,1-9,drawable,,
+stock-exchange,figure-1-largest-stock-exchanges-VOCAUYH7.png,1,cannot draw,spatial,World map of exchanges
+stock-exchange,figure-10-market-data-publisher-NW4AZKEC.svg,10,drawable,,
+stock-exchange,figure-11-reporter-OKUG5GXU.svg,11,drawable,,
+stock-exchange,figure-12-product-order-execution-CMK5RE7H.png,12,cannot draw,table,Level-1 quotes; Order / Execution classes; event sourcing vs not
+stock-exchange,figure-13-limit-order-book-illustrated-4HLSPSXB.svg,13,cannot draw,cells,"Order book levels, order matching, linked list, Raft log"
+stock-exchange,figure-14-place-match-and-cancel-an-order-in-o1-GG4SP5FK.svg,14,cannot draw,cells,"Order book levels, order matching, linked list, Raft log"
+stock-exchange,figure-15-a-low-latency-single-server-exchange-design-T5ZFOSZB.svg,15,drawable,,
+stock-exchange,figure-16-application-loop-thread-in-order-manager-F76ALFG4.svg,16,drawable,,
+stock-exchange,figure-17-non-event-sourcing-vs-event-sourcing-J5HGKUDM.svg,17,cannot draw,table,Level-1 quotes; Order / Execution classes; event sourcing vs not
+stock-exchange,figure-18-an-event-sourcing-design-VUZUWA5X.svg,18,drawable,,
+stock-exchange,figure-19-sample-design-of-sequencer-XIKDOBN7.png,19,drawable,,
+stock-exchange,figure-2-level-1-data-A5YJ6H3X.svg,2,cannot draw,table,Level-1 quotes; Order / Execution classes; event sourcing vs not
+stock-exchange,figure-20-hot-warm-matching-engine-QHSZ5QAN.svg,20,drawable,,
+stock-exchange,figure-21-event-replication-in-raft-cluster-PVVZDWHT.svg,21,cannot draw,cells,"Order book levels, order matching, linked list, Raft log"
+stock-exchange,figure-22-raft-terms-PGF2N5J6.svg,22,cannot draw,timeline,Candlestick; Raft terms; events in time
+stock-exchange,figure-23-time-in-event-sourcing-ZUOQYUVH.svg,23,cannot draw,timeline,Candlestick; Raft terms; events in time
+stock-exchange,figure-24-market-data-publisher-UJ7LL7ZE.png,24,drawable,,
+stock-exchange,figure-3-level-2-data-7KGI4YP5.svg,3,cannot draw,cells,"Order book levels, order matching, linked list, Raft log"
+stock-exchange,figure-4-level-3-data-BSBEFO33.svg,4,cannot draw,cells,"Order book levels, order matching, linked list, Raft log"
+stock-exchange,figure-5-a-single-candlestick-chart-4FUB4O22.svg,5,cannot draw,timeline,Candlestick; Raft terms; events in time
+stock-exchange,figure-6-high-level-design-A3NJ5JVE.png,6,drawable,,
+stock-exchange,figure-7-inbound_and_outbound_sequencers-3MF75AIL.svg,7,drawable,,
+stock-exchange,figure-8-client-gateway-components-COTYQAOK.svg,8,drawable,,
+stock-exchange,figure-9-client-gateway-W5TCL3VV.svg,9,drawable,,
+stock-exchange,chapter-summary-KL4KCPJZ.png,chapter-summary,cannot draw,mind map,

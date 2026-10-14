@@ -8,17 +8,17 @@
 
 The book figures are drawn in draw.io style, so neither skill can copy them pixel for pixel. The question here is different: can the skill draw the same content, restyled in the ByteByteGo look?
 
-- **283 of 515** images (55 %) can be drawn. They are boxes, icons, dashed groups and arrows. Most of them need icons or edge styles that the skills do not have yet.
+- **283 of 515** images (55 %) can be drawn once the skills are updated (section 5). They are boxes, icons, dashed groups and arrows, but nearly all of them need icons or edge styles that the skills do not have yet, so few can be drawn today.
 - **232 of 515** images (45 %) cannot be drawn. They need a kind of picture the two skills have no building blocks for.
 
 | Missing building block | Images | Where most of them are |
 |---|---|---|
-| Table | 35 | leaderboard, email, proximity, hotel |
+| Table | 36 | leaderboard, email, proximity, hotel |
 | Strip or grid of identical cells | 35 | message queue, S3, stock exchange, key-value store |
 | Geographic map / spatial grid | 29 | proximity, Google Maps |
 | Sequence diagram | 28 | digital wallet, ad-click, hotel, chat |
 | Timeline, chart, before/after frames | 26 | rate limiter, ad-click, message queue |
-| Hash ring | 24 | consistent hashing, key-value store |
+| Hash ring | 23 | consistent hashing, key-value store |
 | Mind map (chapter summaries) | 14 | one per Volume 2 chapter |
 | Tree (trie, quadtree, Merkle, folders) | 10 | autocomplete, proximity |
 | Code block | 6 | hotel, autocomplete |
@@ -29,12 +29,12 @@ The book figures are drawn in draw.io style, so neither skill can copy them pixe
 Proposal:
 
 1. **Update both skills** with a shared icon set, more edge styles and a few extra shapes. This makes the 283 drawable images easy to build (section 5).
-2. **Make one new skill**, `diagram-bytebytego-concept`, for the 209 "concept" images — tables, cell grids, sequences, timelines, rings, trees and mind maps, maps and spatial grids (section 6).
+2. **Make one new skill**, `diagram-bytebytego-concept`, for the 209 "concept" images — tables, cell grids, sequences, timelines, rings, trees and mind maps, maps and spatial grids (section 6). About 188 of them can be drawn fully; the other ~21 sit on real map imagery and need a base map.
 3. **Leave 23 images out of scope**: screenshots, product UIs, logo grids and one cartoon (section 4.11).
 
 ## 2. Coverage per chapter
 
-The file prefix is the chapter number in Volume 1 (`figure-4-*` = chapter 4). Volume 2 files have no chapter number; their names describe the figure (`figure-21-design-diagram-…`). Volume 2 chapters also include a `chapter-summary-*.png` mind map, and some `table-*.png` images.
+The file prefix is the chapter number in Volume 1 (`figure-4-*` = chapter 4). Volume 2 files have no chapter number; the number is the figure number and the rest describes the figure (`proximity-service/figure-13-quadtree-…`). Volume 2 chapters also include a `chapter-summary-*.png` mind map, and some `table-*.png` images.
 
 | Chapter (folder) | Images | Can draw | Cannot draw |
 |---|---|---|---|
@@ -87,7 +87,7 @@ Neither skill has a way to place items by computed geometry (on a circle, in a g
 
 Grouped by the missing building block. Each image is counted once, under its main block; a few also need a second block (noted in brackets). In the tables, `5-4` means `figure-5-4` and `21` in a Volume 2 chapter means `figure-21-…`.
 
-### 4.1 Tables — 35
+### 4.1 Tables — 36
 
 Schema tables, record rows, ranking lists.
 
@@ -172,7 +172,7 @@ A time axis with ticks, a plot with axes, or the same structure shown at several
 | hotel-reservation | 11, 12, 14 | Race condition and locking on a time axis |
 | stock-exchange | 5, 22, 23 | Candlestick; Raft terms; events in time |
 
-### 4.6 Hash rings — 24
+### 4.6 Hash rings — 23
 
 Points on a circle, arcs along it, sometimes request / ACK arrows across it.
 
@@ -225,8 +225,8 @@ These are not diagrams. A skill would gain little from supporting them.
 
 | Kind | Images | Suggestion |
 |---|---|---|
-| Product screenshots and UI | url-shortener 8-1; notification 10-1; news-feed 11-1; autocomplete 13-1, 13-3, 13-12; youtube 14-1; google-drive 15-1, 15-2, 15-3, 15-9; proximity 1; nearby-friends 1; metrics 21; hotel 9; email 9; payment 3, 5 | Skip, or use the screenshot as an image |
-| Logo grids | chat 12-1; message-queue 1; metrics 1; email 1 | Skip — real brand marks |
+| Product screenshots and UI | url-shortener 8-1; notification-system 10-1; news-feed 11-1; search-autocomplete 13-1, 13-3, 13-12; youtube 14-1; google-drive 15-1, 15-2, 15-3, 15-9; proximity-service 1; nearby-friends 1; metrics-monitoring 21; hotel-reservation 9; distributed-email 9; payment-system 3, 5 | Skip, or use the screenshot as an image |
+| Logo grids | chat-system 12-1; distributed-message-queue 1; metrics-monitoring 1; distributed-email 1 | Skip — real brand marks |
 | Cartoon | rate-limiter 4-4 (token bucket with coins) | Draw by hand, or use 4-5 instead |
 
 ## 5. Proposal 1 — update both skills (for the 283 drawable images)
@@ -287,7 +287,7 @@ The flow skill only draws orthogonal lines. Many drawable images need more:
 - Add one template per skill rebuilt from a book figure — for example `scale-from-zero/figure-1-11` (the full stack with CDN and cache) for flow, and `design-youtube/figure-14-4` (upload flow) for animated. The current templates are ByteByteGo posts; a book-figure template shows how the new icons fit together.
 - Many book figures are variants of one base picture: YouTube 14-10, 14-11, 14-14, 14-16, 14-18, 14-20 and 14-21 differ only in which box is highlighted; message-queue 25, 26 and 27 differ only in the ack setting. A small "variant" pattern (one base page plus a class that switches the highlight or the steps) would let one template produce a whole set.
 
-## 6. Proposal 2 — new skill `diagram-bytebytego-concept` (for 209 images)
+## 6. Proposal 2 — new skill `diagram-bytebytego-concept` (for 209 images, about 188 fully)
 
 The 209 images in sections 4.1–4.10 share one need: their positions come from **computed geometry or data**, not from hand placement. A ring needs points at angles; a grid needs rows × columns; a sequence diagram needs lifelines and time steps; a tree needs a layout. Typing hundreds of `left` / `top` values by hand would be slow and error-prone, and adding them to the flow skill would turn a simple hand-placement skill into a layout engine.
 
@@ -297,11 +297,11 @@ So the proposal is one new skill that keeps the same ByteByteGo look (it reuses 
 
 | Component | Input (example) | Images |
 |---|---|---|
-| `table` | header + rows; key markers; highlight or strike a row; optional cylinder frame | 35 |
+| `table` | header + rows; key markers; highlight or strike a row; optional cylinder frame | 36 |
 | `cells` | strip or grid of N cells; filled / highlighted / faded cells; labels and offsets; span arrows; queue end caps | 35 |
 | `sequence` | lifelines, messages, separators, lock bars, time brackets | 28 |
 | `timeline` | time axis and ticks, stacked squares per slot, windows, simple line / candlestick charts, before / after frames | 26 |
-| `ring` | servers and keys by angle or hash; arcs; virtual nodes; coordinator with request / ACK arrows | 24 |
+| `ring` | servers and keys by angle or hash; arcs; virtual nodes; coordinator with request / ACK arrows | 23 |
 | `tree` | nodes by level, parent links, highlighted path; left-to-right mode for mind maps | 24 (10 trees + 14 mind maps) |
 | `spatial` | a square or world-outline base, recursive grid (geohash / quadtree), points, radius circle, polygon | 29 (about 8 fully; the rest need a base map) |
 | `code` | code text with light syntax colouring | 6 |
@@ -313,9 +313,9 @@ About maps: only about 8 of the 29 map images are abstract (the globe, plain geo
 
 ### 6.2 Suggested build order
 
-1. `table` and `cells` — 70 images, and they share grid layout code. Rebuild `distributed-message-queue/figure-24` (ISR offsets) and `real-time-gaming-leaderboard/figure-22` as templates.
+1. `table` and `cells` — 71 images, and they share grid layout code. Rebuild `distributed-message-queue/figure-24` (ISR offsets) and `real-time-gaming-leaderboard/figure-22` as templates.
 2. `sequence` and `timeline` — 54 images. Rebuild `digital-wallet/figure-7` (TCC try phase) and `design-a-rate-limiter/figure-4-11`.
-3. `ring` — 24 images, nearly all of consistent hashing. Rebuild `design-consistent-hashing/figure-5-7`.
+3. `ring` — 23 images, nearly all of consistent hashing. Rebuild `design-consistent-hashing/figure-5-7`.
 4. `tree` with mind-map mode — 24 images. Rebuild `design-a-search-autocomplete-system/figure-13-8` and one `chapter-summary`.
 5. `spatial`, `code`, `venn`, `funnel` — add when needed.
 
@@ -325,4 +325,6 @@ Animation can come later. Several of these suit the animated skill's approach we
 
 - To copy the book figures in their **original** draw.io look, the `diagram-draw-io` skill is the right tool — its template is `scale-from-zero-to-millions-of-users/figure-1-6`. This report is only about drawing the same content in the ByteByteGo look.
 - Some calls are borderline and could move either way: multi-panel "before / after" figures made of plain boxes (google-drive 15-8, payment 12, email 12) were counted as drawable; figures whose meaning depends on per-partition cells (message-queue 7, 23) were counted as drawable, and google-maps 9 and message-queue 17 as not. Moving them would change the totals by a few images, not the proposals.
+- Some images repeat: consistent-hashing 5-14 and 5-15 look the same as 5-8 and 5-9, unique-id-generator 7-5 and 7-6 are the same picture, and YouTube 14-10 … 14-21 and message-queue 25–27 are variants of one base picture (section 5.4). The number of distinct pictures to build is lower than the counts above.
+- Every image is listed, with its group and building block, in `261014_bytebytego_figures.csv`. The per-icon and per-edge needs of the 283 drawable images are not recorded there yet.
 - The images in `data/system-design-interview/` are ByteByteGo's copyrighted figures. They are kept local only (`.gitignore`) and used as references; anything rebuilt from them should stay internal.
