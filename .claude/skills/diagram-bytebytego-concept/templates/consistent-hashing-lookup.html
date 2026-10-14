@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Server Lookup on the Hash Ring</title>
+<!-- Book-figure template: System Design Interview, consistent hashing figure 5-7 (server
+     lookup: each key goes clockwise to the first server) in the ByteByteGo look. One
+     BBG.ring call; the server legend and key list are plain HTML.
+     Canvas 1280 × 760 CSS px (render at --scale 1). -->
+<link rel="stylesheet" href="../assets/bbg-flow.css">
+<link rel="stylesheet" href="../assets/bbg-parts.css">
+<link rel="stylesheet" href="../assets/bbg-concept.css">
+<style>
+  .canvas { width: 1280px; height: 760px; }
+  .t.lft { transform: none; text-align: left; }
+</style>
+</head>
+<body>
+<div class="canvas">
+<script src="../assets/bbg-icons.js"></script>
+<div class="title" style="left:30px; top:28px; font-size:48px;">Server Lookup on the Hash Ring</div>
+
+<div class="pill" style="left:50px; top:190px; width:160px; height:44px; font-size:22px;">Servers</div>
+<div class="bx f-purple" style="left:50px; top:255px; width:160px; height:58px; font-size:18px;">server 0</div>
+<div class="bx f-blue"   style="left:50px; top:330px; width:160px; height:58px; font-size:18px;">server 1</div>
+<div class="bx f-pink"   style="left:50px; top:405px; width:160px; height:58px; font-size:18px;">server 2</div>
+<div class="bx f-orange" style="left:50px; top:480px; width:160px; height:58px; font-size:18px;">server 3</div>
+
+<div class="tlist" style="left:1010px; top:250px; font-size:18px; line-height:1.6;">
+  s0 = server 0<br>s1 = server 1<br>s2 = server 2<br>s3 = server 3<br><br>
+  k0 = key0<br>k1 = key1<br>k2 = key2<br>k3 = key3
+</div>
+<div class="t lft" style="left:300px; top:705px; font-size:18px; font-weight:600;">Go clockwise from a key's position; the first server found stores the key.</div>
+</div>
+<script src="../assets/bbg-concept.js"></script>
+<script>
+  BBG.ring({
+    cx: 620, cy: 420, r: 230, size: 17,
+    nodes: [
+      { id: 's0', at: 40 }, { id: 's1', at: 145 }, { id: 's2', at: 232 }, { id: 's3', at: 318 },
+      { id: 'k0', at: 352, kind: 'key' }, { id: 'k1', at: 108, kind: 'key' },
+      { id: 'k2', at: 186, kind: 'key' }, { id: 'k3', at: 282, kind: 'key' },
+    ],
+    hops: [{ from: 'k0', to: 's0' }, { from: 'k1', to: 's1' }, { from: 'k2', to: 's2' }, { from: 'k3', to: 's3' }],
+  });
+</script>
+<script src="../assets/bbg-parts.js"></script>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Ring Gallery</title>
+<!-- One sample of each ring option, modelled on book figures: hash space ends (5-4),
+     virtual nodes with owned ranges (5-12), replicas on the ring (key-value 6-4, 6-5),
+     coordinator with put/ACK chords (6-6), heartbeat mesh (6-10), and a removed server's
+     keys moving on (5-11, dashed). Render it to check the component: canvas 1280 × 1010. -->
+<link rel="stylesheet" href="../assets/bbg-flow.css">
+<link rel="stylesheet" href="../assets/bbg-parts.css">
+<link rel="stylesheet" href="../assets/bbg-concept.css">
+<style>
+  .canvas { width: 1280px; height: 1010px; }
+  .cap { position: absolute; transform: translateX(-50%); font-size: 18px; font-weight: 700; white-space: nowrap; }
+</style>
+</head>
+<body>
+<div class="canvas">
+<script src="../assets/bbg-icons.js"></script>
+<div class="title" style="left:30px; top:28px; font-size:44px;">ring</div>
+<div class="cap" style="left:220px; top:460px;">hash space: x0 … xn</div>
+<div class="cap" style="left:640px; top:460px;">virtual nodes and their ranges</div>
+<div class="cap" style="left:1060px; top:460px;">replicas: k0 → s1, s2, s3</div>
+<div class="cap" style="left:220px; top:960px;">coordinator: put and ACK</div>
+<div class="cap" style="left:640px; top:960px;">heartbeat mesh</div>
+<div class="cap" style="left:1060px; top:960px;">server removed: keys move on</div>
+</div>
+<script src="../assets/bbg-concept.js"></script>
+<script>
+  BBG.ring({ cx: 220, cy: 270, r: 140, ticks: [{ at: 0, labels: ['xn', 'x0'] }] });
+
+  BBG.ring({
+    cx: 640, cy: 270, r: 140, size: 14,
+    nodes: [{ id: 's0_0', at: 70 }, { id: 's1_0', at: 35 }, { id: 's0_1', at: 190 }, { id: 's1_1', at: 130 },
+            { id: 's0_2', at: 315 }, { id: 's1_2', at: 240 }],
+    arcs: [{ from: 's0_0', to: 's1_1', cls: 'c-blue-arc', out: 22 }, { from: 's0_1', to: 's1_2', cls: 'c-blue-arc', out: 22 },
+           { from: 's0_2', to: 's1_0', cls: 'c-blue-arc', out: 22 }, { from: 's1_0', to: 's0_0', cls: 'c-purple-arc', out: 22 },
+           { from: 's1_1', to: 's0_1', cls: 'c-purple-arc', out: 22 }, { from: 's1_2', to: 's0_2', cls: 'c-purple-arc', out: 22 }],
+  });
+
+  BBG.ring({
+    cx: 1060, cy: 270, r: 140, size: 14,
+    nodes: [0, 1, 2, 3, 4, 5, 6, 7].map(i => ({ id: `n${i}`, label: `s${i}`, at: i * 45, cls: [1, 2, 3].includes(i) ? 'c-green' : 'c-white' }))
+      .concat([{ id: 'k0', at: 18, kind: 'key' }]),
+    hops: [{ from: 'k0', to: 'n1' }],
+  });
+
+  BBG.ring({
+    cx: 220, cy: 760, r: 140, size: 14,
+    nodes: [{ id: 'coord', at: 270, kind: 'box', label: 'coordinator' }, { id: 's0', at: 10, cls: 'c-blue' },
+            { id: 's1', at: 95, cls: 'c-blue' }, { id: 's2', at: 165, cls: 'c-blue' }],
+    links: [{ from: 'coord', to: 's0', label: 'put(key1, val1)', back: 'ACK', backDash: true },
+            { from: 'coord', to: 's1', label: 'put(key1, val1)', back: 'ACK', backDash: true },
+            { from: 'coord', to: 's2', label: 'put(key1, val1)', back: 'ACK', backDash: true }],
+  });
+
+  BBG.ring({
+    cx: 640, cy: 760, r: 140, size: 15,
+    nodes: [{ id: 'a', label: 's0', at: 0, cls: 'c-white' }, { id: 'b', label: 's1', at: 90, cls: 'c-white' },
+            { id: 'c', label: 's2', at: 180, cls: 'c-white' }, { id: 'd', label: 's3', at: 270, cls: 'c-white' }],
+    links: [['a', 'b'], ['a', 'c'], ['a', 'd'], ['b', 'c'], ['b', 'd'], ['c', 'd']].map(([f, t]) => ({ from: f, to: t, pair: true, color: 'blue' })),
+  });
+
+  BBG.ring({
+    cx: 1060, cy: 760, r: 140, size: 14,
+    nodes: [{ id: 's0', at: 40 }, { id: 's1', at: 140, cls: 'c-grey', label: 's1 ✕' }, { id: 's2', at: 230 }, { id: 's3', at: 320 },
+            { id: 'k1', at: 105, kind: 'key' }],
+    hops: [{ from: 'k1', to: 's1', color: 'red', out: 22 }, { from: 'k1', to: 's2', dash: true, out: 40 }],
+  });
+</script>
+<script src="../assets/bbg-parts.js"></script>
+</body>
+</html>

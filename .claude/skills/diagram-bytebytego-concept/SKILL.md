@@ -17,16 +17,16 @@ for boxes and arrows), `diagram-bytebytego-animated` (looping GIF).
 
 The skill is being built in the order of report item 8.2
 (`docs/reports/261014_bytebytego.md`). Done: the setup, the core helpers and the
-`table`, `cells`, `sequence` and `timeline` components. Planned, each to be added
-as `BBG.<name>(spec)`: `ring`, `tree` (with a mind-map mode), then `spatial`,
+`table`, `cells`, `sequence`, `timeline` and `ring` components. Planned, each to
+be added as `BBG.<name>(spec)`: `tree` (with a mind-map mode), then `spatial`,
 `code`, `venn`, `funnel`. Until a component exists, draw with the core helpers.
 
 ## Files
 
 | Path (relative to this skill) | What it is |
 |---|---|
-| `assets/bbg-concept.js` | Core helpers on `window.BBG` (`el`, `group`, `text`, `label`, `measure`, `icon`, `layer`, `define`) and the components `BBG.table`, `BBG.cells`, `BBG.sequence`, `BBG.timeline` |
-| `assets/bbg-concept.css` | Styles for drawn marks: `.c-box`, `.c-outline`, `.c-cell`, `.c-line`, `.c-thin`, `.c-dash`, `.c-strike`, `.c-muted`, `.c-event`, `.c-lock`, `.c-note`, `.c-window`, fills `.c-green` … `.c-orange`, line colours `.c-red-line` / `.c-blue-line` / `.c-green-line`, `text.mono` |
+| `assets/bbg-concept.js` | Core helpers on `window.BBG` (`el`, `group`, `text`, `label`, `measure`, `icon`, `layer`, `define`) and the components `BBG.table`, `BBG.cells`, `BBG.sequence`, `BBG.timeline`, `BBG.ring` |
+| `assets/bbg-concept.css` | Styles for drawn marks: `.c-box`, `.c-outline`, `.c-cell`, `.c-line`, `.c-thin`, `.c-dash`, `.c-strike`, `.c-muted`, `.c-event`, `.c-lock`, `.c-note`, `.c-window`, fills `.c-green` … `.c-orange`, line colours `.c-red-line` / `.c-blue-line` / `.c-green-line`, ring marks `.c-ring-line`, `.c-node`, `.c-key`, `.c-*-arc`, `text.mono` |
 | `assets/bbg-flow.css` | The flow look's tokens and building blocks (generated copy) |
 | `assets/bbg-icons.js` | Shared icon sprite and edge markers (generated copy) |
 | `assets/bbg-parts.css`, `assets/bbg-parts.js` | Shared extra parts: edge styles, labels, shapes, boxes, variants (generated copies) |
@@ -37,6 +37,8 @@ as `BBG.<name>(spec)`: `ring`, `tree` (with a mind-map mode), then `spatial`,
 | `templates/sequence-timeline-gallery.html` | One sample of each `sequence` (vertical layout) and `timeline` option, modelled on book figures |
 | `templates/wallet-tcc-try.html` | Book figure: digital-wallet 7 (TCC try phase) — `sequence` with `dir: 'right'` lanes, events, a lock bar, a note |
 | `templates/rate-limiter-sliding-counter.html` | Book figure: rate-limiter 4-11 (sliding window counter) — `timeline` with windows, stacks, a marker and spans |
+| `templates/ring-gallery.html` | One sample of each `ring` option: hash-space ticks, virtual-node ranges, replicas, coordinator put/ACK, heartbeat mesh, a removed server |
+| `templates/consistent-hashing-lookup.html` | Book figure: consistent-hashing 5-7 (server lookup) — `ring` with servers, keys and clockwise hops |
 | `scripts/render.py` | HTML → PNG (`--scale`, `--webp`, `--compare`, `--variant`; generated copy) |
 
 Needs Python `playwright` (with Chromium: `python3 -m playwright install chromium`) and Pillow.
@@ -146,6 +148,23 @@ BBG.timeline({ x: 110, y: 200, width: 740, from: 0, to: 180, tickEvery: 30, unit
 
 Span `y` is measured up from the axis (negative = below it). `tx(t)` and `py(v)`
 return page positions for extra marks.
+
+**`BBG.ring`** — a hash ring.
+
+```js
+BBG.ring({ cx: 620, cy: 420, r: 230,
+  nodes: [{ id: 's0', at: 40 },                      // at = degrees clockwise from 12 o'clock
+          { id: 'k0', at: 352, kind: 'key' },        // also kind 'empty' and 'box' (a coordinator)
+          { id: 's1_0', at: 90 }],                   // s<n>… ids get server n's colour; or cls: 'c-green'
+  hops:  [{ from: 'k0', to: 's0', dash: true, color: 'red', out: 34 }],   // clockwise, outside the ring
+  arcs:  [{ from: 's0_0', to: 's1_1', cls: 'c-blue-arc', out: 22 }],      // a server's range
+  links: [{ from: 'coord', to: 's0', label: 'put(key1, val1)', back: 'ACK', backDash: true },
+          { from: 's0', to: 's1', pair: true, color: 'blue' }],           // pair = both ways
+  ticks: [{ at: 0, labels: ['xn', 'x0'] }] });
+```
+
+`at(id)` returns a node's position; `point(deg, radius)` any point on or off the
+ring. Put the server legend in HTML (`.bx f-purple` …), as the template does.
 
 ## Adding a component
 

@@ -43,3 +43,14 @@ svg .c-rejected { fill: #b9b9b9; }
 svg .c-red-line   { stroke: var(--red); }
 svg .c-blue-line  { stroke: var(--edge-blue); }
 svg .c-green-line { stroke: var(--edge-green); }
+
+/* ring marks */
+svg .c-ring-line { fill: none; stroke: #555; stroke-width: 4; }
+svg .c-node { stroke: var(--ink); stroke-width: 2.5; }
+svg .c-key  { fill: #fff; stroke-width: 4; }
+svg .c-arc  { fill: none; stroke-width: 7; stroke-linecap: round; }
+svg .c-blue-arc   { stroke: var(--blue); }
+svg .c-pink-arc   { stroke: var(--pink); }
+svg .c-purple-arc { stroke: var(--purple); }
+svg .c-green-arc  { stroke: var(--green); }
+svg .c-orange-arc { stroke: var(--orange); }

@@ -680,3 +680,139 @@ BBG.define('timeline', spec => {
   g.py = v => s.y + py(v);
   return g;
 });
+
+// ---------------------------------------------------------------------------
+// ring — a hash ring: servers and keys placed by angle, hops from a key to the
+// server that owns it, coloured ranges, chords (requests / ACKs), heartbeat mesh.
+//
+// BBG.ring({
+//   cx, cy, r: 200,                         centre and radius
+//   nodes: [{ id: 's0', at: 40, cls: 'c-purple' },       at = degrees clockwise from 12 o'clock
+//           { id: 'k0', at: 350, kind: 'key' },           key: white with a thick outline
+//           { id: 'v', at: 120, kind: 'empty' },          empty marker
+//           { id: 'coord', at: 270, kind: 'box', label: 'coordinator' },
+//           { id: 'x', at: 90, label: 's1_0', r: 20 }],   label defaults to id
+//   hops:   [{ from: 'k0', to: 's0', dash: true, color: 'red', out: 34 }],   clockwise, outside the ring
+//   arcs:   [{ from: 's2', to: 's1', cls: 'c-pink-arc', out: 0 | 22, arrow: true, label }],
+//   links:  [{ from: 'coord', to: 's0', label: 'put(key1, val1)', back: 'ACK', backDash: true,
+//              dash, color, pair: true }],  back → a second arrow returning; pair → both ways, unlabelled
+//   ticks:  [{ at: 0, labels: ['xn', 'x0'] }],
+//   size: 15, parent
+// })
+// Node fill: cls if given, else by server number in the id (s0 → purple, s1 → blue,
+// s2 → pink, s3 → orange, s4 → green), else white. Returns the <g>; g.at(id)
+// gives a node's page position, g.point(deg, radius) any point.
+// ---------------------------------------------------------------------------
+BBG.define('ring', spec => {
+  const s = { cx: 0, cy: 0, r: 200, size: 15, ...spec };
+  const fs = s.size;
+  const PALETTE = ['c-purple', 'c-blue', 'c-pink', 'c-orange', 'c-green', 'c-yellow'];
+  const pt = (deg, rad = s.r) => {
+    const a = (deg - 90) * Math.PI / 180;
+    return [s.cx + rad * Math.cos(a), s.cy + rad * Math.sin(a)];
+  };
+  const parent = s.parent || BBG.layer();
+  const g = BBG.el('g', { class: 'c-ring' }, parent);
+  const back = BBG.el('g', {}, g), mid = BBG.el('g', {}, g), front = BBG.el('g', {}, g);
+  BBG.el('circle', { cx: s.cx, cy: s.cy, r: s.r, class: 'c-ring-line' }, back);
+
+  const nodes = {};
+  (s.nodes || []).forEach(n => {
+    const kind = n.kind || 'server';
+    const label = n.label ?? (kind === 'empty' ? '' : n.id);
+    let size = n.r || (kind === 'key' ? 14 : 17);
+    if (kind === 'server' || kind === 'key') size = Math.max(size, BBG.measure(label, { size: fs * 0.85, weight: 700 }) / 2 + 6);
+    const [x, y] = pt(n.at);
+    const node = { ...n, kind, label, x, y, rr: size };
+    if (kind === 'box') {
+      node.w = BBG.measure(label, { size: fs, weight: 700 }) + 24; node.h = fs * 2.2;
+      BBG.el('rect', { x: x - node.w / 2, y: y - node.h / 2, width: node.w, height: node.h, rx: 8, class: `c-box ${n.cls || ''}`.trim() }, front);
+      BBG.text(front, x, y, label, { size: fs, weight: 700 });
+    } else {
+      const num = /^s(\d+)/.exec(n.id || '');
+      const fill = n.cls || (kind === 'server' && num ? PALETTE[+num[1] % PALETTE.length] : 'c-white');
+      BBG.el('circle', { cx: x, cy: y, r: size, class: `c-node ${fill}${kind === 'key' ? ' c-key' : ''}` }, front);
+      if (label) BBG.text(front, x, y, label, { size: fs * 0.85, weight: 700 });
+    }
+    nodes[n.id] = node;
+  });
+
+  // Distance from a node's centre to its edge, along direction (dx, dy).
+  const edge = (n, dx, dy) => {
+    if (n.kind !== 'box') return n.rr + 2;
+    const len = Math.hypot(dx, dy) || 1;
+    return Math.min(n.w / 2 / Math.abs(dx / len || 1e-9), n.h / 2 / Math.abs(dy / len || 1e-9)) + 2;
+  };
+  const colour = c => (c ? ` c-${c}-line` : '');
+  const head = c => (c ? `url(#m-arrow-${c})` : 'url(#m-arrow)');
+  const clockwise = (a, b) => ((b - a) % 360 + 360) % 360;
+
+  // Hops: from a key, out of the ring, clockwise to the owner, back in.
+  (s.hops || []).forEach(h => {
+    const A = nodes[h.from], B = nodes[h.to];
+    const out = h.out ?? 34, R = s.r + out;
+    const sweep = clockwise(A.at, B.at);
+    const pad = Math.min(10, sweep / 3);
+    const [x2, y2] = pt(A.at + pad, R), [x3, y3] = pt(B.at - pad, R);
+    // Straight legs from each node's edge to the outer arc, pointing at the node's centre.
+    const leg = (n, px, py) => { const dx = px - n.x, dy = py - n.y, l = Math.hypot(dx, dy); return [n.x + dx / l * (n.rr + 2), n.y + dy / l * (n.rr + 2)]; };
+    const [x1, y1] = leg(A, x2, y2), [x4, y4] = leg(B, x3, y3);
+    const large = sweep - 2 * pad > 180 ? 1 : 0;
+    const d = `M${x1} ${y1} L${x2} ${y2} A${R} ${R} 0 ${large} 1 ${x3} ${y3} L${x4} ${y4}`;
+    BBG.el('path', { d, class: `c-line${h.dash ? ' c-dash' : ''}${colour(h.color)}`, 'stroke-width': 2.5, 'marker-end': head(h.color) }, mid);
+  });
+
+  // Arcs along the ring (a server's range), optionally pushed outside.
+  (s.arcs || []).forEach(a => {
+    const from = typeof a.from === 'string' ? nodes[a.from].at : a.from;
+    const to = typeof a.to === 'string' ? nodes[a.to].at : a.to;
+    const R = s.r + (a.out || 0), sweep = clockwise(from, to);
+    const [x1, y1] = pt(from, R), [x2, y2] = pt(to, R);
+    BBG.el('path', { d: `M${x1} ${y1} A${R} ${R} 0 ${sweep > 180 ? 1 : 0} 1 ${x2} ${y2}`, class: `c-arc ${a.cls || 'c-blue-arc'}`,
+      'marker-end': a.arrow ? 'url(#m-arrow)' : null }, a.out ? mid : back);
+    if (a.label) {
+      const [lx, ly] = pt(from + sweep / 2, R + (a.out ? 18 : -22));
+      BBG.text(mid, lx, ly, a.label, { size: fs * 0.85, weight: 700 });
+    }
+  });
+
+  // Links: straight lines between nodes, with labels along them.
+  const arrow = (A, B, off, opts) => {
+    const dx = B.x - A.x, dy = B.y - A.y, len = Math.hypot(dx, dy), ux = dx / len, uy = dy / len;
+    const nx = -uy * off, ny = ux * off;
+    const a = edge(A, dx, dy), b = edge(B, dx, dy);
+    const x1 = A.x + ux * a + nx, y1 = A.y + uy * a + ny, x2 = B.x - ux * b + nx, y2 = B.y - uy * b + ny;
+    BBG.el('path', { d: `M${x1} ${y1} L${x2} ${y2}`, class: `c-line${opts.dash ? ' c-dash' : ''}${colour(opts.color)}`, 'stroke-width': 2.2, 'marker-end': head(opts.color) }, mid);
+    if (opts.label) {
+      let deg = Math.atan2(dy, dx) * 180 / Math.PI;
+      if (deg > 90) deg -= 180; else if (deg < -90) deg += 180;
+      const side = opts.side || 1;
+      const lx = (x1 + x2) / 2 - uy * 13 * side, ly = (y1 + y2) / 2 + ux * 13 * side;
+      const t = BBG.text(mid, lx, ly, opts.label, { size: fs * 0.85, weight: 600 });
+      t.setAttribute('transform', `rotate(${deg} ${lx} ${ly})`);
+    }
+  };
+  (s.links || []).forEach(l => {
+    const A = nodes[l.from], B = nodes[l.to];
+    if (l.pair) { arrow(A, B, 6, l); arrow(B, A, 6, { ...l, label: null }); return; }
+    if (l.back) {
+      arrow(A, B, 5, { label: l.label, dash: l.dash, color: l.color });
+      arrow(B, A, 5, { label: l.back, dash: l.backDash, color: l.color });
+    } else {
+      arrow(A, B, 0, l);
+    }
+  });
+
+  (s.ticks || []).forEach(t => {
+    const [x1, y1] = pt(t.at, s.r - 18), [x2, y2] = pt(t.at, s.r + 18);
+    BBG.el('path', { d: `M${x1} ${y1} L${x2} ${y2}`, class: 'c-line', 'stroke-width': 4 }, front);
+    (t.labels || []).forEach((lab, i) => {
+      const [lx, ly] = pt(t.at + (i ? 9 : -9), s.r + 46);
+      BBG.text(front, lx, ly, lab, { size: fs * 1.2, weight: 700 });
+    });
+  });
+
+  g.at = id => [nodes[id].x, nodes[id].y];
+  g.point = (deg, rad) => pt(deg, rad);
+  return g;
+});
