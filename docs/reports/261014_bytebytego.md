@@ -326,7 +326,7 @@ Animation can come later. Several of these suit the animated skill's approach we
 - To copy the book figures in their **original** draw.io look, the `diagram-draw-io` skill is the right tool — its template is `scale-from-zero-to-millions-of-users/figure-1-6`. This report is only about drawing the same content in the ByteByteGo look.
 - Some calls are borderline and could move either way: multi-panel "before / after" figures made of plain boxes (google-drive 15-8, payment 12, email 12) were counted as drawable; figures whose meaning depends on per-partition cells (message-queue 7, 23) were counted as drawable, and google-maps 9 and message-queue 17 as not. Moving them would change the totals by a few images, not the proposals.
 - Some images repeat: consistent-hashing 5-14 and 5-15 look the same as 5-8 and 5-9, unique-id-generator 7-5 and 7-6 are the same picture, and YouTube 14-10 … 14-21 and message-queue 25–27 are variants of one base picture (section 5.4). The number of distinct pictures to build is lower than the counts above.
-- Every image is listed, with its group and building block, in `261014_bytebytego_figures.csv`. The per-icon and per-edge needs of the 283 drawable images are not recorded there yet.
+- Every image is listed, with its group and building block, in `261014_bytebytego_figures.csv`. For the 283 drawable images it also lists the icons, edge styles and parts each one needs, what the kit still lacks, and any brand logos.
 - The images in `data/system-design-interview/` are ByteByteGo's copyrighted figures. They are kept local only (`.gitignore`) and used as references; anything rebuilt from them should stay internal.
 
 ## 8. Action items
@@ -354,7 +354,7 @@ Animation can come later. Several of these suit the animated skill's approach we
 
 ### 8.3 Keep this report up to date
 
-- [ ] Fill in the icons and edge styles each of the 283 drawable images needs in `261014_bytebytego_figures.csv`.
+- [x] Fill in the icons and edge styles each of the 283 drawable images needs in `261014_bytebytego_figures.csv`. Outcome: every drawable image now lists its icons, edge styles, parts, real gaps (`not_in_kit`), brand logos and, where an apparent gap is already covered, the kit part to use (`in_kit_hint`). 200 of the 283 can be drawn with the kit as it is; 20 more need only a brand logo, drawn as a look-alike or a labelled box; 63 need something the kit lacks — most often a person icon without a laptop (13), tinted icons or coloured outlines (8), filled zone backgrounds (7), stacked boxes for multiple instances (7) and more edge colours (7).
 - [ ] Decide the borderline calls in section 7 (google-drive 15-8, payment 12, email 12, message-queue 7, 17, 23, google-maps 9) and update the counts.
 - [ ] Re-run the coverage count after each skill update, and mark the images that become drawable in the CSV.
 - [ ] Keep every figure rebuilt from the book internal, and keep `data/` and `data.zip` out of git.
