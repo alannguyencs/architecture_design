@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Sequence and Timeline Gallery</title>
+<!-- One sample of each sequence and timeline option, modelled on book figures: long polling
+     (chat 12-4), payment retries (payment 11), offset commit with a self-message and
+     activation bars (ad-click 18), event time vs processing time (ad-click 13), fixed
+     window counts (rate limiter 4-8), and a line and candlestick chart (metrics 3,
+     stock-exchange 5). The two-phase-commit lane layout is in wallet-tcc-try.html.
+     Render it to check the components: canvas 1280 × 2020. -->
+<link rel="stylesheet" href="../assets/bbg-flow.css">
+<link rel="stylesheet" href="../assets/bbg-parts.css">
+<link rel="stylesheet" href="../assets/bbg-concept.css">
+<style>
+  .canvas { width: 1280px; height: 2020px; }
+  .h2 { position: absolute; font-size: 26px; font-weight: 700; }
+</style>
+</head>
+<body>
+<div class="canvas">
+<script src="../assets/bbg-icons.js"></script>
+<div class="title" style="left:30px; top:28px; font-size:44px;">sequence and timeline</div>
+<div class="h2" style="left:30px; top:1200px;">timeline</div>
+</div>
+<script src="../assets/bbg-concept.js"></script>
+<script>
+  // ---- sequence, dir 'down' ----
+  BBG.sequence({
+    x: 60, y: 110, gap: 300, step: 44, length: 9.5, size: 16,
+    actors: [{ id: 'c', label: 'Client' }, { id: 's', label: 'Server' }],
+    messages: [
+      { from: 'c', to: 's', t: 1, label: 'New messages?' },
+      { from: 's', to: 'c', t: 3, label: 'Yes. Return new messages', color: 'green' },
+      { from: 'c', to: 's', t: 4.6, label: 'New messages?' },
+      { from: 's', to: 'c', t: 7.2, label: 'Timeout', color: 'red' },
+    ],
+    separators: [{ t: 3.7, label: 'connection closed' }, { t: 7.9, label: 'connection closed' }],
+    sides: [{ actor: 's', t: 2, text: 'Wait for new messages' }],
+    dots: [9],
+  });
+
+  BBG.sequence({
+    x: 720, y: 110, gap: 300, step: 44, length: 9.5, size: 16,
+    actors: [{ id: 'c', label: 'Client', icon: 'phone' }, { id: 'p', label: 'Payment\nSystem', icon: 'bank' }],
+    messages: [
+      { from: 'c', to: 'p', t: 1, label: 'Pay $10' },
+      { from: 'p', to: 'c', t: 2, mark: 'x' },
+      { from: 'c', to: 'p', t: 3.5, label: 'Pay $10' },
+      { from: 'p', to: 'c', t: 4.5, mark: 'x' },
+      { from: 'c', to: 'p', t: 6, label: 'Pay $10' },
+      { from: 'p', to: 'c', t: 7, mark: 'check' },
+    ],
+    sides: [
+      { actor: 'p', t: 2, text: 'Payment failed' }, { actor: 'p', t: 4.5, text: 'Payment failed' },
+      { actor: 'p', t: 7, text: 'Payment succeeded' },
+      { actor: 'c', t: 3.5, text: 'Retry', side: 'left' }, { actor: 'c', t: 6, text: 'Retry', side: 'left' },
+    ],
+  });
+
+  BBG.sequence({
+    x: 60, y: 640, gap: 250, step: 40, length: 9, size: 15, footer: true,
+    actors: [{ id: 'k', label: 'Upstream', sub: '(Kafka)' }, { id: 'a', label: 'Aggregator' }, { id: 'h', label: 'HDFS / S3' }],
+    spans: [{ actor: 'k', from: 0.5, to: 8.5 }, { actor: 'a', from: 1.5, to: 8.5 }, { actor: 'h', from: 3, to: 5.6 }],
+    messages: [
+      { from: 'a', to: 'k', t: 1, label: 'Poll events', step: '1' },
+      { from: 'k', to: 'a', t: 2, label: 'Consume from offset 100', step: '2' },
+      { from: 'a', to: 'h', t: 3, label: 'Verify offset', color: 'red', step: '3' },
+      { from: 'a', to: 'a', t: 3.8, back: 1, self: true, label: 'Aggregate 100–110' },
+      { from: 'a', to: 'h', t: 5.4, label: 'Save offset', color: 'red', step: '4' },
+      { from: 'a', to: 'k', t: 7.6, label: 'Ack with offset 110', step: '5' },
+    ],
+    notes: [{ actor: 'h', t: 6.5, text: 'Can cause potential\nmessage loss', fill: 'c-pink', dx: 10, dy: 50 }],
+  });
+
+  // ---- timeline: charts ----
+  BBG.timeline({
+    x: 860, y: 720, width: 360, from: 0, to: 8, plotH: 220, axisLabel: '', tickEvery: 2,
+    tickLabel: t => `${18 + t / 2}:00`, yLabel: 'CPU load', yFrom: 0, yTo: 1,
+    series: [{ points: [[0, .31], [1, .35], [2, .28], [3, .33], [4, .29], [5, .36], [6, .3], [7, .62], [8, .33]], color: 'blue' }],
+    arrow: false,
+  });
+  BBG.timeline({
+    x: 860, y: 1000, width: 360, from: 0, to: 6, plotH: 120, axis: 'none', yFrom: 98, yTo: 102,
+    candles: [{ t: 1, open: 99, close: 100.5, high: 101, low: 98.6 }, { t: 2, open: 100.5, close: 99.8, high: 101.4, low: 99.4 },
+              { t: 3, open: 99.8, close: 101.2, high: 101.8, low: 99.5 }, { t: 4, open: 101.2, close: 100.4, high: 101.5, low: 100 },
+              { t: 5, open: 100.4, close: 101.6, high: 101.9, low: 100.2 }],
+  });
+
+  // ---- timeline: rows ----
+  BBG.timeline({
+    x: 220, y: 1270, width: 860, from: 0, to: 180, tickEvery: 30, axis: 'top', unit: 'Second', grid: true,
+    rows: [{ label: 'Event Time', line: true }, { label: 'Processing Time', line: true }, { label: 'Window 1' }, { label: 'Window 2' }, { label: 'Window 3' }],
+    events: [{ row: 0, t: 20, label: '1' }, { row: 0, t: 47, label: '2' }, { row: 0, t: 75, label: '3' }, { row: 0, t: 133, label: '4' }, { row: 0, t: 165, label: '5' },
+             { row: 1, t: 40, label: '1' }, { row: 1, t: 70, label: '2' }, { row: 1, t: 84, label: '3' }, { row: 1, t: 140, label: '4' }, { row: 1, t: 176, label: '5' }],
+    windows: [{ row: 2, from: 0, to: 60, label: '1' }, { row: 3, from: 60, to: 120, label: '3' }, { row: 4, from: 120, to: 180, label: '4', cls: 'c-yellow' }],
+  });
+
+  // ---- timeline: stacks ----
+  BBG.timeline({
+    x: 220, y: 1620, width: 700, from: -0.5, to: 4.5, plotH: 300, ticks: [0, 1, 2, 3, 4], square: 34,
+    tickLabel: t => `1:00:0${t}`, unit: 'Time', yLabel: 'Number of requests',
+    stacks: [{ t: 0, n: 3, cls: 'c-white' }, { t: 1, n: 3, extra: 3, cls: 'c-white' }, { t: 2, n: 3, extra: 1, cls: 'c-white' },
+             { t: 3, n: 2, cls: 'c-white' }, { t: 4, n: 3, extra: 2, cls: 'c-white' }],
+  });
+</script>
+<script src="../assets/bbg-parts.js"></script>
+</body>
+</html>

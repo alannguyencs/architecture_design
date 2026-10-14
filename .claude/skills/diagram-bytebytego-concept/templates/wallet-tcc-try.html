@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>TCC Try Phase</title>
+<!-- Book-figure template: System Design Interview, digital wallet figure 7 (TCC, the try
+     phase) in the ByteByteGo look. One BBG.sequence call with dir 'right': lanes for the
+     coordinator and two databases, events as circles, diagonal messages, a lock bar,
+     a SQL note and a phase bracket. Canvas 1280 × 600 CSS px (render at --scale 1). -->
+<link rel="stylesheet" href="../assets/bbg-flow.css">
+<link rel="stylesheet" href="../assets/bbg-parts.css">
+<link rel="stylesheet" href="../assets/bbg-concept.css">
+<style>
+  .canvas { width: 1280px; height: 600px; }
+</style>
+</head>
+<body>
+<div class="canvas">
+<script src="../assets/bbg-icons.js"></script>
+<div class="title" style="left:30px; top:28px; font-size:48px;">TCC: Try Phase</div>
+</div>
+<script src="../assets/bbg-concept.js"></script>
+<script>
+  BBG.sequence({
+    x: 30, y: 210, dir: 'right', gap: 150, step: 84, length: 11, size: 18,
+    actors: [
+      { id: 'coord', label: 'Coordinator', sub: '(Wallet Service)' },
+      { id: 'a', label: 'Database A' },
+      { id: 'c', label: 'Database C' },
+    ],
+    phases: [{ from: 0.2, to: 10.8, label: 'First Phase' }],
+    events: [
+      { actor: 'coord', t: 0.6 }, { actor: 'coord', t: 9 }, { actor: 'coord', t: 10.2 },
+      { actor: 'a', t: 2.4, label: 'A=$1' },
+      { actor: 'a', t: 3, kind: 'tick', label: 'lock A' },
+      { actor: 'a', t: 7.3, kind: 'tick', label: 'unlock A' },
+      { actor: 'a', t: 8.2, label: 'A=$0' },
+      { actor: 'c', t: 2.4, label: 'C=$0' }, { actor: 'c', t: 8.2, label: 'C=$0' },
+    ],
+    spans: [{ actor: 'a', from: 3.3, to: 7.0, kind: 'lock' }],
+    messages: [
+      { from: 'coord', to: 'a', t: 0.6, t2: 2.4, label: 'Try: A−$1', at: 0.55 },
+      { from: 'coord', to: 'c', t: 0.6, t2: 2.4, label: 'NOP', at: 0.62 },
+      { from: 'c', to: 'c', t: 2.4, t2: 8.2, label: 'NOP' },
+      { from: 'a', to: 'coord', t: 8.2, t2: 9, label: 'Done', mark: 'check' },
+      { from: 'c', to: 'coord', t: 8.2, t2: 10.2, label: 'Done', mark: 'check', at: 0.6 },
+    ],
+    notes: [{ actor: 'a', t: 5.15, text: "UPDATE balance\nSET amount = amount - 1\nWHERE account = 'A'", mono: true, dy: -78, fill: 'c-white' }],
+  });
+</script>
+<script src="../assets/bbg-parts.js"></script>
+</body>
+</html>

@@ -367,3 +367,316 @@ BBG.define('cells', spec => {
   };
   return g;
 });
+
+// ---------------------------------------------------------------------------
+// sequence — messages between actors over time. Two layouts share one model:
+// every point is (actor, t); dir 'down' puts actors across and time down (UML
+// sequence diagram), dir 'right' puts actors on lanes and time to the right
+// (two-phase commit / TCC lane diagrams).
+//
+// BBG.sequence({
+//   x, y, dir: 'down' | 'right',
+//   actors: [{ id: 'client', label: 'Client', sub: '(Wallet Service)', icon: 'phone' }, …],
+//   gap: 260,                     distance between actors
+//   step: 50, length: 10,         px per time unit; time runs from 0 to length
+//   messages: [{ from: 'a', to: 'b', t: 1, t2: 1.5,          t2 (arrival) defaults to t
+//                label: 'Try: A-$1', dash: true, color: 'red' | 'green' | 'blue',
+//                mark: 'x' | 'check', step: '1', at: 0.5,   at = where the label sits
+//                self: true, back: 0.6 }],                     self = loop back to the same actor
+//   events:  [{ actor: 'a', t: 2, label: 'A=$1', kind: 'circle' | 'tick' }],
+//   spans:   [{ actor: 'a', from: 2, to: 6, kind: 'bar' | 'lock', label }],
+//   separators: [{ t: 3, label: 'connection closed' }],
+//   phases:  [{ from: 0, to: 4, label: 'Prepare' }],
+//   notes:   [{ actor: 'a', t: 2, text: '…', dx: 0, dy: -60, fill: 'c-yellow', arrow: true, mono: true }],
+//   sides:   [{ actor: 'b', t: 2, text: 'Payment failed', side: 'right' }],  free text beside a lifeline
+//   dots:    [7],                  vertical "⋮" at time 7
+//   footer: true,                  repeat the actor boxes at the bottom (dir 'down')
+//   size: 16, parent
+// })
+// Returns the <g>; g.at(actor, t) gives the page position of a point.
+// ---------------------------------------------------------------------------
+BBG.define('sequence', spec => {
+  const s = { x: 0, y: 0, dir: 'down', gap: 260, step: 50, length: 10, size: 16, ...spec };
+  const fs = s.size, down = s.dir === 'down';
+  const idx = Object.fromEntries(s.actors.map((a, i) => [a.id, i]));
+  const g = BBG.group(s.parent || BBG.layer(), s.x, s.y, 'c-sequence');
+
+  // Head size: boxes on top (down) or labels on the left (right).
+  const headW = down ? Math.max(120, ...s.actors.map(a => BBG.measure(a.label, { size: fs, weight: 700 }) + 36)) : 0;
+  const nameLines = Math.max(...s.actors.map(a => String(a.label).split('\n').length));
+  const headH = down ? Math.round(fs * (1.4 + 1.25 * nameLines + (s.actors.some(a => a.sub) ? 1 : 0))) + (s.actors.some(a => a.icon) ? 44 : 0) : 0;
+  const labelW = down ? 0 : Math.max(...s.actors.map(a => BBG.measure(a.label, { size: fs * 1.15, weight: 700 }))) + 24;
+  const t0 = down ? headH + 24 : labelW + 24;          // where time 0 sits, along the time axis
+  const tEnd = t0 + s.length * s.step;
+  const across = i => (down ? headW / 2 : 0) + i * s.gap;  // actor position across the time axis
+  const P = (actor, t) => {
+    const a = across(idx[actor]), b = t0 + t * s.step;
+    return down ? [a, b] : [b, a];
+  };
+  const xy = (aPos, tPos) => (down ? [aPos, tPos] : [tPos, aPos]);
+  const colorCls = c => (c ? ` c-${c}-line` : '');
+
+  // Lifelines and heads.
+  s.actors.forEach((a, i) => {
+    const c = across(i);
+    if (down) {
+      BBG.el('path', { d: `M${c} ${headH} V${tEnd}`, class: 'c-thin c-dash' }, g);
+      const head = (top) => {
+        BBG.el('rect', { x: c - headW / 2, y: top, width: headW, height: headH, rx: 10, class: 'c-box' }, g);
+        let ty = top + headH / 2;
+        if (a.icon) { BBG.icon(g, a.icon, c, top + 26, 38, 38); ty = top + 44 + (headH - 44) / 2; }
+        BBG.text(g, c, a.sub ? ty - fs * 0.5 : ty, a.label, { size: fs, weight: 700, lineHeight: 1.2 });
+        if (a.sub) BBG.text(g, c, ty + fs * 0.75, a.sub, { size: fs * 0.8, weight: 500 });
+      };
+      head(0);
+      if (s.footer) head(tEnd + 12);
+    } else {
+      BBG.el('path', { d: `M${t0 - 16} ${c} H${tEnd}`, class: 'c-line', 'stroke-width': 2.5, 'marker-end': 'url(#m-tri-ink)' }, g);
+      BBG.text(g, labelW - 10, a.sub ? c - fs * 0.45 : c, a.label, { size: fs * 1.15, weight: 700, anchor: 'end' });
+      if (a.sub) BBG.text(g, labelW - 10, c + fs * 0.75, a.sub, { size: fs * 0.8, weight: 500, anchor: 'end' });
+    }
+  });
+  const first = across(0), last = across(s.actors.length - 1);
+
+  // Phases and separators run across every actor.
+  const acrossLine = (t, cls) => {
+    const tp = t0 + t * s.step, pad = down ? headW / 2 + 10 : 34;
+    const [x1, y1] = xy(first - pad, tp), [x2, y2] = xy(last + pad, tp);
+    return BBG.el('path', { d: `M${x1} ${y1} L${x2} ${y2}`, class: cls }, g);
+  };
+  (s.phases || []).forEach(ph => {
+    acrossLine(ph.from, 'c-thin c-dash'); acrossLine(ph.to, 'c-thin c-dash');
+    const off = down ? first - headW / 2 - 26 : first - 52;
+    const [x1, y1] = xy(off, t0 + ph.from * s.step), [x2, y2] = xy(off, t0 + ph.to * s.step);
+    BBG.el('path', { d: `M${x1} ${y1} L${x2} ${y2}`, class: 'c-thin', 'marker-start': 'url(#m-span)', 'marker-end': 'url(#m-span)' }, g);
+    if (ph.label) BBG.label(g, (x1 + x2) / 2, (y1 + y2) / 2, ph.label, { size: fs * 1.05, weight: 700 });
+  });
+  (s.separators || []).forEach(sp => {
+    acrossLine(sp.t, 'c-thin c-dash');
+    if (sp.label) {
+      const [lx, ly] = xy((first + last) / 2, t0 + sp.t * s.step);
+      BBG.label(g, lx, ly, sp.label, { size: fs * 0.85, weight: 500 });
+    }
+  });
+
+  // Spans: activation bars (white strips on a lifeline) and locks (thick red on a lane).
+  (s.spans || []).forEach(sp => {
+    const [x1, y1] = P(sp.actor, sp.from), [x2, y2] = P(sp.actor, sp.to);
+    if (sp.kind === 'lock') {
+      BBG.el('path', { d: `M${x1} ${y1} L${x2} ${y2}`, class: 'c-lock' }, g);
+    } else {
+      const w = 14;
+      BBG.el('rect', down ? { x: x1 - w / 2, y: y1, width: w, height: y2 - y1, class: 'c-cell' } : { x: x1, y: y1 - w / 2, width: x2 - x1, height: w, class: 'c-cell' }, g);
+    }
+    if (sp.label) BBG.label(g, (x1 + x2) / 2, (y1 + y2) / 2 - (down ? 0 : 24), sp.label, { size: fs * 0.85 });
+  });
+
+  // Events: circles or ticks on a lifeline, with a small label beside.
+  const R = 9;
+  const eventAt = new Set((s.events || []).filter(e => (e.kind || 'circle') === 'circle').map(e => `${e.actor}@${e.t}`));
+
+  // Messages.
+  (s.messages || []).forEach(m => {
+    const t2 = m.t2 ?? m.t;
+    let [x1, y1] = P(m.from, m.t), [x2, y2] = P(m.to, t2);
+    const cls = `c-line${m.dash ? ' c-dash' : ''}${colorCls(m.color)}`;
+    const head = m.color ? `url(#m-arrow-${m.color})` : 'url(#m-arrow)';
+    if (m.self) {
+      const back = m.back ?? 0.6, out = 46;
+      const [bx, by] = P(m.from, m.t + back);
+      const d = down ? `M${x1} ${y1} H${x1 + out} V${by} H${bx + 8}` : `M${x1} ${y1} V${y1 - out} H${bx} V${by - 8}`;
+      BBG.el('path', { d, class: cls, 'marker-end': head }, g);
+      if (m.label) BBG.text(g, down ? x1 + out + 8 : (x1 + bx) / 2, down ? (y1 + by) / 2 : y1 - out - fs * 0.8, m.label, { size: fs * 0.9, anchor: down ? 'start' : 'middle' });
+      return;
+    }
+    // Stop short of event circles and activation bars at either end.
+    const len = Math.hypot(x2 - x1, y2 - y1) || 1, ux = (x2 - x1) / len, uy = (y2 - y1) / len;
+    const onBar = (actor, t) => (s.spans || []).some(sp => sp.actor === actor && sp.kind !== 'lock' && t >= sp.from && t <= sp.to);
+    const trimA = eventAt.has(`${m.from}@${m.t}`) ? R : onBar(m.from, m.t) ? 7 : 0;
+    const trimB = (eventAt.has(`${m.to}@${t2}`) ? R : onBar(m.to, t2) ? 7 : 0) + 2;
+    x1 += ux * trimA; y1 += uy * trimA; x2 -= ux * trimB; y2 -= uy * trimB;
+    BBG.el('path', { d: `M${x1} ${y1} L${x2} ${y2}`, class: cls, 'marker-end': head }, g);
+
+    const at = m.at ?? 0.5;
+    const lx = x1 + (x2 - x1) * at, ly = y1 + (y2 - y1) * at;
+    const flat = Math.abs(y2 - y1) < 1;              // a horizontal message gets its label above the line
+    let labelLeft = lx;
+    if (m.label) {
+      const lw = BBG.measure(m.label, { size: fs * 0.95, weight: 600 });
+      if (flat) BBG.text(g, lx, ly - fs * 0.85 * m.label.split('\n').length, m.label, { size: fs * 0.95, weight: 600 });
+      else BBG.label(g, lx, ly, m.label, { size: fs * 0.95 });
+      labelLeft = lx - lw / 2;
+    }
+    if (m.step) {
+      const sx = m.label ? labelLeft - 20 : lx, sy = flat && m.label ? ly - fs * 0.85 : ly;
+      BBG.el('circle', { cx: sx, cy: sy, r: 12, class: 'c-step' }, g);
+      BBG.text(g, sx, sy, m.step, { size: 13, weight: 700, cls: 'c-step-text' });
+    }
+    if (m.mark) {
+      const mx = m.label && !flat ? labelLeft - 18 : lx, my = m.label && !flat ? ly : ly;
+      BBG.icon(g, m.mark === 'x' ? 'x-mark' : 'check', mx, my, 22, 22);
+    }
+  });
+
+  (s.events || []).forEach(e => {
+    const [x, y] = P(e.actor, e.t);
+    if ((e.kind || 'circle') === 'circle') BBG.el('circle', { cx: x, cy: y, r: R, class: 'c-event' }, g);
+    else BBG.el('path', { d: down ? `M${x - 10} ${y} H${x + 10}` : `M${x} ${y - 12} V${y + 12}`, class: 'c-line', 'stroke-width': 2.5 }, g);
+    if (e.label) {
+      const [lx, ly] = down ? [x + 16, y] : [x, y + (e.above ? -24 : 24)];
+      BBG.text(g, lx, ly, e.label, { size: fs * 0.8, weight: 600, anchor: down ? 'start' : 'middle' });
+    }
+  });
+
+  (s.notes || []).forEach(n => {
+    const [px, py] = P(n.actor, n.t);
+    const nx = px + (n.dx || 0), ny = py + (n.dy ?? -60);
+    const size = fs * 0.9, lines = String(n.text).split('\n').length;
+    const w = BBG.measure(n.text, { size, weight: 500, mono: n.mono }) + 20, h = lines * size * 1.25 + 14;
+    if (n.arrow !== false && (n.dx || n.dy !== 0)) {
+      const ey = ny + (ny < py ? h / 2 : -h / 2);
+      BBG.el('path', { d: `M${nx} ${ey} L${px} ${py + (ny < py ? -6 : 6)}`, class: 'c-thin', 'marker-end': 'url(#m-arrow)' }, g);
+    }
+    BBG.el('rect', { x: nx - w / 2, y: ny - h / 2, width: w, height: h, rx: 6, class: `c-note ${n.fill || 'c-yellow'}` }, g);
+    BBG.text(g, nx, ny, n.text, { size, weight: 500, cls: n.mono ? 'mono' : null });
+  });
+
+  (s.sides || []).forEach(n => {
+    const [px, py] = P(n.actor, n.t);
+    const right = n.side !== 'left';
+    BBG.text(g, px + (right ? 18 : -18), py, n.text, { size: fs * 0.95, weight: 600, anchor: right ? 'start' : 'end' });
+  });
+
+  (s.dots || []).forEach(t => {
+    const [x, y] = xy((first + last) / 2, t0 + t * s.step);
+    BBG.text(g, x, y, down ? '⋮' : '⋯', { size: fs * 1.6, weight: 700 });
+  });
+
+  g.at = (actor, t) => { const [x, y] = P(actor, t); return [s.x + x, s.y + y]; };
+  return g;
+});
+
+// ---------------------------------------------------------------------------
+// timeline — a time axis with what happens along it: request counts per slot,
+// windows (fixed, sliding, rolling), events on labelled rows, markers, measure
+// spans, and simple line / candlestick charts.
+//
+// BBG.timeline({
+//   x, y, width: 800,              left end of the axis; y = top of the plot area
+//   from: 0, to: 5,                time range drawn across width
+//   ticks: [0, 1, 2] | tickEvery: 1, tickLabel: t => `${t}`, unit: 'Minute',
+//   axisLabel: 'Time', arrow: true, axis: 'bottom' | 'top' | 'none'   ('top' puts tick labels above the axis),
+//   plotH: 200,                    height of the plot area above the axis (stacks, plot windows, charts)
+//   yLabel: 'Number of requests',  draws a y axis on the left of the plot area
+//   grid: true,                    dashed vertical lines at the ticks through the rows
+//   stacks:  [{ t: 1, n: 3, extra: 2 }],       n plain squares, extra grey ("rate limited") on top
+//   windows: [{ from, to, h: 180, label, cls: 'c-soft', line: 'ink' | 'blue' | 'green' | 'dash', row }],
+//            no row → a box standing on the axis in the plot area; row → a box in that row
+//   rows:    [{ label: 'Event Time' }], rowH: 44
+//   events:  [{ row: 0, t: 30, label: '1' }],  numbered circles on a row
+//   markers: [{ t: 78, label: 'Current time' }],
+//   spans:   [{ from, to, label, y }],          measure arrows; y in plot coordinates (0 = axis, up is +)
+//   series:  [{ points: [[t, v], …], color }], yFrom, yTo     line chart in the plot area
+//   candles: [{ t, open, close, high, low }]
+//   size: 15, parent
+// })
+// Returns the <g>; g.tx(t) gives the page x of a time, g.py(v) the page y of a plot value.
+// ---------------------------------------------------------------------------
+BBG.define('timeline', spec => {
+  const s = { x: 0, y: 0, width: 800, from: 0, to: 5, plotH: 0, rowH: 44, size: 15, axis: 'bottom', arrow: true, ...spec };
+  const fs = s.size;
+  const tx = t => ((t - s.from) / (s.to - s.from)) * s.width;
+  const axisY = s.plotH;
+  const g = BBG.group(s.parent || BBG.layer(), s.x, s.y, 'c-timeline');
+  const ticks = s.ticks || (s.tickEvery ? Array.from({ length: Math.floor((s.to - s.from) / s.tickEvery) + 1 }, (_, i) => s.from + i * s.tickEvery) : []);
+  const rows = s.rows || [];
+  const rowTop = i => axisY + 24 + i * s.rowH;
+  const rowsEnd = rowTop(rows.length);
+  const yFrom = s.yFrom ?? 0, yTo = s.yTo ?? 1;
+  const py = v => axisY - ((v - yFrom) / (yTo - yFrom)) * (s.plotH - 10);
+  const lineCls = l => ({ ink: '', blue: ' c-blue-line', green: ' c-green-line', red: ' c-red-line', dash: ' c-dash' }[l || 'ink'] ?? '');
+
+  // Grid first, so everything else sits on top.
+  if (s.grid && rows.length) ticks.forEach(t => BBG.el('path', { d: `M${tx(t)} ${axisY} V${rowsEnd}`, class: 'c-thin c-dash c-grid' }, g));
+
+  // Plot windows (behind the stacks), then stacks.
+  (s.windows || []).filter(w => w.row === undefined).forEach(w => {
+    const h = w.h || s.plotH * 0.6;
+    BBG.el('rect', { x: tx(w.from), y: axisY - h, width: tx(w.to) - tx(w.from), height: h,
+      class: `${w.cls ? w.cls : 'c-none'} c-window${lineCls(w.line)}` }, g);
+    if (w.label) BBG.text(g, (tx(w.from) + tx(w.to)) / 2, axisY - h + fs * 1.3, w.label, { size: fs * 1.05, weight: 700 });
+  });
+  const sq = s.square || 30;
+  (s.stacks || []).forEach(st => {
+    const n = st.n || 0, extra = st.extra || 0;
+    for (let k = 0; k < n + extra; k++) {
+      BBG.el('rect', { x: tx(st.t) - sq / 2, y: axisY - (k + 1) * (sq + 6), width: sq, height: sq, rx: 3,
+        class: `c-cell ${k >= n ? 'c-grey c-rejected' : st.cls || 'c-blue'}` }, g);
+    }
+  });
+
+  // Charts.
+  (s.series || []).forEach(se => {
+    const d = se.points.map(([t, v], i) => `${i ? 'L' : 'M'}${tx(t)} ${py(v)}`).join(' ');
+    BBG.el('path', { d, class: `c-line${lineCls(se.color || 'blue')}`, 'stroke-width': 2.5 }, g);
+  });
+  (s.candles || []).forEach(c => {
+    const x = tx(c.t), w = s.candleW || 18, up = c.close >= c.open;
+    BBG.el('path', { d: `M${x} ${py(c.high)} V${py(c.low)}`, class: 'c-line', 'stroke-width': 2.5 }, g);
+    BBG.el('rect', { x: x - w / 2, y: py(Math.max(c.open, c.close)), width: w, height: Math.max(2, Math.abs(py(c.open) - py(c.close))),
+      class: `c-cell ${up ? 'c-green' : 'c-pink'}` }, g);
+  });
+  if (s.yLabel) {
+    BBG.el('path', { d: `M0 ${axisY} V${-14}`, class: 'c-line', 'stroke-width': 2.5, 'marker-end': 'url(#m-arrow)' }, g);
+    const t = BBG.text(g, -24, axisY / 2, s.yLabel, { size: fs, weight: 600 });
+    t.setAttribute('transform', `rotate(-90 ${-24} ${axisY / 2})`);
+  }
+
+  // Axis.
+  if (s.axis !== 'none') {
+    const ay = axisY;
+    BBG.el('path', { d: `M0 ${ay} H${s.width + (s.arrow ? 24 : 0)}`, class: 'c-line', 'stroke-width': 2.5,
+      'marker-end': s.arrow ? 'url(#m-arrow)' : null }, g);
+    const lab = s.tickLabel || (t => t);
+    ticks.forEach(t => {
+      BBG.el('path', { d: `M${tx(t)} ${ay - 6} V${ay + 6}`, class: 'c-line', 'stroke-width': 2.5 }, g);
+      const str = lab(t);
+      if (str !== '' && str !== null) BBG.text(g, tx(t), s.axis === 'top' ? ay - fs * 1.1 : ay + fs * 1.2, str, { size: fs, weight: 600 });
+    });
+    if (s.unit) BBG.text(g, s.width + 34, s.axis === 'top' ? ay - fs * 1.1 : ay, s.unit, { size: fs, weight: 700, anchor: 'start' });
+    if (s.axisLabel) BBG.text(g, 0, ay + fs * 2.6, s.axisLabel, { size: fs * 1.05, weight: 700, anchor: 'start' });
+  }
+
+  // Rows: label, row windows, events.
+  rows.forEach((r, i) => {
+    if (r.label) BBG.text(g, -16, rowTop(i) + s.rowH / 2, r.label, { size: fs, weight: 700, anchor: 'end' });
+    if (r.line) BBG.el('path', { d: `M0 ${rowTop(i) + s.rowH / 2} H${s.width}`, class: 'c-thin' }, g);
+  });
+  (s.windows || []).filter(w => w.row !== undefined).forEach(w => {
+    const top = rowTop(w.row) + 6, h = s.rowH - 12;
+    BBG.el('rect', { x: tx(w.from), y: top, width: tx(w.to) - tx(w.from), height: h, rx: 6,
+      class: `c-window ${w.cls || 'c-white'}${lineCls(w.line)}` }, g);
+    if (w.label) BBG.text(g, (tx(w.from) + tx(w.to)) / 2, top + h / 2, w.label, { size: fs * 0.9, weight: 600 });
+  });
+  (s.events || []).forEach(e => {
+    const cx = tx(e.t), cy = rowTop(e.row) + s.rowH / 2;
+    BBG.el('circle', { cx, cy, r: 12, class: `c-event ${e.cls || ''}`.trim() }, g);
+    if (e.label !== undefined) BBG.text(g, cx, cy, e.label, { size: 13, weight: 700 });
+  });
+
+  // Markers and spans on top.
+  (s.markers || []).forEach(m => {
+    const top = -(m.lift ?? 30);
+    BBG.el('path', { d: `M${tx(m.t)} ${top + fs * 0.8} V${axisY - (m.h ?? s.plotH) + 2}`, class: 'c-line', 'stroke-width': 2.5, 'marker-end': 'url(#m-arrow)' }, g);
+    if (m.label) BBG.text(g, tx(m.t), top, m.label, { size: fs, weight: 700 });
+  });
+  (s.spans || []).forEach(sp => {
+    const yy = axisY - (sp.y ?? 0);
+    BBG.el('path', { d: `M${tx(sp.from)} ${yy} H${tx(sp.to)}`, class: 'c-thin', 'marker-start': 'url(#m-span)', 'marker-end': 'url(#m-span)' }, g);
+    if (sp.label) BBG.label(g, (tx(sp.from) + tx(sp.to)) / 2, yy, sp.label, { size: fs, weight: 600 });
+  });
+
+  g.tx = t => s.x + tx(t);
+  g.py = v => s.y + py(v);
+  return g;
+});

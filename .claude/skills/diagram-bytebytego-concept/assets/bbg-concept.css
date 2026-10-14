@@ -30,3 +30,16 @@ svg .c-orange { fill: var(--orange); }
 /* Monospace text inside drawings (cells, table columns with mono: true) */
 svg.layer.concept text.mono { font-family: "SF Mono", Menlo, Consolas, "Liberation Mono", monospace; }
 svg.layer.concept text.c-muted { fill: #8a8a8a; }
+
+/* sequence and timeline marks */
+svg .c-event { fill: #fff; stroke: var(--ink); stroke-width: 2.5; }
+svg .c-lock  { fill: none; stroke: var(--red); stroke-width: 7; stroke-linecap: butt; }
+svg .c-step  { fill: #222; }
+svg.layer.concept text.c-step-text { fill: #fff; }
+svg .c-note  { stroke: var(--ink); stroke-width: 2; }
+svg .c-window { stroke: var(--ink); stroke-width: 3; }
+svg .c-none { fill: none; }
+svg .c-rejected { fill: #b9b9b9; }
+svg .c-red-line   { stroke: var(--red); }
+svg .c-blue-line  { stroke: var(--edge-blue); }
+svg .c-green-line { stroke: var(--edge-green); }

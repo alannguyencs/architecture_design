@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Sliding Window Counter</title>
+<!-- Book-figure template: System Design Interview, rate limiter figure 4-11 (sliding window
+     counter) in the ByteByteGo look. One BBG.timeline call: two minute windows, the rolling
+     minute, request squares, the current-time marker and measure spans. Time is in seconds.
+     Canvas 1280 × 680 CSS px (render at --scale 1). -->
+<link rel="stylesheet" href="../assets/bbg-flow.css">
+<link rel="stylesheet" href="../assets/bbg-parts.css">
+<link rel="stylesheet" href="../assets/bbg-concept.css">
+<style>
+  .canvas { width: 1280px; height: 680px; }
+  .t.lft { transform: none; text-align: left; }
+</style>
+</head>
+<body>
+<div class="canvas">
+<script src="../assets/bbg-icons.js"></script>
+<div class="title" style="left:30px; top:28px; font-size:48px;">Sliding Window Counter</div>
+
+<div class="hbox" style="left:930px; top:200px; width:310px; font-size:18px;">
+  <div class="hd">Rate limit: 5 requests / min</div>
+  <ul style="font-size:16px;">
+    <li>previous minute: 5 requests</li>
+    <li>current minute: 3 requests</li>
+    <li>rolling minute: 3 + 5 × 70% = 6.5</li>
+    <li>6.5 &gt; 5 → the request is rejected</li>
+  </ul>
+</div>
+</div>
+<script src="../assets/bbg-concept.js"></script>
+<script>
+  BBG.timeline({
+    x: 110, y: 200, width: 740, from: -12, to: 150, plotH: 360, size: 17,
+    unit: 'Time', yLabel: 'Number of requests',
+    windows: [
+      { from: 18, to: 78, h: 300, cls: 'c-soft', line: 'green', label: 'Rolling minute' },
+      { from: 0, to: 60, h: 210 },
+      { from: 60, to: 120, h: 210, line: 'blue' },
+    ],
+    stacks: [{ t: 24, n: 1 }, { t: 37, n: 2 }, { t: 50, n: 2 }, { t: 69, n: 3 }],
+    square: 36,
+    markers: [{ t: 78, label: 'Current time', h: 300, lift: 34 }],
+    spans: [
+      { from: 18, to: 60, label: '70%', y: 245 },
+      { from: 60, to: 78, label: '30%', y: 245 },
+      { from: 0, to: 60, label: 'previous minute', y: -40 },
+      { from: 60, to: 120, label: 'current minute', y: -40 },
+    ],
+  });
+</script>
+<script src="../assets/bbg-parts.js"></script>
+</body>
+</html>

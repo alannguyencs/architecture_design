@@ -17,16 +17,16 @@ for boxes and arrows), `diagram-bytebytego-animated` (looping GIF).
 
 The skill is being built in the order of report item 8.2
 (`docs/reports/261014_bytebytego.md`). Done: the setup, the core helpers and the
-`table` and `cells` components. Planned, each to be added as `BBG.<name>(spec)`:
-`sequence`, `timeline`, `ring`, `tree` (with a mind-map mode), then `spatial`,
+`table`, `cells`, `sequence` and `timeline` components. Planned, each to be added
+as `BBG.<name>(spec)`: `ring`, `tree` (with a mind-map mode), then `spatial`,
 `code`, `venn`, `funnel`. Until a component exists, draw with the core helpers.
 
 ## Files
 
 | Path (relative to this skill) | What it is |
 |---|---|
-| `assets/bbg-concept.js` | Core helpers on `window.BBG` (`el`, `group`, `text`, `label`, `measure`, `icon`, `layer`, `define`) and the components `BBG.table`, `BBG.cells` |
-| `assets/bbg-concept.css` | Styles for drawn marks: `.c-box`, `.c-outline`, `.c-cell`, `.c-line`, `.c-thin`, `.c-dash`, `.c-strike`, `.c-muted`, fills `.c-green` … `.c-orange`, `text.mono` |
+| `assets/bbg-concept.js` | Core helpers on `window.BBG` (`el`, `group`, `text`, `label`, `measure`, `icon`, `layer`, `define`) and the components `BBG.table`, `BBG.cells`, `BBG.sequence`, `BBG.timeline` |
+| `assets/bbg-concept.css` | Styles for drawn marks: `.c-box`, `.c-outline`, `.c-cell`, `.c-line`, `.c-thin`, `.c-dash`, `.c-strike`, `.c-muted`, `.c-event`, `.c-lock`, `.c-note`, `.c-window`, fills `.c-green` … `.c-orange`, line colours `.c-red-line` / `.c-blue-line` / `.c-green-line`, `text.mono` |
 | `assets/bbg-flow.css` | The flow look's tokens and building blocks (generated copy) |
 | `assets/bbg-icons.js` | Shared icon sprite and edge markers (generated copy) |
 | `assets/bbg-parts.css`, `assets/bbg-parts.js` | Shared extra parts: edge styles, labels, shapes, boxes, variants (generated copies) |
@@ -34,6 +34,9 @@ The skill is being built in the order of report item 8.2
 | `templates/table-cells-gallery.html` | One sample of every `table` and `cells` option, each modelled on a book figure — render it to look up an option |
 | `templates/mq-isr.html` | Book figure: message-queue 24 (how ISR works) — `cells` strips joined by edges from `.at()` |
 | `templates/leaderboard-table.html` | Book figure: gaming-leaderboard 22 (denormalized table) — `table` with a group header |
+| `templates/sequence-timeline-gallery.html` | One sample of each `sequence` (vertical layout) and `timeline` option, modelled on book figures |
+| `templates/wallet-tcc-try.html` | Book figure: digital-wallet 7 (TCC try phase) — `sequence` with `dir: 'right'` lanes, events, a lock bar, a note |
+| `templates/rate-limiter-sliding-counter.html` | Book figure: rate-limiter 4-11 (sliding window counter) — `timeline` with windows, stacks, a marker and spans |
 | `scripts/render.py` | HTML → PNG (`--scale`, `--webp`, `--compare`, `--variant`; generated copy) |
 
 Needs Python `playwright` (with Chromium: `python3 -m playwright install chromium`) and Pillow.
@@ -106,6 +109,43 @@ BBG.cells({ x: 80, y: 350, w: 60, h: 90,
 
 Give a cell its own `w` for a bit layout. `at(i, side)` returns the position of
 cell `i`.
+
+**`BBG.sequence`** — messages between actors over time. Every point is
+`(actor, t)`; `dir: 'down'` is a UML sequence diagram (actor boxes on top, dashed
+lifelines), `dir: 'right'` puts actors on lanes with time running right (two-phase
+commit, TCC).
+
+```js
+BBG.sequence({ x: 60, y: 110, dir: 'down', gap: 300, step: 44, length: 9,
+  actors: [{ id: 'c', label: 'Client', icon: 'phone' }, { id: 's', label: 'Server', sub: '(API)' }],
+  messages: [{ from: 'c', to: 's', t: 1, label: 'Pay $10', step: '1' },
+             { from: 's', to: 'c', t: 2, mark: 'x', color: 'red', dash: true },
+             { from: 'a', to: 'a', t: 3, self: true, back: 1, label: 'Aggregate' },
+             { from: 'coord', to: 'a', t: 0.6, t2: 2.4, label: 'Try' }],   // t2 → diagonal
+  events: [{ actor: 'a', t: 2.4, label: 'A=$1' }, { actor: 'a', t: 3, kind: 'tick', label: 'lock A' }],
+  spans: [{ actor: 'a', from: 1, to: 5 }, { actor: 'a', from: 3.3, to: 7, kind: 'lock' }],
+  separators: [{ t: 3.7, label: 'connection closed' }], phases: [{ from: 0, to: 4, label: 'Prepare' }],
+  notes: [{ actor: 'a', t: 5, text: 'UPDATE …', mono: true, dy: -70 }],
+  sides: [{ actor: 's', t: 2, text: 'Payment failed' }], dots: [9], footer: true });
+```
+
+`at(actor, t)` returns a point's position.
+
+**`BBG.timeline`** — a time axis with what happens along it.
+
+```js
+BBG.timeline({ x: 110, y: 200, width: 740, from: 0, to: 180, tickEvery: 30, unit: 'Second',
+  plotH: 300, yLabel: 'Number of requests', axis: 'bottom' | 'top' | 'none', grid: true,
+  stacks: [{ t: 1, n: 3, extra: 2 }],                       // extra = grey "rate limited" squares
+  windows: [{ from: 18, to: 78, h: 300, cls: 'c-soft', line: 'green', label: 'Rolling minute' },
+            { row: 2, from: 0, to: 60, label: 'Window 1' }],  // row → a box on a labelled row
+  rows: [{ label: 'Event Time', line: true }], events: [{ row: 0, t: 20, label: '1' }],
+  markers: [{ t: 78, label: 'Current time' }], spans: [{ from: 18, to: 60, label: '70%', y: 245 }],
+  series: [{ points: [[0, .3], [1, .6]] }], candles: [{ t: 1, open, close, high, low }], yFrom, yTo });
+```
+
+Span `y` is measured up from the axis (negative = below it). `tx(t)` and `py(v)`
+return page positions for extra marks.
 
 ## Adding a component
 
