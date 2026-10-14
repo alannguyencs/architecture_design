@@ -348,7 +348,7 @@ Animation can come later. Several of these suit the animated skill's approach we
 - [x] Build `sequence` and `timeline` (54 images), with `digital-wallet/figure-7` and `design-a-rate-limiter/figure-4-11` as templates.
 - [x] Build `ring` (23 images), with `design-consistent-hashing/figure-5-7` as the template.
 - [x] Build `tree` with a mind-map mode (24 images), with `design-a-search-autocomplete-system/figure-13-8` and one `chapter-summary` as templates.
-- [ ] Use an existing layout library (`d3-hierarchy` for trees, `d3-scale` for axes) instead of writing layout code from scratch.
+- [x] Use an existing layout library (`d3-hierarchy` for trees, `d3-scale` for axes) instead of writing layout code from scratch. Outcome: `d3-hierarchy` is used for top-down trees (stored in the skill; the quadtree comes out half as wide); mind maps keep one row per leaf, because the tidy layout made text overlap there (5 overlaps in the message-queue summary); `d3-scale` was not adopted — the timeline needs only a linear map and explicit ticks, and the library brings five more packages.
 - [ ] Build `spatial`, `code`, `venn` and `funnel` when they are needed, and pick an open base-map source (e.g. Natural Earth) for the ~21 map images.
 - [ ] Make the helpers output paths that `render_gif.py` can animate (ring walk, sliding window, sequence message, offset stepping).
 

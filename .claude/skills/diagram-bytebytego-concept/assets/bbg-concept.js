@@ -837,7 +837,8 @@ BBG.define('ring', spec => {
 //   kind: 'box',                default node kind (mind: root is a box, the rest text)
 //   size: 15, parent
 // })
-// Layout: leaves take consecutive slots; a parent sits at the middle of its children.
+// Layout: 'down' uses d3-hierarchy's tidy tree (load assets/d3-hierarchy.min.js first);
+// 'mind' and 'right' give every leaf its own row and centre each parent on its children.
 // Returns the <g>; g.at(id, side) gives a node's page position.
 // ---------------------------------------------------------------------------
 BBG.define('tree', spec => {
@@ -895,7 +896,16 @@ BBG.define('tree', spec => {
       else { n.children.forEach(place); n.b = (n.children[0].b + n.children[n.children.length - 1].b) / 2; }
     }
   };
-  place(root);
+  if (down && window.d3 && d3.tree) {
+    // Tidy tree (d3-hierarchy): subtrees at different depths share horizontal space.
+    // Neighbours are kept apart by their half widths, the gap and the right one's side room.
+    const h = d3.hierarchy(root, n => n.children);
+    d3.tree().nodeSize([1, level]).separation((a, b) => a.data.w / 2 + s.gap + noteW(b.data) + b.data.w / 2)(h);
+    h.each(d => { d.data.b = d.x; });
+  } else {
+    if (down) console.warn('BBG.tree: d3-hierarchy not loaded; using the simpler leaf-order layout');
+    place(root);
+  }
   const depthPos = n => {
     if (down) return n.depth * level;
     if (!n.parent) return 0;

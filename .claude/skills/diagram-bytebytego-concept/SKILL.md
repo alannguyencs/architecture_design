@@ -27,6 +27,7 @@ component exists, draw with the core helpers.
 |---|---|
 | `assets/bbg-concept.js` | Core helpers on `window.BBG` (`el`, `group`, `text`, `label`, `measure`, `icon`, `layer`, `define`) and the components `BBG.table`, `BBG.cells`, `BBG.sequence`, `BBG.timeline`, `BBG.ring`, `BBG.tree` |
 | `assets/bbg-concept.css` | Styles for drawn marks: `.c-box`, `.c-outline`, `.c-cell`, `.c-line`, `.c-thin`, `.c-dash`, `.c-strike`, `.c-muted`, `.c-event`, `.c-lock`, `.c-note`, `.c-window`, fills `.c-green` … `.c-orange`, line colours `.c-red-line` / `.c-blue-line` / `.c-green-line`, ring marks `.c-ring-line`, `.c-node`, `.c-key`, `.c-*-arc`, tree marks `.c-leaf`, `.c-note-group`, `text.mono` |
+| `assets/d3-hierarchy.min.js` | d3-hierarchy 3.1.2 (ISC licence, header kept), stored locally so rendering never needs the network; `BBG.tree` uses its tidy layout for top-down trees |
 | `assets/bbg-flow.css` | The flow look's tokens and building blocks (generated copy) |
 | `assets/bbg-icons.js` | Shared icon sprite and edge markers (generated copy) |
 | `assets/bbg-parts.css`, `assets/bbg-parts.js` | Shared extra parts: edge styles, labels, shapes, boxes, variants (generated copies) |
@@ -53,8 +54,8 @@ Needs Python `playwright` (with Chromium: `python3 -m playwright install chromiu
    1. stylesheets `bbg-flow.css`, `bbg-parts.css`, `bbg-concept.css`;
    2. `<script src="../assets/bbg-icons.js">` as the first child of `.canvas`;
    3. hand-placed HTML (title, pills, boxes) inside `.canvas`;
-   4. after `.canvas`: `bbg-concept.js`, then the page's own `<script>`, then
-      `bbg-parts.js` last.
+   4. after `.canvas`: `d3-hierarchy.min.js`, `bbg-concept.js`, then the page's
+      own `<script>`, then `bbg-parts.js` last.
 2. In the page script, get the drawing surface with `const svg = BBG.layer()` and
    build from data:
    - `BBG.el(tag, attrs, parent)` — any SVG element (`'rect'`, `'path'`, …);
@@ -183,10 +184,12 @@ BBG.tree({ x: 40, y: 120, mode: 'down' | 'mind' | 'right', arrows: true, level: 
 
 `down` is a top-down tree with straight edges; `mind` is a left-to-right mind map
 with curved branches (the root is a box, the rest plain text unless `kind: 'box'`);
-`right` is an indented tree with elbow lines (folders). Leaves take consecutive
-slots and each parent sits in the middle of its children; notes and the labels
-beside circles and squares get room reserved on the left. Give nodes an `id` to
-use `at(id, side)`.
+`right` is an indented tree with elbow lines (folders). `down` uses d3-hierarchy's
+tidy tree, so shallow and deep branches share horizontal space (the quadtree is
+half as wide as with one column per leaf); notes and the labels beside circles
+and squares are counted in the spacing. `mind` and `right` give every leaf its own
+row and centre each parent on its children — a tidy layout would let text at
+different depths collide there. Give nodes an `id` to use `at(id, side)`.
 
 ## Adding a component
 
