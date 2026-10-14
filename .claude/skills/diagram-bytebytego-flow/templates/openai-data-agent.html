@@ -5,6 +5,7 @@
 <title>How OpenAI Built Its Data Agent</title>
 <!-- Re-creation of data/examples/1780498486178.jpeg. Canvas 1280 × 1654 CSS px (render at --scale 1). -->
 <link rel="stylesheet" href="../assets/bbg-flow.css">
+<link rel="stylesheet" href="../assets/bbg-parts.css">
 <style>
   .canvas { width: 1280px; height: 1654px; }
 </style>
@@ -12,133 +13,8 @@
 <body>
 <div class="canvas">
 
-<!-- ===== Icon sprite: <svg><use href="#name"/></svg> ===== -->
-<svg width="0" height="0" style="position:absolute">
-  <defs>
-    <symbol id="db" viewBox="0 0 40 44">
-      <g stroke="#111" stroke-width="2.5" fill="#6ce09c">
-        <path d="M2 8 V36 A18 6 0 0 0 38 36 V8"/>
-        <path d="M2 17 A18 6 0 0 0 38 17 M2 26 A18 6 0 0 0 38 26" fill="none"/>
-        <ellipse cx="20" cy="8" rx="18" ry="6"/>
-      </g>
-    </symbol>
-    <symbol id="db-pink" viewBox="0 0 40 44">
-      <g stroke="#111" stroke-width="2.5" fill="#ffa5a5">
-        <path d="M2 8 V36 A18 6 0 0 0 38 36 V8"/>
-        <path d="M2 17 A18 6 0 0 0 38 17 M2 26 A18 6 0 0 0 38 26" fill="none"/>
-        <ellipse cx="20" cy="8" rx="18" ry="6"/>
-      </g>
-    </symbol>
-    <symbol id="gdoc" viewBox="0 0 30 40">
-      <path d="M2 3 Q2 1 4 1 H20 L28 9 V37 Q28 39 26 39 H4 Q2 39 2 37 Z" fill="#2684fc"/>
-      <path d="M20 1 V9 H28" fill="#a1c2fa"/>
-      <g fill="#fff"><rect x="8" y="18" width="14" height="2.5"/><rect x="8" y="23" width="14" height="2.5"/><rect x="8" y="28" width="10" height="2.5"/></g>
-    </symbol>
-    <symbol id="slack" viewBox="0 0 40 40">
-      <g stroke-width="7" stroke-linecap="round">
-        <path d="M15 5 V17" stroke="#36c5f0"/><path d="M5 15 H9" stroke="#36c5f0"/>
-        <path d="M23 15 H35" stroke="#2eb67d"/><path d="M25 5 V9" stroke="#2eb67d"/>
-        <path d="M25 23 V35" stroke="#ecb22e"/><path d="M31 25 H35" stroke="#ecb22e"/>
-        <path d="M5 25 H17" stroke="#e01e5a"/><path d="M15 31 V35" stroke="#e01e5a"/>
-      </g>
-    </symbol>
-    <symbol id="notion" viewBox="0 0 44 44">
-      <path d="M6 6 L32 3 L40 9 V38 L12 41 L4 35 Z" fill="#fff" stroke="#111" stroke-width="3" stroke-linejoin="round"/>
-      <path d="M4 35 L4 8 L6 6 M12 41 V12 L40 9" fill="none" stroke="#111" stroke-width="3"/>
-      <text x="26" y="34" text-anchor="middle" font-family="Georgia, serif" font-weight="bold" font-size="24" fill="#111">N</text>
-    </symbol>
-    <symbol id="chat" viewBox="0 0 44 40">
-      <path d="M8 4 H40 V28 H16 L8 36 Z" fill="#6ce09c" stroke="#111" stroke-width="3" stroke-linejoin="round"/>
-      <path d="M3 10 V30" stroke="#111" stroke-width="3"/>
-    </symbol>
-    <symbol id="chat-lines" viewBox="0 0 44 40">
-      <path d="M4 4 H40 V28 H16 L8 36 V28 H4 Z" fill="#6ce09c" stroke="#111" stroke-width="3" stroke-linejoin="round"/>
-      <path d="M12 13 H32 M12 20 H26" stroke="#111" stroke-width="3"/>
-    </symbol>
-    <symbol id="chat-pair" viewBox="0 0 44 40">
-      <path d="M3 4 H26 V12 M3 4 V24 L8 20" fill="none" stroke="#111" stroke-width="3" stroke-linejoin="round"/>
-      <path d="M12 12 H40 V30 H34 V37 L27 30 H12 Z" fill="#6ce09c" stroke="#111" stroke-width="3" stroke-linejoin="round"/>
-    </symbol>
-    <symbol id="table" viewBox="0 0 44 44">
-      <path d="M2 10 V38 M8 4 V32" stroke="#111" stroke-width="3" fill="none"/>
-      <rect x="12" y="10" width="30" height="32" rx="3" fill="#6ce09c" stroke="#111" stroke-width="3"/>
-      <path d="M12 20 H42 M12 31 H42 M22 10 V42 M32 10 V42" stroke="#111" stroke-width="2.5"/>
-    </symbol>
-    <symbol id="annotate" viewBox="0 0 48 44">
-      <path d="M2 4 H38 V8 M2 4 V34 H8" fill="none" stroke="#111" stroke-width="3" stroke-linejoin="round"/>
-      <path d="M10 10 H46 V34 H22 L12 42 V34 H10 Z" fill="#d7fbe5" stroke="#111" stroke-width="3" stroke-linejoin="round"/>
-    </symbol>
-    <symbol id="sparkles" viewBox="0 0 44 44">
-      <g fill="#fff" stroke="#111" stroke-width="2.5" stroke-linejoin="round">
-        <path d="M28 6 Q30 16 40 18 Q30 20 28 30 Q26 20 16 18 Q26 16 28 6 Z"/>
-        <path d="M10 2 Q11 7 16 8 Q11 9 10 14 Q9 9 4 8 Q9 7 10 2 Z"/>
-        <path d="M12 26 Q13 32 19 33 Q13 34 12 40 Q11 34 5 33 Q11 32 12 26 Z"/>
-      </g>
-    </symbol>
-    <symbol id="search" viewBox="0 0 48 48">
-      <circle cx="20" cy="20" r="16" fill="#8de8b4" stroke="#111" stroke-width="3.5"/>
-      <path d="M32 32 L45 45" stroke="#111" stroke-width="5" stroke-linecap="round"/>
-    </symbol>
-    <symbol id="memory" viewBox="0 0 40 52">
-      <path d="M3 5 Q3 2 6 2 H27 L37 12 V47 Q37 50 34 50 H6 Q3 50 3 47 Z" fill="#6ce09c" stroke="#111" stroke-width="3" stroke-linejoin="round"/>
-      <path d="M11 22 H28 M11 30 H28 M11 38 H22" stroke="#111" stroke-width="3"/>
-    </symbol>
-    <symbol id="grid" viewBox="0 0 30 30">
-      <rect x="2" y="2" width="26" height="26" rx="2" fill="#6ce09c" stroke="#111" stroke-width="2"/>
-      <path d="M2 10.5 H28 M2 19.5 H28 M10.5 2 V28 M19.5 2 V28" stroke="#111" stroke-width="1.6"/>
-    </symbol>
-    <symbol id="book" viewBox="0 0 32 30">
-      <rect x="9" y="1" width="14" height="7" rx="2" fill="#fff" stroke="#111" stroke-width="2"/>
-      <path d="M2 10 Q9 8 16 12 Q23 8 30 10 V27 Q23 25 16 28 Q9 25 2 27 Z" fill="#6ce09c" stroke="#111" stroke-width="2" stroke-linejoin="round"/>
-      <path d="M16 12 V28" stroke="#111" stroke-width="2"/>
-    </symbol>
-    <symbol id="nodes" viewBox="0 0 44 40">
-      <path d="M22 18 V8 M22 18 L8 30 M22 18 L36 30" stroke="#111" stroke-width="3"/>
-      <g fill="#6ce09c" stroke="#111" stroke-width="3">
-        <circle cx="22" cy="8" r="6"/><circle cx="8" cy="31" r="6"/><circle cx="36" cy="31" r="6"/><circle cx="22" cy="19" r="3.5"/>
-      </g>
-    </symbol>
-    <symbol id="user" viewBox="0 0 64 72">
-      <path d="M8 66 Q8 44 28 42 Q48 44 48 66 Z" fill="#555" stroke="#111" stroke-width="2.5"/>
-      <circle cx="28" cy="24" r="13" fill="#f5b183" stroke="#111" stroke-width="2.5"/>
-      <path d="M15 24 Q14 8 28 8 Q42 8 41 22 Q36 14 28 16 Q20 16 15 24 Z" fill="#6b3a1e" stroke="#111" stroke-width="2.5"/>
-      <rect x="30" y="46" width="30" height="20" rx="2" fill="#fff" stroke="#111" stroke-width="2.5"/>
-      <rect x="26" y="66" width="36" height="4" rx="1" fill="#111"/>
-      <circle cx="45" cy="56" r="2.2" fill="#111"/>
-    </symbol>
-    <symbol id="openai" viewBox="0 0 60 60">
-      <g fill="none" stroke="#111" stroke-width="4" stroke-linejoin="round">
-        <g id="petal"><path d="M30 30 V14 Q30 4 40 4 Q48 5 50 13"/></g>
-        <use href="#petal" transform="rotate(60 30 30)"/><use href="#petal" transform="rotate(120 30 30)"/>
-        <use href="#petal" transform="rotate(180 30 30)"/><use href="#petal" transform="rotate(240 30 30)"/>
-        <use href="#petal" transform="rotate(300 30 30)"/>
-      </g>
-    </symbol>
-    <symbol id="building" viewBox="0 0 40 40">
-      <path d="M3 37 V12 L14 4 V37" fill="#cfa8f6" stroke="#111" stroke-width="2.5" stroke-linejoin="round"/>
-      <rect x="14" y="16" width="23" height="21" fill="#cfa8f6" stroke="#111" stroke-width="2.5"/>
-      <path d="M8 18 V20 M8 26 V28 M21 23 H24 M28 23 H31 M21 30 H24 M28 30 H31" stroke="#111" stroke-width="2.5"/>
-    </symbol>
-    <symbol id="openbook" viewBox="0 0 40 36">
-      <path d="M2 5 Q11 2 20 8 Q29 2 38 5 V32 Q29 29 20 34 Q11 29 2 32 Z" fill="#6ce09c" stroke="#111" stroke-width="2.5" stroke-linejoin="round"/>
-      <path d="M20 8 V34" stroke="#111" stroke-width="2.5"/>
-    </symbol>
-    <symbol id="tagicon" viewBox="0 0 40 40">
-      <path d="M22 3 H36 V17 L16 37 L3 24 Z" fill="#ffc764" stroke="#111" stroke-width="2.5" stroke-linejoin="round"/>
-      <circle cx="29" cy="10" r="3" fill="#fff" stroke="#111" stroke-width="2"/>
-    </symbol>
-    <symbol id="drop" viewBox="0 0 40 44">
-      <path d="M6 18 L18 4 L32 18 Q36 26 28 32 Q20 36 12 30 Q4 24 6 18 Z" fill="#6ce09c" stroke="#111" stroke-width="2.5" stroke-linejoin="round" transform="rotate(-20 20 20)"/>
-      <path d="M33 34 Q36 38 33 41 Q30 38 33 34 Z" fill="#fff" stroke="#111" stroke-width="2"/>
-    </symbol>
-    <symbol id="airflow" viewBox="0 0 44 44">
-      <path d="M22 22 L22 2 Q34 6 22 22 Z" fill="#00c7d4"/>
-      <path d="M22 22 L42 22 Q38 34 22 22 Z" fill="#e43921"/>
-      <path d="M22 22 L22 42 Q10 38 22 22 Z" fill="#017cee"/>
-      <path d="M22 22 L2 22 Q6 10 22 22 Z" fill="#11e1ee"/>
-    </symbol>
-  </defs>
-</svg>
+<!-- ===== Shared icon sprite and edge markers (assets/bbg-icons.js) ===== -->
+<script src="../assets/bbg-icons.js"></script>
 
 <!-- ===== Back layer: dashed sections and the context-assembly group ===== -->
 <svg class="layer" width="1280" height="1654" viewBox="0 0 1280 1654">
@@ -153,48 +29,42 @@
 
 <!-- ===== Edges (under boxes, so arrowheads stop at borders) ===== -->
 <svg class="layer edges" width="1280" height="1654" viewBox="0 0 1280 1654">
-  <defs>
-    <marker id="ah" viewBox="0 0 12 12" refX="10" refY="6" markerUnits="userSpaceOnUse"
-            markerWidth="16" markerHeight="16" orient="auto-start-reverse">
-      <path d="M1 1 L10 6 L1 11" fill="none" stroke="#111" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
-    </marker>
-  </defs>
   <!-- Offline: internal data fan-out and fan-in -->
   <path d="M392 316 V345"/>
-  <path d="M392 345 H252 Q237 345 237 360 V372" marker-end="url(#ah)"/>
-  <path d="M392 345 V372" marker-end="url(#ah)"/>
-  <path d="M392 345 H532 Q547 345 547 360 V372" marker-end="url(#ah)"/>
+  <path d="M392 345 H252 Q237 345 237 360 V372" marker-end="url(#m-arrow)"/>
+  <path d="M392 345 V372" marker-end="url(#m-arrow)"/>
+  <path d="M392 345 H532 Q547 345 547 360 V372" marker-end="url(#m-arrow)"/>
   <path d="M237 436 V446 Q237 458 252 458 H392"/>
   <path d="M547 436 V446 Q547 458 532 458 H398"/>
-  <path d="M392 436 V481" marker-end="url(#ah)"/>
-  <path d="M398 458 V481" marker-end="url(#ah)"/>
-  <path d="M392 547 V646" marker-end="url(#ah)"/>
-  <path d="M825 363 V437" marker-end="url(#ah)"/>
-  <path d="M825 503 V646" marker-end="url(#ah)"/>
-  <path d="M1112 328 V626" marker-end="url(#ah)"/>
+  <path d="M392 436 V481" marker-end="url(#m-arrow)"/>
+  <path d="M398 458 V481" marker-end="url(#m-arrow)"/>
+  <path d="M392 547 V646" marker-end="url(#m-arrow)"/>
+  <path d="M825 363 V437" marker-end="url(#m-arrow)"/>
+  <path d="M825 503 V646" marker-end="url(#m-arrow)"/>
+  <path d="M1112 328 V626" marker-end="url(#m-arrow)"/>
   <!-- Context assembly -->
-  <path d="M420 675 H585 Q597 675 597 687 V729" marker-end="url(#ah)"/>
-  <path d="M800 675 H648 Q636 675 636 687 V729" marker-end="url(#ah)"/>
+  <path d="M420 675 H585 Q597 675 597 687 V729" marker-end="url(#m-arrow)"/>
+  <path d="M800 675 H648 Q636 675 636 687 V729" marker-end="url(#m-arrow)"/>
   <path d="M1112 735 V790 Q1112 803 1099 803 H1040"/>
-  <path d="M880 808 H684 Q672 808 672 820 V943" marker-end="url(#ah)"/>
-  <path d="M577 789 V943" marker-end="url(#ah)"/>
-  <path d="M602 789 V943" marker-end="url(#ah)"/>
+  <path d="M880 808 H684 Q672 808 672 820 V943" marker-end="url(#m-arrow)"/>
+  <path d="M577 789 V943" marker-end="url(#m-arrow)"/>
+  <path d="M602 789 V943" marker-end="url(#m-arrow)"/>
   <!-- Query embedding -->
   <path d="M300 997 V942"/>
-  <path d="M300 860 V775 Q300 762 313 762 H551" marker-end="url(#ah)"/>
+  <path d="M300 860 V775 Q300 762 313 762 H551" marker-end="url(#m-arrow)"/>
   <!-- User → runtime / embedding -->
   <path d="M91 1173 H287 Q300 1173 300 1160 V1063"/>
-  <path d="M91 1185 H535" marker-end="url(#ah)"/>
-  <path d="M619 1087 V1134" marker-end="url(#ah)"/>
+  <path d="M91 1185 H535" marker-end="url(#m-arrow)"/>
+  <path d="M619 1087 V1134" marker-end="url(#m-arrow)"/>
   <!-- Agentic loop -->
-  <path d="M705 1168 Q860 1090 1041 1158" marker-end="url(#ah)"/>
-  <path d="M1043 1194 Q860 1258 707 1188" marker-end="url(#ah)"/>
+  <path d="M705 1168 Q860 1090 1041 1158" marker-end="url(#m-arrow)"/>
+  <path d="M1043 1194 Q860 1258 707 1188" marker-end="url(#m-arrow)"/>
   <!-- Tools → runtime, tools ↔ data -->
-  <path d="M619 1263 V1236" marker-end="url(#ah)"/>
-  <path class="thin" d="M365 1472 V1505" marker-start="url(#ah)" marker-end="url(#ah)"/>
-  <path class="thin" d="M534 1472 V1505" marker-start="url(#ah)" marker-end="url(#ah)"/>
-  <path class="thin" d="M703 1472 V1505" marker-start="url(#ah)" marker-end="url(#ah)"/>
-  <path class="thin" d="M871 1472 V1505" marker-start="url(#ah)" marker-end="url(#ah)"/>
+  <path d="M619 1263 V1236" marker-end="url(#m-arrow)"/>
+  <path class="thin" d="M365 1472 V1505" marker-start="url(#m-arrow)" marker-end="url(#m-arrow)"/>
+  <path class="thin" d="M534 1472 V1505" marker-start="url(#m-arrow)" marker-end="url(#m-arrow)"/>
+  <path class="thin" d="M703 1472 V1505" marker-start="url(#m-arrow)" marker-end="url(#m-arrow)"/>
+  <path class="thin" d="M871 1472 V1505" marker-start="url(#m-arrow)" marker-end="url(#m-arrow)"/>
 </svg>
 
 <!-- ===== Section pills ===== -->
@@ -321,5 +191,6 @@
 <div class="t" style="left:888px; top:1602px; font-size:13px;">Metadata Catalog</div>
 
 </div>
+<script src="../assets/bbg-parts.js"></script>
 </body>
 </html>

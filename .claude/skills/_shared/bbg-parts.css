@@ -1,0 +1,139 @@
+/* ByteByteGo shared parts: extra edge styles, shapes, boxes, labels, legend, variants.
+   Loaded after the skill's own stylesheet (bbg-flow.css or bbg-animated.css), so it
+   only uses tokens both define (--ink) and falls back to literals for the rest. */
+:root {
+  --red: #e5484d;
+  --edge-blue: #2f6fde;
+  --edge-green: #1f9d55;
+  --hl-fill: #fde97a;   /* "current stage" highlight */
+}
+
+/* ---------- Edge styles: <path class="dash red" …> inside svg.edges ----------
+   Straight diagonal:  M x1 y1 L x2 y2         Curve: M x1 y1 C c1x c1y c2x c2y x2 y2
+   Undirected: no marker.   Two-way: marker-start + marker-end.
+   Coloured heads: #m-arrow-red / #m-arrow-blue / #m-arrow-green.  Span arrow: #m-span both ends. */
+:is(svg.edges > path, .legend svg > path).dash { stroke-dasharray: 10 7; }
+:is(svg.edges > path, .legend svg > path).dot  { stroke-dasharray: 0.1 7; stroke-linecap: round; }
+:is(svg.edges > path, .legend svg > path).red   { stroke: var(--red); }
+:is(svg.edges > path, .legend svg > path).blue  { stroke: var(--edge-blue); }
+:is(svg.edges > path, .legend svg > path).green { stroke: var(--edge-green); }
+:is(svg.edges > path, .legend svg > path).bold  { stroke-width: 5; }
+:is(svg.edges > path, .legend svg > path).faded { opacity: 0.3; }
+
+/* Label on an edge: a white chip that hides the line under it.
+   left/top is the chip centre; tilt it with style="--rot:-32deg". */
+.elabel {
+  position: absolute; transform: translate(-50%, -50%) rotate(var(--rot, 0deg));
+  background: #fff; padding: 2px 8px; border-radius: 6px;
+  font-size: 15px; font-weight: 600; line-height: 1.25; text-align: center; white-space: nowrap;
+}
+.elabel.chip { border: 2px solid var(--ink); }
+.elabel.clear { background: none; }
+
+/* ---------- Shapes drawn by bbg-parts.js ----------
+   <div class="shp diamond" style="left:…; top:…; width:…; height:…">Text</div>
+   Kinds: diamond, hexagon, ellipse (circle = equal sides), cylinder, parallelogram,
+   brace, bracket (data-dir="down|up|left|right", default down). left/top = top-left corner. */
+.shp {
+  position: absolute; display: flex; align-items: center; justify-content: center;
+  text-align: center; font-weight: 700; line-height: 1.25; isolation: isolate;
+  --shape-fill: #fff; --shape-stroke: var(--ink); --shape-sw: 3px;
+}
+.shp > svg.shp-bg { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; overflow: visible; }
+.shp > svg.shp-bg > * {
+  fill: var(--shape-fill); stroke: var(--shape-stroke); stroke-width: var(--shape-sw); stroke-linejoin: round;
+}
+.shp.brace > svg.shp-bg > *, .shp.bracket > svg.shp-bg > * { fill: none; stroke-linecap: round; }
+.shp.dashed > svg.shp-bg > * { stroke-dasharray: 10 7; }
+
+/* ---------- Fills: .f-* on any HTML element, same names as modifiers on .shp ---------- */
+.f-white  { background: #fff; }                         .shp.f-white  { --shape-fill: #fff; }
+.f-green  { background: var(--green, #6ce09c); }        .shp.f-green  { --shape-fill: var(--green, #6ce09c); }
+.f-soft   { background: var(--green-soft, #d7fbe5); }   .shp.f-soft   { --shape-fill: var(--green-soft, #d7fbe5); }
+.f-grey   { background: var(--grey-fill, #f5f5f5); }    .shp.f-grey   { --shape-fill: var(--grey-fill, #f5f5f5); }
+.f-blue   { background: var(--blue, #8fbdf8); }         .shp.f-blue   { --shape-fill: var(--blue, #8fbdf8); }
+.f-yellow { background: var(--yellow, #fde97a); }       .shp.f-yellow { --shape-fill: var(--yellow, #fde97a); }
+.f-pink   { background: var(--pink, #ffa5a5); }         .shp.f-pink   { --shape-fill: var(--pink, #ffa5a5); }
+.f-purple { background: var(--purple, #cfa8f6); }       .shp.f-purple { --shape-fill: var(--purple, #cfa8f6); }
+.f-orange { background: var(--orange, #ffc764); }       .shp.f-orange { --shape-fill: var(--orange, #ffc764); }
+.shp.f-none { --shape-fill: none; }
+.shp.f-white, .shp.f-green, .shp.f-soft, .shp.f-grey, .shp.f-blue,
+.shp.f-yellow, .shp.f-pink, .shp.f-purple, .shp.f-orange { background: none; }
+
+/* ---------- Boxes ---------- */
+/* Box with a header strip and a bullet list */
+.hbox {
+  position: absolute; display: flex; flex-direction: column; overflow: hidden;
+  background: #fff; border: 3px solid var(--ink); border-radius: 12px;
+}
+.hbox > .hd {
+  padding: 7px 12px; font-weight: 700; text-align: center; white-space: nowrap;
+  background: var(--hd-fill, var(--green, #6ce09c)); border-bottom: 3px solid var(--ink);
+}
+.hbox > ul { list-style: none; padding: 8px 14px; font-size: 14px; font-weight: 500; line-height: 1.5; }
+.hbox > ul > li { white-space: nowrap; }
+.hbox > ul > li::before { content: "•"; margin-right: 7px; font-weight: 700; }
+
+/* Box split into cells: <div class="split"><div>A</div><div>B</div></div>; .v stacks them */
+.split {
+  position: absolute; display: flex; overflow: hidden;
+  background: #fff; border: 3px solid var(--ink); border-radius: 12px; font-weight: 700;
+}
+.split > * { flex: 1; display: flex; align-items: center; justify-content: center; text-align: center; padding: 4px 6px; }
+.split > * + * { border-left: 3px solid var(--ink); }
+.split.v { flex-direction: column; }
+.split.v > * + * { border-left: 0; border-top: 3px solid var(--ink); }
+
+/* Text list (one item per line); <s> strikes an item out; .mono for code-like text */
+.tlist {
+  position: absolute; padding: 8px 12px; background: #fff;
+  border: 2.5px solid var(--grey-line, #a0a0a0); border-radius: 10px;
+  font-size: 14px; font-weight: 500; line-height: 1.55; white-space: nowrap;
+}
+.tlist s { color: #999; }
+.mono { font-family: "SF Mono", Menlo, Consolas, "Liberation Mono", monospace; }
+
+/* Highlighted "current stage" and failed state — on boxes, shapes, icons */
+.hl { background: var(--hl-fill) !important; box-shadow: 0 0 0 6px rgba(253, 233, 122, 0.55); }
+.shp.hl { background: none !important; box-shadow: none; --shape-fill: var(--hl-fill); }
+svg.icon.hl { background: none !important; box-shadow: none; filter: drop-shadow(0 0 6px #f5c400); }
+.failed { opacity: 0.35; filter: grayscale(1); }
+
+/* Small queue strip inside an architecture figure: <div class="qstrip"><span class="on">3</span>…</div> */
+.qstrip {
+  position: absolute; display: flex; height: var(--qh, 30px); overflow: hidden;
+  background: #fff; border: 2.5px solid var(--ink); border-radius: 6px;
+}
+.qstrip > span {
+  width: var(--qw, 22px); display: flex; align-items: center; justify-content: center;
+  border-left: 2px solid var(--ink); font-size: 12px; font-weight: 700;
+}
+.qstrip > span:first-child { border-left: 0; }
+.qstrip > span.on { background: var(--green, #6ce09c); }
+.qstrip > span.hl { box-shadow: none; }
+.qstrip > span.ghost { border-left-style: dashed; color: #999; }
+
+/* ---------- Zones ---------- */
+/* Lane / zone divider: <path class="lane" d="M x y V y2"/> in the back SVG layer */
+svg .lane { fill: none; stroke: var(--grey-line, #a0a0a0); stroke-width: 3; stroke-dasharray: 10 8; }
+/* Make any dashed SVG outline solid (sections, groups, lanes) */
+svg .solid { stroke-dasharray: none !important; }
+.lane-label { position: absolute; font-size: 18px; font-weight: 700; color: #555; white-space: nowrap; }
+
+/* ---------- Legend ---------- */
+.legend {
+  position: absolute; display: flex; flex-direction: column; gap: 8px; padding: 10px 14px;
+  background: #fff; border: 2.5px solid var(--grey-line, #a0a0a0); border-radius: 10px;
+  font-size: 14px; font-weight: 600; white-space: nowrap;
+}
+.legend > div { display: flex; align-items: center; gap: 10px; }
+.legend svg { width: 48px; height: 14px; overflow: visible; flex: none; }
+.legend svg > path { fill: none; stroke: var(--ink); stroke-width: 3; }
+
+/* ---------- Step circles with a label ("M1", "4.a") and a small size ---------- */
+.step.lbl {
+  width: auto; min-width: 46px; padding: 0 11px; margin: 0; transform: translate(-50%, -50%);
+  border-radius: 999px; font-size: 17px;
+}
+.step.sm { width: 32px; height: 32px; margin: -16px 0 0 -16px; font-size: 15px; }
+.step.lbl.sm { width: auto; min-width: 32px; padding: 0 8px; margin: 0; }

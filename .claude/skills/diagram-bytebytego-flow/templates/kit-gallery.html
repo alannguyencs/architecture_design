@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>ByteByteGo Kit Gallery</title>
+<!-- Every shared icon (by id) plus a sample of each edge style, shape and box from
+     bbg-parts.css. Render it to check the kit after editing _shared/: canvas 1280 × 2000. -->
+<link rel="stylesheet" href="../assets/bbg-flow.css">
+<link rel="stylesheet" href="../assets/bbg-parts.css">
+<style>
+  .canvas { width: 1280px; height: 2000px; }
+  #icons { position: absolute; left: 30px; top: 100px; width: 1220px; display: grid; grid-template-columns: repeat(10, 1fr); row-gap: 14px; }
+  #icons > div { display: flex; flex-direction: column; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; }
+  #icons svg { width: 56px; height: 56px; }
+  .h2 { position: absolute; left: 30px; font-size: 26px; font-weight: 700; }
+</style>
+</head>
+<body>
+<div class="canvas">
+<script src="../assets/bbg-icons.js"></script>
+
+<div class="title" style="left:30px; top:28px; font-size:44px;">ByteByteGo kit</div>
+<div id="icons"></div>
+
+<!-- ===== Edges ===== -->
+<div class="h2" style="top:1010px;">Edges</div>
+<svg class="layer edges" width="1280" height="2000" viewBox="0 0 1280 2000">
+  <path d="M40 1080 H230" marker-end="url(#m-arrow)"/>
+  <path class="dash" d="M40 1130 H230" marker-end="url(#m-arrow)"/>
+  <path class="dot" d="M40 1180 H230" marker-end="url(#m-arrow)"/>
+  <path class="red" d="M40 1230 H230" marker-end="url(#m-arrow-red)"/>
+  <path class="blue bold" d="M40 1280 H230" marker-end="url(#m-arrow-blue)"/>
+  <path class="green dash" d="M40 1330 H230" marker-end="url(#m-arrow-green)"/>
+  <path class="faded" d="M40 1380 H230" marker-end="url(#m-arrow)"/>
+  <path d="M290 1070 L470 1180" marker-end="url(#m-arrow)"/>
+  <path d="M290 1230 C360 1150 420 1320 480 1240" marker-end="url(#m-arrow)"/>
+  <path d="M290 1300 H480" marker-start="url(#m-arrow)" marker-end="url(#m-arrow)"/>
+  <path d="M290 1360 H480"/>
+  <path d="M290 1410 H480" marker-start="url(#m-span)" marker-end="url(#m-span)"/>
+  <path d="M520 1080 H640" marker-end="url(#m-tri-ink)"/>
+  <path d="M520 1130 H640" marker-start="url(#m-dot)" marker-end="url(#m-arrow)"/>
+</svg>
+<div class="t" style="left:300px; top:1060px; font-size:13px; transform:none;">diagonal</div>
+<div class="elabel" style="left:385px; top:1300px;">two-way</div>
+<div class="elabel chip" style="left:385px; top:1360px;">undirected</div>
+<div class="elabel" style="left:385px; top:1410px;">15 s</div>
+<div class="elabel clear" style="left:380px; top:1120px; --rot:31deg;">tilted label</div>
+<svg class="icon" style="left:580px; top:1200px;" width="90" height="60"><use href="#block-arrow"/></svg>
+<svg class="icon" style="left:580px; top:1290px; transform:translate(-50%,-50%) rotate(90deg);" width="60" height="40"><use href="#block-arrow"/></svg>
+
+<div class="legend" style="left:680px; top:1060px;">
+  <div><svg><path d="M2 7 H46"/></svg>request</div>
+  <div><svg><path class="dash" d="M2 7 H46"/></svg>response</div>
+  <div><svg><path class="red" d="M2 7 H46"/></svg>failure</div>
+</div>
+
+<!-- ===== Shapes ===== -->
+<div class="h2" style="top:1460px;">Shapes and boxes</div>
+<div class="shp diamond f-yellow" style="left:30px; top:1510px; width:150px; height:100px; font-size:15px;">Cache<br>hit?</div>
+<div class="shp hexagon f-purple" style="left:200px; top:1520px; width:150px; height:80px; font-size:15px;">Rate limiter</div>
+<div class="shp ellipse f-soft" style="left:370px; top:1520px; width:130px; height:80px; font-size:15px;">Map</div>
+<div class="shp ellipse" style="left:520px; top:1515px; width:90px; height:90px; font-size:15px;">start</div>
+<div class="shp cylinder f-blue" style="left:630px; top:1505px; width:120px; height:110px; font-size:15px;">Users<br>shard 1</div>
+<div class="shp parallelogram f-orange" style="left:770px; top:1525px; width:150px; height:70px; font-size:15px;">Input</div>
+<div class="shp hexagon dashed" style="left:940px; top:1520px; width:150px; height:80px; font-size:15px;">dashed</div>
+<div class="shp diamond hl" style="left:1110px; top:1510px; width:140px; height:100px; font-size:15px;">highlight</div>
+
+<div class="shp brace" style="left:30px; top:1640px; width:220px; height:30px;"></div>
+<div class="t" style="left:140px; top:1676px; font-size:14px;">brace (down)</div>
+<div class="shp brace" data-dir="right" style="left:270px; top:1630px; width:30px; height:110px;"></div>
+<div class="shp bracket" style="left:330px; top:1640px; width:180px; height:22px;"></div>
+<div class="t" style="left:420px; top:1668px; font-size:14px;">bracket</div>
+
+<div class="hbox" style="left:540px; top:1630px; width:200px; height:140px; font-size:16px;">
+  <div class="hd">Web tier</div>
+  <ul><li>Stateless servers</li><li>Auto-scaling</li><li>Session in Redis</li></ul>
+</div>
+<div class="split" style="left:760px; top:1630px; width:240px; height:60px; font-size:15px;">
+  <div class="f-green">Leader</div><div>Follower</div><div class="f-grey">Follower</div>
+</div>
+<div class="split v" style="left:760px; top:1700px; width:120px; height:90px; font-size:14px;">
+  <div>key</div><div class="f-yellow">value</div>
+</div>
+<div class="tlist mono" style="left:1020px; top:1630px;">
+  user_id  bigint<br><s>email    text</s><br>name     text
+</div>
+<div class="qstrip" style="left:900px; top:1720px;">
+  <span class="on">0</span><span class="on">1</span><span class="on">2</span><span class="hl">3</span><span class="ghost">4</span><span class="ghost">5</span>
+</div>
+
+<div class="bx green hl" style="left:30px; top:1820px; width:150px; height:64px; font-size:15px;">Current stage</div>
+<div class="bx white failed" style="left:200px; top:1820px; width:150px; height:64px; font-size:15px;">Failed node</div>
+<svg class="icon" style="left:345px; top:1823px;" width="36" height="36"><use href="#x-mark"/></svg>
+<div class="bx f-purple" style="left:380px; top:1820px; width:150px; height:64px; font-size:15px;">Purple fill</div>
+<div class="step" style="left:580px; top:1852px;">1</div>
+<div class="step lbl" style="left:650px; top:1852px;">M1</div>
+<div class="step lbl sm" style="left:720px; top:1852px;">4.a</div>
+<div class="step sm" style="left:770px; top:1852px;">2</div>
+<svg class="layer" width="1280" height="2000" viewBox="0 0 1280 2000">
+  <path class="lane" d="M830 1810 V1900"/>
+  <rect class="section solid" x="860" y="1810" width="170" height="90" rx="14"/>
+  <rect class="group" x="1050" y="1810" width="200" height="90" rx="14"/>
+</svg>
+<div class="lane-label" style="left:875px; top:1842px;">solid section</div>
+<div class="lane-label" style="left:1080px; top:1842px;">dashed group</div>
+</div>
+
+<script>
+  // Fill the icon grid from the sprite, so new icons show up without editing this page.
+  const grid = document.getElementById('icons');
+  document.querySelectorAll('symbol[id]').forEach(s => {
+    const cell = document.createElement('div');
+    cell.innerHTML = `<svg viewBox="${s.getAttribute('viewBox')}"><use href="#${s.id}"/></svg><span>${s.id}</span>`;
+    grid.append(cell);
+  });
+</script>
+<script src="../assets/bbg-parts.js"></script>
+</body>
+</html>

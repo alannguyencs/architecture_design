@@ -1,6 +1,6 @@
 ---
 name: diagram-bytebytego-animated
-description: Re-generate or create an animated ByteByteGo-style diagram as a looping GIF — pastel icons with thick black outlines that move (bob, wiggle, spin, pulse, light up), plus a green streak that runs along every flow line — built as an HTML page and captured frame-by-frame with Playwright, then encoded with ffmpeg. Ships a matched template of data/examples/0_CqXxd5b308ZJ2DSJ.gif (How to Design a System Like YouTube). Use when the user says "animated diagram", "make a GIF diagram", "re-generate the YouTube GIF", "animate this architecture", or asks to rebuild 0_CqXxd5b308ZJ2DSJ.gif.
+description: Re-generate or create an animated ByteByteGo-style diagram as a looping GIF — pastel icons with thick black outlines that move (bob, wiggle, spin, pulse, light up), plus a green streak that runs along every flow line — built as an HTML page and captured frame-by-frame with Playwright, then encoded with ffmpeg. Ships a matched template of data/examples/0_CqXxd5b308ZJ2DSJ.gif (How to Design a System Like YouTube) and a book-figure template (System Design Interview figure 14-4), and shares an icon / shape kit with diagram-bytebytego-flow. Use when the user says "animated diagram", "make a GIF diagram", "re-generate the YouTube GIF", "animate this architecture", or asks to rebuild 0_CqXxd5b308ZJ2DSJ.gif.
 ---
 
 # ByteByteGo animated diagram
@@ -32,9 +32,13 @@ from start to end once per loop and is hidden at frame 0.
 | Path (relative to this skill) | What it is |
 |---|---|
 | `assets/bbg-animated.css` | Colour tokens, loop timing (`--loop` 2.25 s, `--half`, `--third`), header (`.title`, `.title-pill`, `.rule`), `.svc` dashed service boxes (`.api/.status/.server`), `.step`, `.t`, `.icon`, edges and `path.flow` streaks, animation classes `.a-bob .a-wiggle .a-spin .a-pulse .a-light` |
+| `assets/bbg-icons.js` | Shared icon sprite and edge markers (generated — see "Shared kit" below) |
+| `assets/bbg-parts.css` | Shared extra parts: edge styles, labels, shapes, fills, boxes, legend, labelled steps (generated copy) |
+| `assets/bbg-parts.js` | Draws `.shp` outlines and applies the page variant (generated copy) |
 | `templates/youtube-system-design.html` | Re-creation of the YouTube GIF on a 1329 × 1536 canvas, plus a small script that adds a streak copy of every edge |
-| `scripts/render_gif.py` | HTML → GIF (`--loop-ms`, `--frame-ms`, `--scale`, `--compare ref.gif`, `--keep-frames`); also writes `<name>_frame0.png` |
-| `scripts/render.py` | HTML → still PNG (`--compare` uses the reference's first frame) |
+| `templates/youtube-upload-flow.html` | Book figure 14-4 (video uploading flow) in this look, built mostly from shared icons — the template to copy for book figures |
+| `scripts/render_gif.py` | HTML → GIF (`--loop-ms`, `--frame-ms`, `--scale`, `--compare ref.gif`, `--keep-frames`, `--variant NAME`); also writes `<name>_frame0.png` |
+| `scripts/render.py` | HTML → still PNG (`--compare` uses the reference's first frame; `--variant` repeatable; generated copy) |
 
 Needs Python `playwright` (Chromium: `python3 -m playwright install chromium`),
 Pillow, and `ffmpeg` on PATH.
@@ -73,7 +77,10 @@ python3 .claude/skills/diagram-bytebytego-animated/scripts/render.py \
    loop: curved edges are cubic paths (`M … C …`), and icons sit on the
    curves with opaque fills so they break the line.
 3. Then animate. Put the moving part of an icon in its own `<g>`/element with
-   one class:
+   one class (for a shared icon, wrap the whole `<use>`:
+   `<svg width="72" height="72"><g class="anim a-spin"><use href="#worker" width="72" height="72"/></g></svg>`;
+   an animation *inside* a `<use>` cannot be seeked, so an icon whose parts move
+   separately — load-balancer nodes, CDN dots, queue envelopes — stays inline):
    - `.a-bob` — up/down (arrows, heads, envelopes);
    - `.a-wiggle` — rotate ±7° (file, camera icons; add `.anim` so it turns
      around its own centre);
@@ -89,9 +96,22 @@ python3 .claude/skills/diagram-bytebytego-animated/scripts/render.py \
    frame runs straight back into the first. If you change `--loop`, pass the same
    value as `--loop-ms`.
 5. Streaks are automatic for every `svg.edges > path`; add `class="no-flow"` to
-   a path to skip it.
+   a path to skip it. With the shared kit, use `marker-end="url(#m-tri)"` for this
+   skill's filled head; the edge classes, `.elabel`, `.shp` shapes, `.step.lbl`
+   (labels like `3a.1`) and variants (`data-hl` / `data-only`) work as in
+   `diagram-bytebytego-flow`.
 6. Render with `render_gif.py`. For a smaller file: fewer moving parts, a
    bigger `--frame-ms` (e.g. 40), or `gifsicle -O3` afterwards.
+
+## Shared kit
+
+Load `<script src="../assets/bbg-icons.js"></script>` as the first child of
+`.canvas`, link `../assets/bbg-parts.css` after `bbg-animated.css`, and load
+`../assets/bbg-parts.js` last in `<body>`. Icons: `<use href="#id"/>`, recoloured
+with `style="--icon-fill:…"`; the list and samples are in
+`diagram-bytebytego-flow/templates/kit-gallery.html`. These files and
+`scripts/render.py` are copies of `.claude/skills/_shared/`; edit the master and run
+`python3 .claude/skills/_shared/sync.py`. Never edit the copies here.
 
 ## Rules
 

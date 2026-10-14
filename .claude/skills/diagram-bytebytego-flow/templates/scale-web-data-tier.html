@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Web Tier, Data Tier, Cache and CDN</title>
+<!-- Book-figure template: System Design Interview figure 1-11 (scale from zero to millions
+     of users) redrawn in the ByteByteGo flow look. Shows the shared icons (laptop, phone,
+     dns, cdn, lb, server, db, cache), diagonal edges, dashed and coloured edges, an edge
+     label, a legend and numbered steps. Canvas 1280 × 1300 CSS px (render at --scale 1). -->
+<link rel="stylesheet" href="../assets/bbg-flow.css">
+<link rel="stylesheet" href="../assets/bbg-parts.css">
+<style>
+  .canvas { width: 1280px; height: 1300px; }
+  .t.lft { transform: none; text-align: left; }
+</style>
+</head>
+<body>
+<div class="canvas">
+<script src="../assets/bbg-icons.js"></script>
+
+<!-- ===== Back layer: user group, web tier, data tier ===== -->
+<svg class="layer" width="1280" height="1300" viewBox="0 0 1280 1300">
+  <rect class="section" x="270" y="140" width="600" height="230" rx="22"/>
+  <rect class="group" x="290" y="690" width="560" height="210" rx="18"/>
+  <rect class="section" x="170" y="1040" width="800" height="225" rx="22"/>
+</svg>
+
+<!-- ===== Header ===== -->
+<div class="title" style="left:30px; top:30px; font-size:50px;">Web Tier, Data Tier, Cache and CDN</div>
+
+<!-- ===== Edges ===== -->
+<svg class="layer edges" width="1280" height="1300" viewBox="0 0 1280 1300">
+  <!-- User → DNS, user → CDN -->
+  <path d="M270 255 H170" marker-end="url(#m-arrow)"/>
+  <path d="M870 255 H1046" marker-end="url(#m-arrow)"/>
+  <!-- Browser and app → load balancer (diagonal) -->
+  <path d="M450 330 L556 498" marker-end="url(#m-arrow)"/>
+  <path d="M680 330 L594 498" marker-end="url(#m-arrow)"/>
+  <!-- Load balancer → servers -->
+  <path d="M556 594 L470 690" marker-end="url(#m-arrow)"/>
+  <path d="M594 594 L680 690" marker-end="url(#m-arrow)"/>
+  <!-- Writes go to the master, reads to the slave, lookups to the cache -->
+  <path d="M440 870 L348 1094" marker-end="url(#m-arrow)"/>
+  <path d="M680 870 L382 1100" marker-end="url(#m-arrow)"/>
+  <path class="dash" d="M466 870 L782 1100" marker-end="url(#m-arrow)"/>
+  <path class="dash" d="M702 870 L808 1094" marker-end="url(#m-arrow)"/>
+  <path class="green" d="M494 870 L1090 1062" marker-end="url(#m-arrow-green)"/>
+  <path class="green" d="M734 866 L1094 1040" marker-end="url(#m-arrow-green)"/>
+  <!-- Replication -->
+  <path d="M398 1160 H762" marker-start="url(#m-arrow)" marker-end="url(#m-arrow)"/>
+</svg>
+
+<!-- ===== User ===== -->
+<div class="pill" style="left:510px; top:116px; width:120px; height:48px; font-size:26px;">User</div>
+<svg class="icon" style="left:450px; top:240px;" width="96" height="96"><use href="#laptop"/></svg>
+<div class="t" style="left:450px; top:290px; font-size:19px;">Web browser</div>
+<svg class="icon" style="left:690px; top:238px;" width="92" height="92"><use href="#phone"/></svg>
+<div class="t" style="left:690px; top:290px; font-size:19px;">Mobile app</div>
+
+<svg class="icon" style="left:110px; top:250px;" width="100" height="100"><use href="#dns"/></svg>
+<div class="t" style="left:110px; top:306px; font-size:19px;">DNS</div>
+
+<svg class="icon" style="left:1130px; top:255px;" width="150" height="101"><use href="#cdn"/></svg>
+<div class="step" style="left:1085px; top:345px;">1</div>
+<div class="t lft" style="left:1118px; top:333px; font-size:22px;">CDN</div>
+
+<div class="t" style="left:400px; top:420px; font-size:19px; font-weight:600;">www.mysite.com</div>
+<div class="t" style="left:752px; top:420px; font-size:19px; font-weight:600;">api.mysite.com</div>
+
+<!-- ===== Load balancer ===== -->
+<svg class="icon" style="left:575px; top:548px;" width="96" height="96"><use href="#lb"/></svg>
+<div class="t lft" style="left:640px; top:534px; font-size:21px;">Load balancer</div>
+
+<!-- ===== Web tier ===== -->
+<div class="pill" style="left:500px; top:666px; width:140px; height:48px; font-size:26px;">Web tier</div>
+<svg class="icon" style="left:450px; top:782px;" width="100" height="97"><use href="#server"/></svg>
+<div class="t" style="left:450px; top:838px; font-size:19px;">Server 1</div>
+<svg class="icon" style="left:690px; top:782px;" width="100" height="97"><use href="#server"/></svg>
+<div class="t" style="left:690px; top:838px; font-size:19px;">Server 2</div>
+
+<div class="legend" style="left:910px; top:700px; font-size:16px;">
+  <div><svg><path d="M2 7 H46"/></svg>write</div>
+  <div><svg><path class="dash" d="M2 7 H46"/></svg>read</div>
+  <div><svg><path class="green" d="M2 7 H46"/></svg>cache lookup</div>
+</div>
+
+<!-- ===== Data tier ===== -->
+<div class="pill" style="left:500px; top:1016px; width:150px; height:48px; font-size:26px;">Data tier</div>
+<svg class="icon" style="left:350px; top:1150px;" width="84" height="92"><use href="#db"/></svg>
+<div class="t" style="left:350px; top:1206px; font-size:20px;">Master DB</div>
+<svg class="icon" style="left:810px; top:1150px;" width="84" height="92"><use href="#db"/></svg>
+<div class="t" style="left:810px; top:1206px; font-size:20px;">Slave DB</div>
+<div class="elabel" style="left:580px; top:1160px; font-size:17px;">Replicate</div>
+
+<!-- ===== Cache ===== -->
+<svg class="icon" style="left:1150px; top:1070px;" width="104" height="104"><use href="#cache"/></svg>
+<div class="step" style="left:1110px; top:1150px;">2</div>
+<div class="t lft" style="left:1143px; top:1138px; font-size:22px;">Cache</div>
+
+</div>
+<script src="../assets/bbg-parts.js"></script>
+</body>
+</html>

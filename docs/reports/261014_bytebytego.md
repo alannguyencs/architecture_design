@@ -333,13 +333,13 @@ Animation can come later. Several of these suit the animated skill's approach we
 
 ### 8.1 Update both skills (Proposal 1, section 5)
 
-- [ ] Move the icon `<symbol>`s into one shared file, `.claude/skills/_shared/bbg-icons.svg`, and keep each skill self-contained by copying it in with a small sync script.
-- [ ] Add the new icon groups from section 5.1: clients, network, compute, storage, messaging, domain and markers.
-- [ ] Add the edge styles from section 5.2 to the flow skill: diagonal, curved, dashed and dotted with a legend, double-headed, undirected, labelled, coloured, hollow block arrows, and span arrows.
-- [ ] Add the shapes and styles from section 5.3: diamond, hexagon, circle and ellipse nodes, header and split boxes, text-list and monospace boxes, highlighted and failed states, lane dividers, solid groups, small queue strips, legend, brace and labelled step circles.
-- [ ] Add a book-figure template to the flow skill, rebuilt from `scale-from-zero-to-millions-of-users/figure-1-11`.
-- [ ] Add a book-figure template to the animated skill, rebuilt from `design-youtube/figure-14-4`.
-- [ ] Add a "variant" pattern (one base page plus a class that switches the highlight or the steps), and test it on YouTube 14-10 … 14-21 and message-queue 25–27.
+- [x] Move the icon `<symbol>`s into one shared file, `.claude/skills/_shared/bbg-icons.svg`, and keep each skill self-contained by copying it in with a small sync script.
+- [x] Add the new icon groups from section 5.1: clients, network, compute, storage, messaging, domain and markers.
+- [x] Add the edge styles from section 5.2 to the flow skill: diagonal, curved, dashed and dotted with a legend, double-headed, undirected, labelled, coloured, hollow block arrows, and span arrows.
+- [x] Add the shapes and styles from section 5.3: diamond, hexagon, circle and ellipse nodes, header and split boxes, text-list and monospace boxes, highlighted and failed states, lane dividers, solid groups, small queue strips, legend, brace and labelled step circles.
+- [x] Add a book-figure template to the flow skill, rebuilt from `scale-from-zero-to-millions-of-users/figure-1-11`.
+- [x] Add a book-figure template to the animated skill, rebuilt from `design-youtube/figure-14-4`.
+- [x] Add a "variant" pattern (one base page plus a class that switches the highlight or the steps), and test it on YouTube 14-10 … 14-21 and message-queue 25–27.
 
 ### 8.2 Build `diagram-bytebytego-concept` (Proposal 2, section 6)
 

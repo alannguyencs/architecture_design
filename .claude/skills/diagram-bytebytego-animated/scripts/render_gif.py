@@ -8,7 +8,7 @@ only the changed rectangle of each frame is re-encoded, which keeps the file sma
 
 Usage:
     python3 render_gif.py diagram.html out.gif [--loop-ms 2250] [--frame-ms 30] [--scale 1]
-                          [--compare reference.gif] [--keep-frames]
+                          [--compare reference.gif] [--keep-frames] [--variant NAME]
 """
 
 import argparse
@@ -25,12 +25,12 @@ SEEK_JS = """t => {
 }"""
 
 
-def capture(html: Path, frames_dir: Path, loop_ms: int, frame_ms: int, scale: float) -> int:
+def capture(html: Path, frames_dir: Path, loop_ms: int, frame_ms: int, scale: float, variant: str = "") -> int:
     n = round(loop_ms / frame_ms)
     with sync_playwright() as p:
         browser = p.chromium.launch()
         page = browser.new_page(viewport={"width": 1600, "height": 1600}, device_scale_factor=scale)
-        page.goto(html.resolve().as_uri())
+        page.goto(html.resolve().as_uri() + (f"#v={variant}" if variant else ""))
         page.wait_for_load_state("networkidle")
         page.evaluate("document.fonts.ready")
         canvas = page.locator(".canvas")
@@ -77,6 +77,7 @@ def main() -> None:
     ap.add_argument("--scale", type=float, default=1.0)
     ap.add_argument("--compare", type=Path, help="reference GIF for a 4-moment side-by-side sheet")
     ap.add_argument("--keep-frames", action="store_true", help="keep PNG frames next to the GIF")
+    ap.add_argument("--variant", default="", help="open the page at #v=NAME (see bbg-parts.js)")
     args = ap.parse_args()
 
     if not shutil.which("ffmpeg"):
@@ -85,7 +86,7 @@ def main() -> None:
 
     with tempfile.TemporaryDirectory() as tmp:
         frames = Path(tmp)
-        n = capture(args.html, frames, args.loop_ms, args.frame_ms, args.scale)
+        n = capture(args.html, frames, args.loop_ms, args.frame_ms, args.scale, args.variant)
         encode(frames, args.out, args.frame_ms)
         size_kb = args.out.stat().st_size / 1024
         print(f"gif     {args.out}  {Image.open(args.out).size}  {n} frames × {args.frame_ms} ms  {size_kb:.0f} KB")

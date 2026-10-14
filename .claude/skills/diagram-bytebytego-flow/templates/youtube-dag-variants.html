@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Video Transcoding Architecture</title>
+<!-- Variant template: System Design Interview figures 14-10, 14-11, 14-14, 14-16, 14-18,
+     14-20 and 14-21 are one picture with a different box highlighted. One page draws all
+     seven; data-hl names the variants that highlight each box. Render them all with
+       render.py youtube-dag-variants.html out.png --variant base --variant preprocessor
+         --variant dag --variant resource --variant workers --variant storage --variant encoded
+     Canvas 1280 × 470 CSS px. -->
+<link rel="stylesheet" href="../assets/bbg-flow.css">
+<link rel="stylesheet" href="../assets/bbg-parts.css">
+<style>
+  .canvas { width: 1280px; height: 470px; }
+  .bx { font-size: 18px; gap: 12px; }
+</style>
+</head>
+<body>
+<div class="canvas">
+<script src="../assets/bbg-icons.js"></script>
+
+<div class="title" style="left:30px; top:28px; font-size:44px;">Video Transcoding Architecture</div>
+
+<svg class="layer edges" width="1280" height="470" viewBox="0 0 1280 470">
+  <path d="M130 330 V202 Q130 186 146 186 H772" marker-end="url(#m-arrow)"/>
+  <path d="M880 330 V230" marker-end="url(#m-arrow)"/>
+  <path d="M232 370 H272" marker-end="url(#m-arrow)"/>
+  <path d="M482 370 H522" marker-end="url(#m-arrow)"/>
+  <path d="M732 370 H772" marker-end="url(#m-arrow)"/>
+  <path d="M982 370 H1022" marker-end="url(#m-arrow)"/>
+</svg>
+
+<div class="bx white" data-hl="storage" style="left:778px; top:146px; width:204px; height:80px;">
+  <svg width="44" height="44"><use href="#bucket-line"/></svg><span>Temporary<br>storage</span>
+</div>
+<div class="bx white" data-hl="preprocessor" style="left:28px; top:330px; width:204px; height:80px;">
+  <svg width="44" height="48"><use href="#video-file"/></svg><span>Preprocessor</span>
+</div>
+<div class="bx white" data-hl="dag" style="left:278px; top:330px; width:204px; height:80px;">
+  <svg width="44" height="40"><use href="#nodes"/></svg><span>DAG<br>scheduler</span>
+</div>
+<div class="bx white" data-hl="resource" style="left:528px; top:330px; width:204px; height:80px;">
+  <svg width="44" height="44"><use href="#gateway"/></svg><span>Resource<br>manager</span>
+</div>
+<div class="bx white" data-hl="workers" style="left:778px; top:330px; width:204px; height:80px;">
+  <svg width="44" height="44"><use href="#worker"/></svg><span>Task<br>workers</span>
+</div>
+<div class="bx white" data-hl="encoded" style="left:1028px; top:330px; width:204px; height:80px;">
+  <svg width="44" height="43"><use href="#clapper"/></svg><span>Encoded<br>video</span>
+</div>
+
+</div>
+<script src="../assets/bbg-parts.js"></script>
+</body>
+</html>

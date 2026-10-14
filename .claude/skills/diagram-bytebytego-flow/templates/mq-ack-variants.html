@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en" data-variant="ack-all">
+<head>
+<meta charset="utf-8">
+<title>Producer Acknowledgement Settings</title>
+<!-- Variant template: System Design Interview, distributed message queue figures 25, 26
+     and 27 (ack=all, ack=1, ack=0) are one picture whose steps and ack edge change.
+     data-only names the variants that show an element. Render all three with
+       render.py mq-ack-variants.html out.png --variant ack-all --variant ack-1 --variant ack-0
+     Shows .qstrip (partition cells inside a figure), curved and dashed edges, label chips.
+     Canvas 1280 × 720 CSS px. -->
+<link rel="stylesheet" href="../assets/bbg-flow.css">
+<link rel="stylesheet" href="../assets/bbg-parts.css">
+<style>
+  .canvas { width: 1280px; height: 720px; }
+  .qstrip { --qw: 26px; --qh: 34px; }
+  .elabel { font-size: 17px; }
+  .t.lft { transform: none; text-align: left; }
+</style>
+</head>
+<body>
+<div class="canvas">
+<script src="../assets/bbg-icons.js"></script>
+
+<!-- ===== Brokers (leader in the green group) ===== -->
+<svg class="layer" width="1280" height="720" viewBox="0 0 1280 720">
+  <rect class="section" x="60" y="420" width="360" height="180" rx="20"/>
+  <rect class="group" x="460" y="420" width="360" height="180" rx="20"/>
+  <rect class="section" x="860" y="420" width="360" height="180" rx="20"/>
+</svg>
+
+<div class="title" style="left:30px; top:28px; font-size:44px;">Producer Acknowledgements</div>
+
+<!-- ===== Edges ===== -->
+<svg class="layer edges" width="1280" height="720" viewBox="0 0 1280 720">
+  <path d="M610 186 C596 300 640 400 660 470" marker-end="url(#m-arrow)"/>                                   <!-- produce -->
+  <path class="dash" data-only="ack-all ack-1" d="M790 474 C792 380 744 270 724 192" marker-end="url(#m-arrow)"/> <!-- ack -->
+  <path d="M646 474 C596 396 410 396 334 470" marker-end="url(#m-arrow)"/>                                   <!-- fetch -->
+  <path class="dash" d="M330 518 C400 566 560 566 650 520" marker-end="url(#m-arrow)"/>                      <!-- synced -->
+</svg>
+
+<!-- ===== Producer ===== -->
+<div class="bx white" style="left:530px; top:96px; width:220px; height:90px; font-size:22px; gap:14px;">
+  <svg width="46" height="45"><use href="#server"/></svg><span>Producer</span>
+</div>
+
+<!-- ===== Step labels per variant ===== -->
+<div class="elabel" data-only="ack-all ack-1" style="left:612px; top:300px;">1. produce</div>
+<div class="elabel" data-only="ack-0" style="left:612px; top:300px;">1. produce<br>without ack</div>
+<div class="elabel" data-only="ack-all" style="left:782px; top:330px;">4. ack</div>
+<div class="elabel" data-only="ack-1" style="left:782px; top:330px;">2. ack</div>
+<div class="elabel" data-only="ack-all" style="left:470px; top:420px;">2. fetch</div>
+<div class="elabel" data-only="ack-1 ack-0" style="left:470px; top:420px;">fetch</div>
+<div class="elabel" data-only="ack-all" style="left:480px; top:556px;">3. synced</div>
+<div class="elabel" data-only="ack-1 ack-0" style="left:480px; top:556px;">synced</div>
+
+<!-- ===== Replicas ===== -->
+<div class="t lft" style="left:96px; top:474px; font-size:17px;">replica-1<br>follower</div>
+<div class="qstrip" style="left:200px; top:478px;"><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span><span></span></div>
+<div class="t lft" style="left:496px; top:474px; font-size:17px;">replica-2<br>leader</div>
+<div class="qstrip" style="left:600px; top:478px;"><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span><span class="ghost"></span><span class="ghost"></span></div>
+<div class="t lft" style="left:896px; top:474px; font-size:17px;">replica-3<br>follower</div>
+<div class="qstrip" style="left:1000px; top:478px;"><span class="on"></span><span class="on"></span><span class="on"></span><span></span><span></span><span></span></div>
+<div class="elabel chip" style="left:1150px; top:420px; color:var(--red); border-color:var(--red);">not caught up</div>
+
+<div class="pill" style="left:170px; top:578px; width:140px; height:44px; font-size:22px;">Broker-1</div>
+<div class="pill" style="left:570px; top:578px; width:140px; height:44px; font-size:22px;">Broker-2</div>
+<div class="pill" style="left:970px; top:578px; width:140px; height:44px; font-size:22px;">Broker-3</div>
+
+<div class="t lft mono" data-only="ack-all" style="left:60px; top:660px; font-size:19px;">ISR: {replica-1, replica-2}, ack=all</div>
+<div class="t lft mono" data-only="ack-1" style="left:60px; top:660px; font-size:19px;">ISR: {replica-1, replica-2}, ack=1</div>
+<div class="t lft mono" data-only="ack-0" style="left:60px; top:660px; font-size:19px;">ISR: {replica-1, replica-2}, ack=0</div>
+
+</div>
+<script src="../assets/bbg-parts.js"></script>
+</body>
+</html>
