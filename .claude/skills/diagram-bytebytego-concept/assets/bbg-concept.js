@@ -84,8 +84,50 @@
     return g;
   }
 
+  // ---- Animation (for scripts/render_gif.py) ----
+  // Everything uses the Web Animations API (element.animate), which
+  // document.getAnimations() returns, so render_gif.py can pause and seek it frame by
+  // frame. One loop is BBG.LOOP ms; pass the same value to render_gif.py --loop-ms.
+  const LOOP = 2250;
+  const tr = p => `translate(${p[0]}px, ${p[1]}px)`;
+  function loopAnimate(node, keyframes) {
+    return node.animate(keyframes, { duration: BBG.LOOP, iterations: Infinity, easing: 'linear' });
+  }
+  // Points along an SVG path element (every `step` px).
+  function sample(path, step = 6) {
+    const len = path.getTotalLength(), n = Math.max(2, Math.ceil(len / step));
+    return Array.from({ length: n + 1 }, (_, i) => { const q = path.getPointAtLength(len * i / n); return [q.x, q.y]; });
+  }
+  // A token that runs along `points` during the part [from, to] of the loop and is
+  // hidden outside it (hold: true keeps it at the end until the loop restarts).
+  function travel(parent, points, { from = 0, to = 1, r = 8, cls = 'c-token', hold = false } = {}) {
+    const dot = el('circle', { r, class: cls }, parent);
+    const first = points[0], last = points[points.length - 1], kf = [];
+    if (from > 0) kf.push({ offset: 0, transform: tr(first), opacity: 0 }, { offset: from, transform: tr(first), opacity: 0 });
+    points.forEach((p, i) => kf.push({ offset: from + (to - from) * i / (points.length - 1), transform: tr(p), opacity: 1 }));
+    if (to < 1) kf.push({ offset: Math.min(1, to + 1e-4), transform: tr(last), opacity: hold ? 1 : 0 }, { offset: 1, transform: tr(last), opacity: hold ? 1 : 0 });
+    loopAnimate(dot, kf);
+    return dot;
+  }
+  // Move `node` through `offsets` ([dx, dy] each), holding each for an equal share of the loop.
+  function steps(node, offsets) {
+    const n = offsets.length, kf = [];
+    offsets.forEach((o, i) => kf.push({ offset: i / n, transform: tr(o) }, { offset: (i + 1) / n - 1e-4, transform: tr(o) }));
+    kf.push({ offset: 1, transform: tr(offsets[n - 1]) });
+    return loopAnimate(node, kf);
+  }
+  // Show `node` only during the part [from, to] of the loop.
+  function showDuring(node, from, to = 1) {
+    const kf = [{ offset: 0, opacity: from > 0 ? 0 : 1 }];
+    if (from > 0) kf.push({ offset: from - 1e-4, opacity: 0 }, { offset: from, opacity: 1 });
+    if (to < 1) kf.push({ offset: to, opacity: 1 }, { offset: to + 1e-4, opacity: 0 });
+    kf.push({ offset: 1, opacity: to < 1 ? 0 : 1 });
+    return loopAnimate(node, kf);
+  }
+
   const BBG = {
     NS, MONO, el, group, text, icon, layer, measure, label,
+    LOOP, sample, travel, steps, showDuring, animate: loopAnimate,
     components: {},
     // Register a component: BBG.define('ring', spec => { … }); then BBG.ring({ … }).
     define(name, fn) {
@@ -358,6 +400,24 @@ BBG.define('cells', spec => {
     if (p.label) BBG.text(g, px, below ? start + fs * 0.9 : start - fs * 0.9, p.label, { size: fs, weight: 600 });
   });
 
+  // Animation: a pointer that steps through `cells` (indices), one per share of the
+  // loop; fill: 'c-green' colours each cell once the pointer has reached it.
+  g.step = ({ cells: path, side = 'below', label = '', len = 46, fill = null }) => {
+    const below = side !== 'above', b0 = boxes[path[0]];
+    if (fill) path.forEach((i, k) => {
+      const b = boxes[i];
+      const r = BBG.el('rect', { x: b.x, y: b.y, width: b.w, height: b.h, class: `c-cell ${fill}` }, g);
+      BBG.showDuring(r, k / path.length);
+      if (items[i].t) BBG.text(g, b.x + b.w / 2, b.y + b.h / 2, items[i].t, { size: fs, weight: 600 });
+    });
+    const ptr = BBG.el('g', {}, g);
+    const px = b0.x + b0.w / 2, edge = below ? b0.y + b0.h : b0.y;
+    BBG.el('path', { d: `M${px} ${below ? edge + len : edge - len} V${below ? edge + 4 : edge - 4}`, class: 'c-line', 'stroke-width': 2.5, 'marker-end': 'url(#m-arrow)' }, ptr);
+    if (label) BBG.text(ptr, px, below ? edge + len + fs * 0.9 : edge - len - fs * 0.9, label, { size: fs, weight: 600 });
+    BBG.steps(ptr, path.map(i => [boxes[i].x - b0.x, boxes[i].y - b0.y]));
+    return ptr;
+  };
+
   g.width = bw; g.height = bh;
   g.at = (i, side = 'center') => {
     const b = boxes[i];
@@ -475,7 +535,8 @@ BBG.define('sequence', spec => {
   const R = 9;
   const eventAt = new Set((s.events || []).filter(e => (e.kind || 'circle') === 'circle').map(e => `${e.actor}@${e.t}`));
 
-  // Messages.
+  // Messages (their lines are kept in `tracks` for play()).
+  const tracks = [];
   (s.messages || []).forEach(m => {
     const t2 = m.t2 ?? m.t;
     let [x1, y1] = P(m.from, m.t), [x2, y2] = P(m.to, t2);
@@ -496,6 +557,7 @@ BBG.define('sequence', spec => {
     const trimB = (eventAt.has(`${m.to}@${t2}`) ? R : onBar(m.to, t2) ? 7 : 0) + 2;
     x1 += ux * trimA; y1 += uy * trimA; x2 -= ux * trimB; y2 -= uy * trimB;
     BBG.el('path', { d: `M${x1} ${y1} L${x2} ${y2}`, class: cls, 'marker-end': head }, g);
+    tracks.push({ t: m.t, pts: [[x1, y1], [x2, y2]] });
 
     const at = m.at ?? 0.5;
     const lx = x1 + (x2 - x1) * at, ly = y1 + (y2 - y1) * at;
@@ -553,6 +615,11 @@ BBG.define('sequence', spec => {
   });
 
   g.at = (actor, t) => { const [x, y] = P(actor, t); return [s.x + x, s.y + y]; };
+  // Animation: a token runs along each message in time order, one message per share of the loop.
+  g.play = ({ r = 8 } = {}) => {
+    const order = [...tracks].sort((a, b) => a.t - b.t), n = order.length;
+    return order.map((m, k) => BBG.travel(g, m.pts, { from: k / n, to: (k + 1) / n, r }));
+  };
   return g;
 });
 
@@ -676,6 +743,19 @@ BBG.define('timeline', spec => {
     if (sp.label) BBG.label(g, (tx(sp.from) + tx(sp.to)) / 2, yy, sp.label, { size: fs, weight: 600 });
   });
 
+  // Animation: a window that slides along the axis. `by` is how far it moves (in time
+  // units) per step; `count` steps; steps: false glides smoothly instead.
+  g.slide = ({ from, to, h, row, cls = 'c-soft', line = 'green', label, by = 1, count = 3, smooth = false }) => {
+    const box = BBG.el('g', {}, g);
+    const top = row === undefined ? axisY - (h || s.plotH * 0.6) : rowTop(row) + 6;
+    const height = row === undefined ? (h || s.plotH * 0.6) : s.rowH - 12;
+    BBG.el('rect', { x: tx(from), y: top, width: tx(to) - tx(from), height, rx: 6, class: `c-window ${cls}${lineCls(line)}`, opacity: 0.85 }, box);
+    if (label) BBG.text(box, (tx(from) + tx(to)) / 2, top + height / 2, label, { size: fs * 0.9, weight: 700 });
+    const dx = tx(from + by) - tx(from);
+    if (smooth) BBG.animate(box, [{ transform: 'translate(0px, 0px)' }, { transform: `translate(${dx * count}px, 0px)` }]);
+    else BBG.steps(box, Array.from({ length: count + 1 }, (_, i) => [dx * i, 0]));
+    return box;
+  };
   g.tx = t => s.x + tx(t);
   g.py = v => s.y + py(v);
   return g;
@@ -814,6 +894,13 @@ BBG.define('ring', spec => {
 
   g.at = id => [nodes[id].x, nodes[id].y];
   g.point = (deg, rad) => pt(deg, rad);
+  // Animation: a token walks clockwise along the ring from node `from` to node `to`
+  // during the part [start, end] of the loop (several walks can share one loop).
+  g.walk = ({ from, to, start = 0, end = 1, r = 9, hold = true }) => {
+    const a = nodes[from].at, sweep = clockwise(a, nodes[to].at), n = Math.max(2, Math.ceil(sweep / 3));
+    const pts = Array.from({ length: n + 1 }, (_, i) => pt(a + sweep * i / n));
+    return BBG.travel(g, pts, { from: start, to: end, r, hold });
+  };
   return g;
 });
 

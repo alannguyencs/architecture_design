@@ -100,3 +100,6 @@ svg.layer.concept .c-code-dark .k-num { fill: #f2a65a; }
 
 /* venn */
 svg .c-set { opacity: 0.6; mix-blend-mode: multiply; }
+
+/* animation tokens (BBG.travel, ring.walk, sequence.play) */
+svg .c-token { fill: #14ff87; stroke: var(--ink); stroke-width: 2.5; }

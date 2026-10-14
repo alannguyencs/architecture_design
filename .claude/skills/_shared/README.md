@@ -12,6 +12,7 @@ copies in step.
 | `bbg-parts.js` | Draws `.shp` outlines; applies the page variant (`#v=name`) | `assets/bbg-parts.js` |
 | `bbg-flow.css` | The flow look's tokens and building blocks | `assets/bbg-flow.css` (flow and concept only) |
 | `render.py` | HTML → PNG, with `--compare` and `--variant` | `scripts/render.py` |
+| `render_gif.py` | HTML → looping GIF: seeks every animation frame by frame, encodes with ffmpeg | `scripts/render_gif.py` (animated and concept only) |
 | `sync.py` | Writes the copies; `--check` exits 1 if any copy is stale | — |
 
 ```bash

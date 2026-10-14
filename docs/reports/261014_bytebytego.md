@@ -350,7 +350,7 @@ Animation can come later. Several of these suit the animated skill's approach we
 - [x] Build `tree` with a mind-map mode (24 images), with `design-a-search-autocomplete-system/figure-13-8` and one `chapter-summary` as templates.
 - [x] Use an existing layout library (`d3-hierarchy` for trees, `d3-scale` for axes) instead of writing layout code from scratch. Outcome: `d3-hierarchy` is used for top-down trees (stored in the skill; the quadtree comes out half as wide); mind maps keep one row per leaf, because the tidy layout made text overlap there (5 overlaps in the message-queue summary); `d3-scale` was not adopted — the timeline needs only a linear map and explicit ticks, and the library brings five more packages.
 - [x] Build `spatial`, `code`, `venn` and `funnel` when they are needed, and pick an open base-map source (e.g. Natural Earth) for the ~21 map images. Outcome: all four built; the world base is Natural Earth 1:110m countries (public domain, stored in the skill, countries can be coloured); street-level maps use a drawn schematic street grid instead of OpenStreetMap tiles, which would need attribution and the network.
-- [ ] Make the helpers output paths that `render_gif.py` can animate (ring walk, sliding window, sequence message, offset stepping).
+- [x] Make the helpers output paths that `render_gif.py` can animate (ring walk, sliding window, sequence message, offset stepping). Outcome: `ring.walk`, `timeline.slide`, `sequence.play` and `cells.step` add Web Animations that `render_gif.py` seeks frame by frame; `render_gif.py` is now shared with the concept skill.
 
 ### 8.3 Keep this report up to date
 

@@ -18,8 +18,8 @@ for boxes and arrows), `diagram-bytebytego-animated` (looping GIF).
 The skill is being built in the order of report item 8.2
 (`docs/reports/261014_bytebytego.md`). Done: the setup, the core helpers and the
 `table`, `cells`, `sequence`, `timeline`, `ring`, `tree`, `spatial`, `code`, `venn`
-and `funnel` components — every component the report planned. Still open: helpers
-whose output `render_gif.py` can animate.
+and `funnel` components — every component the report planned — and the animation
+helpers that `scripts/render_gif.py` turns into a looping GIF (see "Animate").
 
 ## Files
 
@@ -48,10 +48,13 @@ whose output `render_gif.py` can animate.
 | `templates/geohash-world-grid.html` | Book figure: proximity 8 (geohash divides the world) — two `spatial` calls on the world base |
 | `templates/code-funnel-gallery.html` | `code` in its three themes (SQL, HTML, editor, terminal) and a `funnel` (hotel QPS) |
 | `templates/cap-theorem.html` | Book figure: key-value 6-1 (CAP theorem) — `venn` with three sets |
+| `templates/animated-concepts.html` | All four animations in one GIF: `ring.walk`, `sequence.play`, `timeline.slide`, `cells.step` |
 | `scripts/build_world.py` | Downloads the pinned Natural Earth file and writes `assets/world-110m.js` |
+| `scripts/render_gif.py` | HTML → looping GIF: pauses every animation, seeks it frame by frame, encodes with ffmpeg (`--loop-ms`, `--frame-ms`, `--keep-frames`; generated copy) |
 | `scripts/render.py` | HTML → PNG (`--scale`, `--webp`, `--compare`, `--variant`; generated copy) |
 
-Needs Python `playwright` (with Chromium: `python3 -m playwright install chromium`) and Pillow.
+Needs Python `playwright` (with Chromium: `python3 -m playwright install chromium`) and Pillow;
+GIFs also need `ffmpeg` on PATH.
 
 ## Make a diagram
 
@@ -226,6 +229,32 @@ Light syntax colouring; `dark` adds an editor window bar; leading spaces are kep
 
 **`BBG.funnel`** — `BBG.funnel({ x, y, width, height, levels: [{ label, cls }, …], upright: false })`; the first level is the widest, `upright` makes a pyramid.
 
+## Animate
+
+Some components can also move, for a looping GIF. Each method adds Web Animations
+(`element.animate`), which `render_gif.py` pauses and seeks frame by frame, so every
+frame is exact. One loop is `BBG.LOOP` ms (2250 by default); set it at the top of
+the page script and pass the same value as `--loop-ms`.
+
+| Method | What moves |
+|---|---|
+| `ring.walk({ from: 'k0', to: 's0', start: 0, end: 0.45 })` | a token walks clockwise along the ring and waits at the server |
+| `sequence.play()` | a token runs along each message in time order, one message per share of the loop |
+| `timeline.slide({ row: 0, from: 0, to: 3, by: 1, count: 3, label })` | a window steps along the axis (`smooth: true` glides) |
+| `cells.step({ cells: [3, 4, 5], label: 'consumer offset', fill: 'c-green' })` | a pointer steps from cell to cell, filling cells as it passes |
+
+`start` / `end` are fractions of the loop, so several motions can take turns. For
+anything else, the core has `BBG.travel(parent, points, { from, to })`,
+`BBG.steps(node, offsets)`, `BBG.showDuring(node, from, to)` and `BBG.sample(path)`.
+These motions tell a story and start again at the end of the loop; for motion that
+runs continuously (bobbing icons, flowing streaks) use `diagram-bytebytego-animated`.
+
+```bash
+python3 .claude/skills/diagram-bytebytego-concept/scripts/render_gif.py \
+  .claude/skills/diagram-bytebytego-concept/templates/animated-concepts.html \
+  data/generated/animated-concepts.gif --loop-ms 3000
+```
+
 ## Adding a component
 
 Put it in `assets/bbg-concept.js` (or its own file loaded after it) as
@@ -236,8 +265,8 @@ rebuilds the book figure named for it in report item 8.2.
 
 ## Shared kit
 
-`bbg-flow.css`, `bbg-icons.js`, `bbg-parts.css`, `bbg-parts.js` and
-`scripts/render.py` are copies of the master files in `.claude/skills/_shared/`.
+`bbg-flow.css`, `bbg-icons.js`, `bbg-parts.css`, `bbg-parts.js`,
+`scripts/render.py` and `scripts/render_gif.py` are copies of the master files in `.claude/skills/_shared/`.
 Edit the master and run `python3 .claude/skills/_shared/sync.py`; never edit the
 copies here. The icon list and samples are in
 `diagram-bytebytego-flow/templates/kit-gallery.html`.
@@ -247,5 +276,6 @@ copies here. The icon list and samples are in
 - The header is the title only — no accent bar, no logo or brand name.
 - When re-creating someone else's figure, write output to `data/generated/`; book
   figures are copyrighted, so rebuilt figures stay internal.
-- Draw with CSS keyframes only if a page is ever animated (see
-  `diagram-bytebytego-animated`); the helpers must not use timers.
+- Animate only with CSS keyframes or `element.animate`, never timers
+  (`setTimeout`, `requestAnimationFrame`): `render_gif.py` can only seek animations
+  that `document.getAnimations()` returns.

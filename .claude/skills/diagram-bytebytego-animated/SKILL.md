@@ -37,7 +37,7 @@ from start to end once per loop and is hidden at frame 0.
 | `assets/bbg-parts.js` | Draws `.shp` outlines and applies the page variant (generated copy) |
 | `templates/youtube-system-design.html` | Re-creation of the YouTube GIF on a 1329 × 1536 canvas, plus a small script that adds a streak copy of every edge |
 | `templates/youtube-upload-flow.html` | Book figure 14-4 (video uploading flow) in this look, built mostly from shared icons — the template to copy for book figures |
-| `scripts/render_gif.py` | HTML → GIF (`--loop-ms`, `--frame-ms`, `--scale`, `--compare ref.gif`, `--keep-frames`, `--variant NAME`); also writes `<name>_frame0.png` |
+| `scripts/render_gif.py` | HTML → GIF (`--loop-ms`, `--frame-ms`, `--scale`, `--compare ref.gif`, `--keep-frames`, `--variant NAME`); also writes `<name>_frame0.png` (generated copy) |
 | `scripts/render.py` | HTML → still PNG (`--compare` uses the reference's first frame; `--variant` repeatable; generated copy) |
 
 Needs Python `playwright` (Chromium: `python3 -m playwright install chromium`),
@@ -111,7 +111,8 @@ Load `<script src="../assets/bbg-icons.js"></script>` as the first child of
 with `style="--icon-fill:…"`; the list and samples are in
 `diagram-bytebytego-flow/templates/kit-gallery.html`. These files and
 `scripts/render.py` are copies of `.claude/skills/_shared/`; edit the master and run
-`python3 .claude/skills/_shared/sync.py`. Never edit the copies here.
+`python3 .claude/skills/_shared/sync.py`. `scripts/render_gif.py` is a shared copy
+too. Never edit the copies here.
 
 ## Rules
 

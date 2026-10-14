@@ -12,8 +12,9 @@ What it writes into each skill:
     assets/bbg-parts.css  copy
     assets/bbg-parts.js   copy
     scripts/render.py     copy
-and, into the flow and concept skills only:
-    assets/bbg-flow.css   copy (the flow look's tokens and building blocks)
+and, into some skills only:
+    assets/bbg-flow.css   copy (flow and concept: the flow look's tokens and building blocks)
+    scripts/render_gif.py copy (animated and concept: HTML → looping GIF)
 """
 
 import argparse
@@ -24,7 +25,8 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 SKILLS = ["diagram-bytebytego-flow", "diagram-bytebytego-animated", "diagram-bytebytego-concept"]
 # Files only some skills get: {path inside the skill: [skill, ...]}
-ONLY = {"assets/bbg-flow.css": ["diagram-bytebytego-flow", "diagram-bytebytego-concept"]}
+ONLY = {"assets/bbg-flow.css": ["diagram-bytebytego-flow", "diagram-bytebytego-concept"],
+        "scripts/render_gif.py": ["diagram-bytebytego-animated", "diagram-bytebytego-concept"]}
 NOTE = "Generated from .claude/skills/_shared/{src} by _shared/sync.py. Edit the master copy, not this file."
 
 
@@ -40,13 +42,15 @@ def build() -> dict:
     css = f"/* {NOTE.format(src='bbg-parts.css')} */\n" + (HERE / "bbg-parts.css").read_text()
     js = f"// {NOTE.format(src='bbg-parts.js')}\n" + (HERE / "bbg-parts.js").read_text()
     flow_css = f"/* {NOTE.format(src='bbg-flow.css')} */\n" + (HERE / "bbg-flow.css").read_text()
-    shebang, rest = (HERE / "render.py").read_text().split("\n", 1)
-    render = f"{shebang}\n# {NOTE.format(src='render.py')}\n{rest}"
+    def script(name: str) -> str:
+        shebang, rest = (HERE / name).read_text().split("\n", 1)
+        return f"{shebang}\n# {NOTE.format(src=name)}\n{rest}"
     return {
         "assets/bbg-icons.js": icons_js,
         "assets/bbg-parts.css": css,
         "assets/bbg-parts.js": js,
-        "scripts/render.py": render,
+        "scripts/render.py": script("render.py"),
+        "scripts/render_gif.py": script("render_gif.py"),
         "assets/bbg-flow.css": flow_css,
     }
 

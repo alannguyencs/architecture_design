@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# Generated from .claude/skills/_shared/render_gif.py by _shared/sync.py. Edit the master copy, not this file.
 """Render an animated HTML diagram to a looping GIF.
 
 Every CSS/Web animation on the page is paused, then moved to time t with

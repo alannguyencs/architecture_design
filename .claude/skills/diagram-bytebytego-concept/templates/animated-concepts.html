@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Animated Concepts</title>
+<!-- The four animations the concept helpers can make, in one looping GIF: a key walking
+     clockwise round the hash ring (ring.walk), a message token running down a sequence
+     diagram (sequence.play), a window sliding along a timeline (timeline.slide), and a
+     consumer offset stepping along a partition log (cells.step). One loop is 3 s, so render
+     with --loop-ms 3000:
+       render_gif.py animated-concepts.html out.gif --loop-ms 3000
+     Canvas 1280 × 880 CSS px. -->
+<link rel="stylesheet" href="../assets/bbg-flow.css">
+<link rel="stylesheet" href="../assets/bbg-parts.css">
+<link rel="stylesheet" href="../assets/bbg-concept.css">
+<style>
+  .canvas { width: 1280px; height: 880px; }
+</style>
+</head>
+<body>
+<div class="canvas">
+<script src="../assets/bbg-icons.js"></script>
+<div class="title" style="left:30px; top:28px; font-size:44px;">Animated concepts</div>
+<div class="pill" style="left:140px; top:108px; width:220px; height:42px; font-size:20px;">ring.walk</div>
+<div class="pill" style="left:780px; top:108px; width:240px; height:42px; font-size:20px;">sequence.play</div>
+<div class="pill" style="left:140px; top:560px; width:240px; height:42px; font-size:20px;">timeline.slide</div>
+<div class="pill" style="left:800px; top:560px; width:200px; height:42px; font-size:20px;">cells.step</div>
+</div>
+<script src="../assets/d3-hierarchy.min.js"></script>
+<script src="../assets/bbg-concept.js"></script>
+<script>
+  BBG.LOOP = 3000;   // keep in step with render_gif.py --loop-ms
+
+  const ring = BBG.ring({
+    cx: 250, cy: 340, r: 150, size: 15,
+    nodes: [{ id: 's0', at: 50 }, { id: 's1', at: 150 }, { id: 's2', at: 235 }, { id: 's3', at: 320 },
+            { id: 'k0', at: 5, kind: 'key' }, { id: 'k1', at: 105, kind: 'key' }],
+    hops: [{ from: 'k0', to: 's0', dash: true }, { from: 'k1', to: 's1', dash: true }],
+  });
+  ring.walk({ from: 'k0', to: 's0', start: 0.05, end: 0.4 });
+  ring.walk({ from: 'k1', to: 's1', start: 0.55, end: 0.9 });
+
+  const seq = BBG.sequence({
+    x: 620, y: 170, gap: 250, step: 52, length: 5, size: 15,
+    actors: [{ id: 'c', label: 'Client' }, { id: 'a', label: 'API' }, { id: 'd', label: 'DB' }],
+    messages: [
+      { from: 'c', to: 'a', t: 1, label: 'POST /pay', step: '1' },
+      { from: 'a', to: 'd', t: 2, label: 'INSERT', step: '2' },
+      { from: 'd', to: 'a', t: 3, label: 'ok', dash: true, step: '3' },
+      { from: 'a', to: 'c', t: 4, label: '201 Created', dash: true, step: '4' },
+    ],
+  });
+  seq.play();
+
+  const tl = BBG.timeline({
+    x: 200, y: 640, width: 420, from: 0, to: 6, tickEvery: 1, axis: 'top', unit: 'Minute', grid: true,
+    rows: [{ label: 'Sliding\nwindow' }], rowH: 70,
+  });
+  tl.slide({ row: 0, from: 0, to: 3, by: 1, count: 3, label: 'last 3 minutes' });
+
+  const log = BBG.cells({ x: 700, y: 660, count: 12, w: 44, h: 44, ghost: [11] });
+  log.step({ cells: [3, 4, 5, 6, 7, 8, 9], label: 'consumer offset', fill: 'c-green' });
+</script>
+<script src="../assets/bbg-parts.js"></script>
+</body>
+</html>
