@@ -74,14 +74,14 @@ design-a-key-value-store,figure-6-6-RNMG7AUI.svg,6-6,cannot draw,ring,"Replicati
 design-a-key-value-store,figure-6-7-MX7NGSSF.svg,6-7,drawable,,,server db,orthogonal undirected labelled blue,mono-text,,,,flow
 design-a-key-value-store,figure-6-8-WXAQYDBT.svg,6-8,drawable,,,server db,orthogonal undirected labelled blue,mono-text highlight variant-of-another-figure,,,red annotation text → text colour (style),flow
 design-a-key-value-store,figure-6-9-APUHGGQW.svg,6-9,drawable,,,,orthogonal diagonal labelled blue,step-number labelled-step mono-text,,,free-floating text nodes (no box) → .t labels,flow
-design-a-news-feed-system,figure-11-1-UFCYN5DT.svg,11-1,out of scope,,Product screenshots and UI,,,,,,,no
+design-a-news-feed-system,figure-11-1-UFCYN5DT.svg,11-1,mockup,card,Product screenshots and UI,,,,,,,mockup: card
 design-a-news-feed-system,figure-11-2-DHBRUF3G.png,11-2,drawable,,,dns laptop phone lb cluster cache-stack db-stack,orthogonal diagonal labelled blue,box solid-group dashed-group variant-of-another-figure,,,,flow
 design-a-news-feed-system,figure-11-3-DJSVC462.png,11-3,drawable,,,dns laptop phone lb cluster cache-stack,orthogonal labelled blue,box solid-group dashed-group variant-of-another-figure,,,,flow
 design-a-news-feed-system,figure-11-4-XQVJN6AJ.png,11-4,drawable,,,dns laptop phone lb cluster cache-stack db-stack graph-db queue,orthogonal diagonal labelled blue,box solid-group dashed-group split-box step-number labelled-step variant-of-another-figure,,,,flow
 design-a-news-feed-system,figure-11-5-RFHWCGXD.svg,11-5,drawable,,,graph-db cache-stack db-stack queue cluster,orthogonal diagonal labelled blue,box solid-group dashed-group step-number labelled-step,,,,flow
 design-a-news-feed-system,figure-11-7-VBGEYZ3E.png,11-7,drawable,,,dns laptop phone cdn lb cluster cache-stack db-stack,orthogonal diagonal blue,box solid-group dashed-group split-box step-number variant-of-another-figure,,,,flow
 design-a-news-feed-system,figure-11-8-XPCIBE53.svg,11-8,drawable,,,,,box dashed-group lane-divider,,,,flow
-design-a-notification-system,figure-10-1-4EEWILYD.svg,10-1,out of scope,,Product screenshots and UI,,,,,,,no
+design-a-notification-system,figure-10-1-4EEWILYD.svg,10-1,mockup,card,Product screenshots and UI,,,,,,,mockup: card
 design-a-notification-system,figure-10-10-VPOYUWTG.png,10-10,drawable,,,server redis db-stack queue cloud phone laptop sms,orthogonal diagonal labelled blue,box dashed-group step-number solid-group,email service icon,Firebase FCM logo,,flow + gap
 design-a-notification-system,figure-10-11-IAFMAASK.svg,10-11,drawable,,,queue server cloud db-stack,orthogonal blue,dashed-group solid-group,,,,flow
 design-a-notification-system,figure-10-12-WMFNVPQI.svg,10-12,cannot draw,timeline,Metric line chart,,,,,,,concept: timeline
@@ -112,15 +112,15 @@ design-a-rate-limiter,figure-4-6-STPNU6NF.svg,4-6,cannot draw,timeline,"Token bu
 design-a-rate-limiter,figure-4-7-AI26NI2Y.svg,4-7,drawable,,,,orthogonal labelled,diamond dashed-group queue-strip,small event tokens,,,flow + gap
 design-a-rate-limiter,figure-4-8-WZZYUXFU.svg,4-8,cannot draw,timeline,"Token bucket over time; fixed, sliding-log, sliding-counter windows",,,,,,,concept: timeline
 design-a-rate-limiter,figure-4-9-52MK6L22.svg,4-9,cannot draw,timeline,"Token bucket over time; fixed, sliding-log, sliding-counter windows",,,,,,,concept: timeline
-design-a-search-autocomplete-system,figure-13-1-KCZCT7DP.png,13-1,out of scope,,Product screenshots and UI,,,,,,,no
+design-a-search-autocomplete-system,figure-13-1-KCZCT7DP.png,13-1,mockup,search,Product screenshots and UI,,,,,,,mockup: search
 design-a-search-autocomplete-system,figure-13-10-JX4JXRHK.svg,13-10,cannot draw,tree,"Trie, with frequencies, top-k lookup, cached top-k, trie as key-value rows, update",,,,,,,concept: tree
 design-a-search-autocomplete-system,figure-13-11-S7BTGS2A.png,13-11,drawable,,,laptop phone lb server redis db-stack,orthogonal diagonal blue,solid-group dashed-group step-number,,,,flow
-design-a-search-autocomplete-system,figure-13-12-IKMFWP5J.svg,13-12,out of scope,,Product screenshots and UI,,,,,,,no
+design-a-search-autocomplete-system,figure-13-12-IKMFWP5J.svg,13-12,mockup,kvpanel,Product screenshots and UI,,,,,,,mockup: kvpanel
 design-a-search-autocomplete-system,figure-13-13-IHQGNBZV.svg,13-13,cannot draw,tree,"Trie, with frequencies, top-k lookup, cached top-k, trie as key-value rows, update",,,,,,,concept: tree
 design-a-search-autocomplete-system,figure-13-14-TDM2D22J.png,13-14,drawable,,,server funnel redis,orthogonal blue,solid-group dashed-group,,,,flow
 design-a-search-autocomplete-system,figure-13-15-6H4WZOA6.svg,13-15,drawable,,,server db db-stack,diagonal labelled blue,solid-group dashed-group step-number cylinder-shape,,,,flow
 design-a-search-autocomplete-system,figure-13-2-5FQ3SDWF.svg,13-2,cannot draw,table,Query frequency table as queries arrive,,,,,,,concept: table
-design-a-search-autocomplete-system,figure-13-3-P3IEBIJH.png,13-3,out of scope,,Product screenshots and UI,,,,,,,no
+design-a-search-autocomplete-system,figure-13-3-P3IEBIJH.png,13-3,mockup,search,Product screenshots and UI,,,,,,,mockup: search
 design-a-search-autocomplete-system,figure-13-4-QFNBMQOX.svg,13-4,cannot draw,code,SQL prefix query,,,,,,,concept: code
 design-a-search-autocomplete-system,figure-13-5-6HIZZOES.svg,13-5,cannot draw,tree,"Trie, with frequencies, top-k lookup, cached top-k, trie as key-value rows, update",,,,,,,concept: tree
 design-a-search-autocomplete-system,figure-13-6-M5EZD5SL.svg,13-6,cannot draw,tree,"Trie, with frequencies, top-k lookup, cached top-k, trie as key-value rows, update",,,,,,,concept: tree
@@ -134,7 +134,7 @@ design-a-unique-id-generator-in-distributed-systems,figure-7-4-TJJLCKSS.svg,7-4,
 design-a-unique-id-generator-in-distributed-systems,figure-7-5-R4B5RGNK.svg,7-5,cannot draw,cells,Snowflake 64-bit layout (same picture twice),,,,,,,concept: cells
 design-a-unique-id-generator-in-distributed-systems,figure-7-6-33JFUIC3.svg,7-6,cannot draw,cells,Snowflake 64-bit layout (same picture twice),,,,,,,concept: cells
 design-a-unique-id-generator-in-distributed-systems,figure-7-7-PNNDQIF5.svg,7-7,drawable,,,,orthogonal labelled blue,mono-text brace highlight,,,multicolour bit string segments → BBG.cells with per-cell w and cls,flow
-design-a-url-shortener,figure-8-1-GSSWK66W.svg,8-1,out of scope,,Product screenshots and UI,,,,,,,no
+design-a-url-shortener,figure-8-1-GSSWK66W.svg,8-1,mockup,kvpanel,Product screenshots and UI,,,,,,,mockup: kvpanel
 design-a-url-shortener,figure-8-2-KMMJ65HT.png,8-2,cannot draw,sequence,301 redirect,,,,,,,concept: sequence
 design-a-url-shortener,figure-8-3-YHOCRGSP.svg,8-3,drawable,,,function,orthogonal labelled blue,box highlight,,,,flow
 design-a-url-shortener,figure-8-4-3R6D55TD.svg,8-4,cannot draw,table,`url` schema; base-62 long division,,,,,,,concept: table
@@ -142,7 +142,7 @@ design-a-url-shortener,figure-8-5-KWG6EFZC.svg,8-5,drawable,,,,orthogonal labell
 design-a-url-shortener,figure-8-6-OHTOBFS7.svg,8-6,cannot draw,table,`url` schema; base-62 long division,,,,,,,concept: table
 design-a-url-shortener,figure-8-7-A3ZKM2XP.svg,8-7,drawable,,,,orthogonal labelled blue,box diamond labelled-step,,,,flow
 design-a-url-shortener,figure-8-8-VBPJ6PXY.png,8-8,drawable,,,laptop phone lb server redis db-stack,orthogonal diagonal labelled blue,solid-group dashed-group step-number,,,,flow
-design-a-web-crawler,figure-9-1-SY5VC26X.png,9-1,drawable,,,browser,diagonal blue,text-list,browser window with page content,,,flow + gap
+design-a-web-crawler,figure-9-1-SY5VC26X.png,9-1,drawable,,,browser,diagonal blue,text-list,,,browser window with page content → .webpage (bbg-parts.css),flow
 design-a-web-crawler,figure-9-10-5LXJJMYX.svg,9-10,drawable,,,,orthogonal diagonal two-way,box solid-group cylinder-shape,,,,flow
 design-a-web-crawler,figure-9-2-U6DZBW26.svg,9-2,drawable,,,,orthogonal two-way,box cylinder-shape,,,,flow
 design-a-web-crawler,figure-9-3-NSRQJPYK.svg,9-3,cannot draw,code,HTML source,,,,,,,concept: code
@@ -167,22 +167,22 @@ design-consistent-hashing,figure-5-6-SDSBYUI6.svg,5-6,cannot draw,ring,"Ring, se
 design-consistent-hashing,figure-5-7-OIUSEHJP.svg,5-7,cannot draw,ring,"Ring, servers and keys, add / remove server, virtual nodes (5-14 and 5-15 look the same as 5-8 and 5-9)",,,,,,,concept: ring
 design-consistent-hashing,figure-5-8-OBPLVFJF.svg,5-8,cannot draw,ring,"Ring, servers and keys, add / remove server, virtual nodes (5-14 and 5-15 look the same as 5-8 and 5-9)",,,,,,,concept: ring
 design-consistent-hashing,figure-5-9-NK63F2OI.svg,5-9,cannot draw,ring,"Ring, servers and keys, add / remove server, virtual nodes (5-14 and 5-15 look the same as 5-8 and 5-9)",,,,,,,concept: ring
-design-google-drive,figure-15-1-VUB67E7Q.png,15-1,out of scope,,Product screenshots and UI,,,,,,,no
+design-google-drive,figure-15-1-VUB67E7Q.png,15-1,mockup,list,Product screenshots and UI,,,,,,,mockup: list
 design-google-drive,figure-15-10-2WLH5XOU.png,15-10,drawable,,,laptop phone server lb bucket cold redis db-stack bell queue,orthogonal diagonal labelled blue,solid-group dashed-group,,,,flow
 design-google-drive,figure-15-11-BEAEA7OA.png,15-11,drawable,,,doc zip lock bucket,orthogonal labelled blue,box solid-group,,,,flow
 design-google-drive,figure-15-12-D5XZ44NY.svg,15-12,drawable,,,bucket,orthogonal labelled blue,box solid-group highlight,,,,flow
 design-google-drive,figure-15-13-CIXDH45A.svg,15-13,cannot draw,table,user / workspace / file / block / device schemas,,,,,,,concept: table
 design-google-drive,figure-15-14-5VZHP7AD.svg,15-14,cannot draw,sequence,Upload and download flows,,,,,,,concept: sequence
 design-google-drive,figure-15-15-UVIR3ZHW.svg,15-15,cannot draw,sequence,Upload and download flows,,,,,,,concept: sequence
-design-google-drive,figure-15-2-P45WHNY7.svg,15-2,out of scope,,Product screenshots and UI,,,,,,,no
-design-google-drive,figure-15-3-UCYFVHR2.svg,15-3,out of scope,,Product screenshots and UI,,,,,,,no
+design-google-drive,figure-15-2-P45WHNY7.svg,15-2,mockup,list,Product screenshots and UI,,,,,,,mockup: list
+design-google-drive,figure-15-3-UCYFVHR2.svg,15-3,mockup,filetree,Product screenshots and UI,,,,,,,mockup: filetree
 design-google-drive,figure-15-4-VPBWB2FK.png,15-4,drawable,,,disk,,,storage usage bar,,,flow + gap
 design-google-drive,figure-15-5-JX5ZE3VR.svg,15-5,drawable,,,server,orthogonal blue,diamond mono-text,,,,flow
 design-google-drive,figure-15-6-CUJNKWVX.svg,15-6,drawable,,,bucket-line,orthogonal labelled blue,dashed-group multi-panel,,,,flow
 design-google-drive,figure-15-7-FNASJ54U.png,15-7,drawable,,,laptop phone lb cluster db-stack bucket,diagonal blue,solid-group dashed-group,,,,flow
 design-google-drive,figure-15-8-E3QIHG3J.svg,15-8,drawable,,,doc,diagonal labelled green red,box multi-panel,person icon without a laptop,,,flow + gap
-design-google-drive,figure-15-9-K34FLC6R.svg,15-9,out of scope,,Product screenshots and UI,,,,,,,no
-design-youtube,figure-14-1-POM4N7ME.png,14-1,out of scope,,Product screenshots and UI,,,,,,,no
+design-google-drive,figure-15-9-K34FLC6R.svg,15-9,mockup,list,Product screenshots and UI,,,,,,,mockup: list
+design-youtube,figure-14-1-POM4N7ME.png,14-1,mockup,card,Product screenshots and UI,,,,,,,mockup: card
 design-youtube,figure-14-10-YWOCJMVV.svg,14-10,drawable,,,,orthogonal blue,box,,,,flow
 design-youtube,figure-14-11-VKQRKCM2.svg,14-11,drawable,,,,orthogonal blue,box highlight variant-of-another-figure,,,,flow
 design-youtube,figure-14-12-FKWX3DRN.svg,14-12,drawable,,,,orthogonal blue,box,,,,flow
@@ -251,7 +251,7 @@ distributed-email-service,figure-5-high-level-design-AZNVIABQ.png,5,drawable,,,b
 distributed-email-service,figure-6-email-sending-flow-U5I4QIEM.png,6,drawable,,,browser lb server queue cloud db bucket redis worker,orthogonal diagonal curved two-way labelled,box dashed-group solid-group highlight step-number labelled-step,"bar shapes (junction, barrier, tall LB)",Edge/Chrome/Safari browser logos,,flow + gap
 distributed-email-service,figure-7-email-receiving-flow-HRTYUDLO.png,7,drawable,,,envelope lb server queue db bucket redis browser worker,orthogonal diagonal curved two-way labelled,box dashed-group solid-group highlight step-number labelled-step,"bar shapes (junction, barrier, tall LB)",Edge/Chrome/Safari browser logos,,flow + gap
 distributed-email-service,figure-8-handle-feedback-loop-PFZ6YW6X.svg,8,drawable,,,queue server,orthogonal curved labelled,box queue-strip,,,,flow
-distributed-email-service,figure-9-an-example-of-a-gmail-header-OW5IKA3C.png,9,out of scope,,Product screenshots and UI,,,,,,,no
+distributed-email-service,figure-9-an-example-of-a-gmail-header-OW5IKA3C.png,9,mockup,kvpanel,Product screenshots and UI,,,,,,,mockup: kvpanel
 distributed-email-service,chapter-summary-MSPMW4ME.png,chapter-summary,cannot draw,mind map,,,,,,,,concept: tree
 distributed-email-service,table-1-folders-by-user-Q23KYRQB.png,table-1,cannot draw,table,Mail schemas,,,,,,,concept: table
 distributed-email-service,table-2-emails-by-folder-Y3QS42Z5.png,table-2,cannot draw,table,Mail schemas,,,,,,,concept: table
@@ -334,7 +334,7 @@ hotel-reservation-system,figure-5-connections-between-services-7TQS6ISN.svg,5,dr
 hotel-reservation-system,figure-6-updated-schema-UUO2LOBS.png,6,cannot draw,table,Service schemas,,,,,,,concept: table
 hotel-reservation-system,figure-7-two-reservations-are-made-ZWW4GV4K.svg,7,cannot draw,code,SQL INSERTs; unique-constraint error,,,,,,,concept: code
 hotel-reservation-system,figure-8-unique-constraint-PN2XNUXS.svg,8,cannot draw,sequence,Idempotent booking; local vs microservice transactions,,,,,,,concept: sequence
-hotel-reservation-system,figure-9-confirmation-page-EUDNWWUU.png,9,out of scope,,Product screenshots and UI,,,,,,,no
+hotel-reservation-system,figure-9-confirmation-page-EUDNWWUU.png,9,mockup,form,Product screenshots and UI,,,,,,,mockup: form
 hotel-reservation-system,chapter-summary-HKFZ3FPJ.png,chapter-summary,cannot draw,mind map,,,,,,,,concept: tree
 metrics-monitoring-and-alerting-system,figure-1-popular-metrics-monitoring-and-alerting-services-TAZBQ5OC.png,1,out of scope,,Logo grids,,,,,,,no
 metrics-monitoring-and-alerting-system,figure-10-pull-model-in-detail-DLFOSFKN.svg,10,drawable,,,server search,orthogonal labelled,box solid-group step-number labelled-step mono-text,,,,flow
@@ -349,7 +349,7 @@ metrics-monitoring-and-alerting-system,figure-18-data-encoding-B45QOSIH.svg,18,c
 metrics-monitoring-and-alerting-system,figure-19-alerting-system-HCBLCMMP.svg,19,drawable,,,doc cache db stream envelope sms bell,orthogonal two-way,box cylinder-shape step-number,,PagerDuty logo,,flow + logo
 metrics-monitoring-and-alerting-system,figure-2-five-components-of-the-system-4UF4TGR7.png,2,cannot draw,mind map,,,,,,,,concept: tree
 metrics-monitoring-and-alerting-system,figure-20-merge-alerts-NZGFQ4S3.svg,20,drawable,,,bell,orthogonal labelled,box text-list,,,,flow
-metrics-monitoring-and-alerting-system,figure-21-grafana-ui-NWP2X5V6.png,21,out of scope,,Product screenshots and UI,,,,,,,no
+metrics-monitoring-and-alerting-system,figure-21-grafana-ui-NWP2X5V6.png,21,mockup,panel,Product screenshots and UI,,,,,,,mockup: panel
 metrics-monitoring-and-alerting-system,figure-22-final-design-777Y6AAM.svg,22,drawable,,,stream db cache envelope sms bell monitor,orthogonal curved labelled,box cylinder-shape variant-of-another-figure,,PagerDuty logo,,flow + logo
 metrics-monitoring-and-alerting-system,figure-3-cpu-load-7S6NAAND.svg,3,cannot draw,timeline,CPU line chart; time-series points; delta encoding on a time axis,,,,,,,concept: timeline
 metrics-monitoring-and-alerting-system,figure-4-data-access-pattern-6W53MWUY.svg,4,cannot draw,timeline,CPU line chart; time-series points; delta encoding on a time axis,,,,,,,concept: timeline
@@ -359,7 +359,7 @@ metrics-monitoring-and-alerting-system,figure-7-metrics-collection-flow-AERNBFZG
 metrics-monitoring-and-alerting-system,figure-8-pull-model-JCYTADKY.svg,8,drawable,,,server db-stack queue cache-stack search,diagonal labelled,box dashed-group solid-group header-box,,etcd / Zookeeper logos,,flow + logo
 metrics-monitoring-and-alerting-system,figure-9-service-discovery-DXWPRSYP.svg,9,drawable,,,search doc,,box solid-group header-box text-list,stacked boxes / cards (multiple instances),,,flow + gap
 metrics-monitoring-and-alerting-system,chapter-summary-W7L5LHM3.png,chapter-summary,cannot draw,mind map,,,,,,,,concept: tree
-nearby-friends,figure-1-facebook-nearby-friends-XALOYO46.png,1,out of scope,,Product screenshots and UI,,,,,,,no
+nearby-friends,figure-1-facebook-nearby-friends-XALOYO46.png,1,mockup,list,Product screenshots and UI,,,,,,,mockup: list
 nearby-friends,figure-10-figure-out-the-correct-redis-pub-sub-server-2WS7WJK6.png,10,cannot draw,ring,Pub/sub servers on a ring,,,,,,,concept: ring
 nearby-friends,figure-11-replace-pub-sub-server-CIN6EUJH.png,11,cannot draw,ring,Pub/sub servers on a ring,,,,,,,concept: ring
 nearby-friends,figure-12-redis-pub-sub-channels-AHZA4ALB.svg,12,cannot draw,spatial,Geohash cells as channels; nine geohash cells,,,,,,,concept: spatial
@@ -379,15 +379,15 @@ payment-system,figure-10-handle-failed-payments-ZFR5VAJK.svg,10,drawable,,,queue
 payment-system,figure-11-retry-SUMHMG67.svg,11,cannot draw,sequence,Retries,,,,,,,concept: sequence
 payment-system,figure-12-idempotency-DC3RCILB.svg,12,drawable,,,laptop server,curved labelled block-arrow,box dashed-group multi-panel text-list,,,,flow
 payment-system,figure-2-pay-in-flow-5S6II6AU.png,2,drawable,,,user db server bank card,orthogonal diagonal two-way labelled dashed,box solid-group cylinder-shape step-number lane-divider,person icon without a laptop,PayPal/Stripe/Adyen logos; Visa/Mastercard logos,,flow + gap
-payment-system,figure-3-hosted-pay-with-paypal-page-EZOP6LZ2.png,3,out of scope,,Product screenshots and UI,,,,,,,no
-payment-system,figure-4-hosted-payment-flow-EL5HSZY6.png,4,drawable,,,browser server db bank,curved diagonal orthogonal labelled,box solid-group header-box step-number,browser window with page content,,,flow + gap
-payment-system,figure-5-hosted-payment-page-by-stripe-A4FT5636.png,5,out of scope,,Product screenshots and UI,,,,,,,no
+payment-system,figure-3-hosted-pay-with-paypal-page-EZOP6LZ2.png,3,mockup,form,Product screenshots and UI,,,,,,,mockup: form
+payment-system,figure-4-hosted-payment-flow-EL5HSZY6.png,4,drawable,,,browser server db bank,curved diagonal orthogonal labelled,box solid-group header-box step-number,,,browser window with page content → .webpage (bbg-parts.css),flow
+payment-system,figure-5-hosted-payment-page-by-stripe-A4FT5636.png,5,mockup,form,Product screenshots and UI,,,,,,,mockup: form
 payment-system,figure-6-reconciliation-HZKEQ3KA.png,6,drawable,,,user db server doc bank card,orthogonal diagonal curved dashed labelled,box solid-group cylinder-shape highlight lane-divider variant-of-another-figure,person icon without a laptop,PayPal/Stripe/Adyen logos; Visa/Mastercard logos,,flow + gap
 payment-system,figure-7-message-queue-7BXIY252.svg,7,drawable,,,queue envelope server,diagonal,box queue-strip cylinder-shape,,,horizontal cylinder queue → stream icon,flow
 payment-system,figure-8-single-receiver-for-each-message-OZR5UDDF.svg,8,drawable,,,queue envelope server,diagonal labelled,box queue-strip cylinder-shape variant-of-another-figure,,,horizontal cylinder queue → stream icon,flow
 payment-system,figure-9-multiple-receivers-for-the-same-message-FKQDW57G.svg,9,drawable,,,queue envelope server,diagonal orthogonal labelled,box ellipse queue-strip cylinder-shape variant-of-another-figure,,,horizontal cylinder queue → stream icon,flow
 payment-system,chapter-summary-IBDWNX6M.png,chapter-summary,cannot draw,mind map,,,,,,,,concept: tree
-proximity-service,figure-1-neary-search-on-yelp-PIX55ZBV.png,1,out of scope,,Product screenshots and UI,,,,,,,no
+proximity-service,figure-1-neary-search-on-yelp-PIX55ZBV.png,1,mockup,list,Product screenshots and UI,,,,,,,mockup: list
 proximity-service,figure-10-no-shared-prefix-MFLTKKDZ.png,10,cannot draw,spatial,"Search radius, lat/long, geohash grids, quadtree over a map, Hilbert curve, geofence, regions",,,,,,,concept: spatial
 proximity-service,figure-11-boundary-issue-XJWRE2EX.png,11,cannot draw,spatial,"Search radius, lat/long, geohash grids, quadtree over a map, Hilbert curve, geofence, regions",,,,,,,concept: spatial
 proximity-service,figure-12-expand-the-search-process-ZN5TJYNX.png,12,cannot draw,spatial,"Search radius, lat/long, geohash grids, quadtree over a map, Hilbert curve, geofence, regions",,,,,,,concept: spatial

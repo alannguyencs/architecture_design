@@ -33,7 +33,7 @@ Proposal:
 3. **Make a second new skill**, `diagram-bytebytego-mockup`, for the 18 product screenshots and UIs — phone and browser screens, search boxes, lists, forms, header panels — redrawn as plain wireframes (section 8.4). It also adds a small browser-page part to the shared kit, which the flow skill needs for 2 drawable figures.
 4. **Leave 5 images out of scope**: four logo grids and one cartoon (section 4.11).
 
-After both proposals were carried out, **492 of 515** images (96 %) can be drawn; only the 23 out-of-scope images remain (section 9).
+After all three proposals were carried out (sections 5, 6 and 8.4), **510 of 515** images (99 %) can be drawn; only five remain out of scope — four logo grids and one cartoon (section 9).
 
 ## 2. Coverage per chapter
 
@@ -224,6 +224,8 @@ Every Volume 2 chapter has a `chapter-summary-*.png`: a left-to-right outline of
 
 ### 4.11 Out of scope — 23
 
+Since then, the 18 product screenshots and UI images below are drawn as wireframes by `diagram-bytebytego-mockup` (section 8.4, Proposal 3); only the four logo grids and the cartoon stay out of scope.
+
 These are not diagrams. A skill would gain little from supporting them.
 
 | Kind | Images | Suggestion |
@@ -359,7 +361,7 @@ Animation can come later. Several of these suit the animated skill's approach we
 
 - [x] Fill in the icons and edge styles each of the 285 drawable images needs in `261014_bytebytego_figures.csv`. Outcome: every drawable image now lists its icons, edge styles, parts, real gaps (`not_in_kit`), brand logos and, where an apparent gap is already covered, the kit part to use (`in_kit_hint`). 202 of the 285 can be drawn with the kit as it is; 20 more need only a brand logo, drawn as a look-alike or a labelled box; 63 need something the kit lacks — most often a person icon without a laptop (13), tinted icons or coloured outlines (8), filled zone backgrounds (7), stacked boxes for multiple instances (7) and more edge colours (7).
 - [x] Decide the borderline calls in section 7 (google-drive 15-8, payment 12, email 12, message-queue 7, 17, 23, google-maps 9) and update the counts. Outcome: all seven are drawable; message-queue 17 and google-maps 9 moved from "cannot draw", giving 285 drawable / 230 not.
-- [x] Re-run the coverage count after each skill update, and mark the images that become drawable in the CSV. Outcome: `docs/reports/261014_coverage.py` recounts from the CSV and the concept skill's components and writes the `drawable_now` column; after 8.1 and 8.2, 492 of 515 images (96 %) are drawable — see section 9.
+- [x] Re-run the coverage count after each skill update, and mark the images that become drawable in the CSV. Outcome: `docs/reports/261014_coverage.py` recounts from the CSV and the concept skill's components and writes the `drawable_now` column; after 8.1 and 8.2, 492 of 515 images (96 %) were drawable; after 8.4, 510 of 515 (99 %) — see section 9.
 - [ ] Keep every figure rebuilt from the book internal, and keep `data/` and `data.zip` out of git.
 
 ### 8.4 Build `diagram-bytebytego-mockup` (Proposal 3)
@@ -389,27 +391,30 @@ Action items:
 - [x] Build `card` and the composite screens that reuse concept parts: notification 10-1 (three phones), youtube 14-1 (video grid), google-drive 15-1 (desktop app), metrics 21 (dashboard with `BBG.timeline`), proximity 1 (list plus map with `BBG.spatial`).
 - [x] Add a small browser-page part (window dots, URL bar, link lines) to `_shared/bbg-parts`, so the flow skill can draw web-crawler 9-1 and payment-system 4, which list "browser window with page content" as their only gap.
 - [x] Add animation helpers that `render_gif.py` can seek: typing into the search box while the suggestion list changes (autocomplete), a notification banner sliding in, a feed scrolling, a folder opening.
-- [ ] Update this report and `261014_bytebytego_figures.csv`: give the 18 images their own status and component, move web-crawler 9-1 and payment-system 4 to "drawable with the kit", and leave 5 images out of scope.
+- [x] Update this report and `261014_bytebytego_figures.csv`: give the 18 images their own status and component, move web-crawler 9-1 and payment-system 4 to "drawable with the kit", and leave 5 images out of scope. Outcome: the 18 have status `mockup` and a component; 9-1 and payment 4 are drawable with the kit as it is; 510 of 515 images (99 %) are drawable — see section 9.
 
 ## 9. Coverage after the updates
 
-Recounted after carrying out sections 5 and 6 (action items 8.1 and 8.2), with
-`python3 docs/reports/261014_coverage.py --write`. The script reads the CSV and the
-components that `diagram-bytebytego-concept` actually defines, and writes the
-`drawable_now` column; re-run it after any skill update.
+Recounted after carrying out sections 5, 6 and 8.4 (action items 8.1, 8.2 and 8.4),
+with `python3 docs/reports/261014_coverage.py --write`. The script reads the CSV and
+the components that `diagram-bytebytego-concept` and `diagram-bytebytego-mockup`
+actually define, and writes the `drawable_now` column; re-run it after any skill update.
 
 | Drawable now with | Images |
 |---|---|
-| The flow / animated kit as it is | 202 |
+| The flow / animated kit as it is | 204 |
 | The flow kit, with brand logos as look-alikes or labelled boxes | 20 |
-| The flow kit, plus a small addition it still lacks (`not_in_kit`) | 63 |
+| The flow kit, plus a small addition it still lacks (`not_in_kit`) | 61 |
 | A concept component: `table` 36, `cells` 34, `spatial` 29, `sequence` 28, `timeline` 25, `tree` 24, `ring` 23, `code` 6, `venn` / `funnel` 2 | 207 |
-| **Drawable** | **492 (96 %)** |
-| Not drawable: out of scope (section 4.11); 18 of them are the target of `diagram-bytebytego-mockup` (section 8.4) | 23 |
+| A mockup component (product screens as wireframes): `list` 5, `card` 3, `form` 3, `kvpanel` 3, `search` 2, `filetree` 1, `panel` 1 | 18 |
+| **Drawable** | **510 (99 %)** |
+| Not drawable: four logo grids (chat 12-1, message-queue 1, metrics 1, email 1) and the token-bucket cartoon (rate-limiter 4-4) | 5 |
 
 What "drawable" means here:
 
 - The skills have every building block the image needs. Each block has been tried on at least one rebuilt book figure (the templates named in section 8), but most images have not been rebuilt yet.
-- The 63 "small addition" images need one of a short list of kit parts: a person icon without a laptop (13 images), tinted icons or coloured outlines (8), filled zone backgrounds (7), stacked boxes for multiple instances (7), more edge colours (7), and a few one-offs (CSV column `not_in_kit`).
+- The 61 "small addition" images need one of a short list of kit parts: a person icon without a laptop (13 images), tinted icons or coloured outlines (8), filled zone backgrounds (7), stacked boxes for multiple instances (7), more edge colours (7), and a few one-offs (CSV column `not_in_kit`).
 - About 21 of the 29 spatial images sit on real map imagery in the book. They are drawn on the `spatial` world base (Natural Earth) or the schematic street grid instead — the content is kept, the photographic map is not.
-- Every chapter is now fully drawable except for its out-of-scope images.
+- The 18 mockup images are redrawn as wireframes — same layout, neutral text or grey bars, pastel image blocks, no brand marks, and form fields left empty — not copied as screenshots.
+- Web-crawler 9-1 and payment-system 4 moved to "the flow kit as it is": their only gap, a browser page, is now the shared `.webpage` part.
+- Every chapter is now fully drawable except for those five images.
