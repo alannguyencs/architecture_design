@@ -816,3 +816,168 @@ BBG.define('ring', spec => {
   g.point = (deg, rad) => pt(deg, rad);
   return g;
 });
+
+// ---------------------------------------------------------------------------
+// tree — tries, quadtrees, folder trees and chapter mind maps.
+//
+// BBG.tree({
+//   x, y,                       top-left of the drawing
+//   mode: 'down' | 'mind' | 'right',
+//        down  = top-down tree with straight edges (trie, quadtree)
+//        mind  = left-to-right mind map with curved branches (chapter summaries)
+//        right = left-to-right indented tree with elbow lines (folders)
+//   root: { label: 'b', children: [ 'leaf', { label: 'be: 15', children: […] } ] },
+//     node options: id, kind: 'box' | 'circle' | 'square' | 'text' | 'folder',
+//                   cls (fill), leaf: true (green outline), hl: true (highlight),
+//                   note: '[best: 35]' (cached text beside the node, in a dashed box — down mode),
+//                   tag: 'root' (arrow pointing at the node from the right),
+//                   edge: { label: 'nw', dash: true, color: 'blue', bold: true }  (edge from its parent)
+//   arrows: true,               arrowheads on edges (down / right)
+//   gap: 26, level: 90,         space between neighbours / between levels
+//   kind: 'box',                default node kind (mind: root is a box, the rest text)
+//   size: 15, parent
+// })
+// Layout: leaves take consecutive slots; a parent sits at the middle of its children.
+// Returns the <g>; g.at(id, side) gives a node's page position.
+// ---------------------------------------------------------------------------
+BBG.define('tree', spec => {
+  const s = { x: 0, y: 0, mode: 'down', gap: 26, size: 15, arrows: false, ...spec };
+  const fs = s.size, mode = s.mode, down = mode === 'down';
+  const level = s.level ?? (down ? 90 : 60);
+  const g = BBG.group(s.parent || BBG.layer(), s.x, s.y, 'c-tree');
+  const edgesG = BBG.el('g', {}, g), notesG = BBG.el('g', {}, g), nodesG = BBG.el('g', {}, g);
+
+  // Normalise the data and size every node.
+  const all = [];
+  const prep = (n, depth, parent) => {
+    const node = typeof n === 'string' ? { label: n } : { ...n };
+    node.depth = depth; node.parent = parent;
+    node.kind = node.kind || (mode === 'mind' ? (depth === 0 ? 'box' : 'text') : (s.kind || 'box'));
+    const label = String(node.label ?? '');
+    const lw = BBG.measure(label, { size: fs, weight: node.kind === 'text' ? 500 : 600 });
+    const lines = label.split('\n').length;
+    if (node.kind === 'circle' || node.kind === 'square') { node.w = node.h = node.r ? node.r * 2 : 28; }
+    else if (node.kind === 'text') { node.w = lw + 8; node.h = fs * 1.25 * lines + 8; }
+    else if (node.kind === 'folder') { node.w = lw + 66; node.h = Math.max(40, fs * 1.25 * lines + 16); }
+    else { node.w = Math.max(node.minW || 70, lw + 28); node.h = fs * 1.25 * lines + 22; }
+    if (node.width) node.w = node.width;
+    node.children = (node.children || []).map(c => prep(c, depth + 1, node));
+    all.push(node);
+    return node;
+  };
+  const root = prep(s.root, 0, null);
+
+  // Breadth: leaves in order, parents centred. Depth: per level (down) or after the parent (mind / right).
+  let cursor = 0;
+  // Room a node needs on its left: its note, or the label beside a circle / square.
+  const sideLabel = n => (n.kind === 'circle' || n.kind === 'square') && n.label !== undefined && n.label !== '';
+  const noteW = n => {
+    if (!down) return 0;
+    if (n.note) return BBG.measure(n.note, { size: fs * 0.85, weight: 700 }) + 34;
+    if (sideLabel(n)) return BBG.measure(String(n.label), { size: fs * 0.9, weight: 600 }) + 10;
+    return 0;
+  };
+  // Notes sit left of their node. A subtree's notes are on different rows, so its first
+  // leaf only needs room for the widest of them, not their sum.
+  let pending = 0;
+  const place = n => {
+    if (down) {
+      pending = Math.max(pending, noteW(n));
+      if (!n.children.length) { cursor += pending; pending = 0; n.b = cursor + n.w / 2; cursor += n.w + s.gap; }
+      else { n.children.forEach(place); n.b = (n.children[0].b + n.children[n.children.length - 1].b) / 2; }
+    } else {
+      const rowH = Math.max(n.h, fs * 1.6) + (s.gap * 0.5);
+      if (mode === 'right') {
+        // Indented: every node gets its own row, children below it.
+        n.b = cursor + n.h / 2; cursor += rowH;
+        n.children.forEach(place);
+      } else if (!n.children.length) { n.b = cursor + n.h / 2; cursor += rowH; }
+      else { n.children.forEach(place); n.b = (n.children[0].b + n.children[n.children.length - 1].b) / 2; }
+    }
+  };
+  place(root);
+  const depthPos = n => {
+    if (down) return n.depth * level;
+    if (!n.parent) return 0;
+    return n.parent.d + (mode === 'right' ? 36 : n.parent.w + level);
+  };
+  // Pre-order so parents are placed before children.
+  const order = [];
+  const walk = n => { order.push(n); n.children.forEach(walk); };
+  walk(root);
+  order.forEach(n => { n.d = depthPos(n); });
+  order.forEach(n => {
+    if (down) { n.cx = n.b; n.cy = n.d + n.h / 2; }
+    else { n.cx = n.d + n.w / 2; n.cy = n.b; }
+    n.x0 = n.cx - n.w / 2; n.y0 = n.cy - n.h / 2;
+  });
+  // Start the drawing at x = 0, counting notes and parents wider than their children.
+  const minX = Math.min(...order.map(n => n.x0 - noteW(n)));
+  order.forEach(n => { n.cx -= minX; n.x0 -= minX; });
+
+  // Edges.
+  order.filter(n => n.parent).forEach(n => {
+    const p = n.parent, e = n.edge || {};
+    const cls = `c-line${e.dash ? ' c-dash' : ''}${e.color ? ` c-${e.color}-line` : ''}`;
+    let d;
+    if (down) d = `M${p.cx} ${p.y0 + p.h} L${n.cx} ${n.y0 - (s.arrows ? 3 : 0)}`;
+    else if (mode === 'mind') {
+      const x1 = p.x0 + p.w, x2 = n.x0, mx = (x1 + x2) / 2;
+      d = `M${x1} ${p.cy} C${mx} ${p.cy} ${mx} ${n.cy} ${x2} ${n.cy}`;
+    } else {
+      const px = p.x0 + 18;
+      d = `M${px} ${p.y0 + p.h} V${n.cy} H${n.x0 - (s.arrows ? 3 : 0)}`;
+    }
+    BBG.el('path', { d, class: cls, 'stroke-width': e.bold ? 4 : 2.2,
+      'marker-end': s.arrows ? (e.color ? `url(#m-arrow-${e.color})` : 'url(#m-arrow)') : null }, edgesG);
+    if (e.label && down) {
+      // 60% of the way down the edge, so labels of edges fanning out of one parent stay apart.
+      const lx = p.cx + (n.cx - p.cx) * 0.6, ly = p.y0 + p.h + (n.y0 - p.y0 - p.h) * 0.6;
+      BBG.label(edgesG, lx, ly, e.label, { size: fs * 0.75, padX: 3, padY: 1 });
+    }
+  });
+
+  // Nodes.
+  order.forEach(n => {
+    const fill = n.hl ? 'c-yellow' : (n.cls || 'c-white');
+    const stroke = n.leaf ? ' c-leaf' : '';
+    if (n.kind === 'circle') BBG.el('circle', { cx: n.cx, cy: n.cy, r: n.w / 2, class: `c-node ${fill}${stroke}` }, nodesG);
+    else if (n.kind === 'square') BBG.el('rect', { x: n.x0, y: n.y0, width: n.w, height: n.h, class: `c-node ${fill}${stroke}` }, nodesG);
+    else if (n.kind === 'box') BBG.el('rect', { x: n.x0, y: n.y0, width: n.w, height: n.h, rx: 9, class: `c-box ${fill}${stroke}` }, nodesG);
+    else if (n.kind === 'folder') BBG.icon(nodesG, 'folder', n.x0 + 20, n.cy, 40, 40, n.cls ? { style: `--icon-fill: var(--${n.cls.replace('c-', '')})` } : {});
+    const label = String(n.label ?? '');
+    if (!label) return;
+    if (n.kind === 'circle' || n.kind === 'square') {
+      // Small shapes keep their label beside them (quadtree counts).
+      BBG.text(nodesG, n.x0 - 6, n.cy, label, { size: fs * 0.9, weight: 600, anchor: 'end' });
+    } else if (n.kind === 'folder') {
+      BBG.text(nodesG, n.x0 + 48, n.cy, label, { size: fs, weight: 700, anchor: 'start' });
+    } else {
+      BBG.text(nodesG, n.cx, n.cy, label, { size: fs, weight: n.kind === 'text' ? 500 : 600 });
+    }
+  });
+
+  // Notes (cached results beside a trie node) and tags (a pointer such as "root").
+  order.filter(n => n.note && down).forEach(n => {
+    const size = fs * 0.85, nw = BBG.measure(n.note, { size, weight: 700 });
+    const lines = n.note.split('\n').length;
+    const tx = n.x0 - 12 - nw / 2;
+    BBG.text(notesG, tx, n.cy, n.note, { size, weight: 700 });
+    const top = Math.min(n.y0, n.cy - lines * size * 0.65) - 8, bottom = Math.max(n.y0 + n.h, n.cy + lines * size * 0.65) + 8;
+    BBG.el('rect', { x: tx - nw / 2 - 10, y: top, width: n.x0 + n.w + 10 - (tx - nw / 2 - 10), height: bottom - top, rx: 10, class: 'c-note-group' }, notesG);
+  });
+  order.filter(n => n.tag).forEach(n => {
+    const x = n.x0 + n.w + 6;
+    BBG.el('path', { d: `M${x + 60} ${n.cy} H${x}`, class: 'c-line', 'stroke-width': 2.2, 'marker-end': 'url(#m-arrow)' }, nodesG);
+    BBG.text(nodesG, x + 68, n.cy, n.tag, { size: fs, weight: 600, anchor: 'start' });
+  });
+
+  const byId = Object.fromEntries(order.filter(n => n.id).map(n => [n.id, n]));
+  g.width = Math.max(...order.map(n => n.x0 + n.w)); g.height = Math.max(...order.map(n => n.y0 + n.h));
+  g.at = (id, side = 'center') => {
+    const n = byId[id];
+    const p = { center: [n.cx, n.cy], left: [n.x0, n.cy], right: [n.x0 + n.w, n.cy], top: [n.cx, n.y0], bottom: [n.cx, n.y0 + n.h] }[side];
+    return [s.x + p[0], s.y + p[1]];
+  };
+  return g;
+});

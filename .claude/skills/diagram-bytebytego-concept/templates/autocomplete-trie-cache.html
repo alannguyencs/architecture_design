@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Cache Top Queries in Each Node</title>
+<!-- Book-figure template: System Design Interview, search autocomplete figure 13-8 (cache the
+     top search queries at each trie node) in the ByteByteGo look. One BBG.tree call: notes
+     hold each node's cached top-k list; word nodes have a green outline.
+     Canvas 1020 × 640 CSS px (render at --scale 1). -->
+<link rel="stylesheet" href="../assets/bbg-flow.css">
+<link rel="stylesheet" href="../assets/bbg-parts.css">
+<link rel="stylesheet" href="../assets/bbg-concept.css">
+<style>
+  .canvas { width: 1020px; height: 640px; }
+</style>
+</head>
+<body>
+<div class="canvas">
+<script src="../assets/bbg-icons.js"></script>
+<div class="title" style="left:30px; top:28px; font-size:48px;">Cache Top Queries in Each Node</div>
+</div>
+<script src="../assets/bbg-concept.js"></script>
+<script>
+  const word = label => ({ label, leaf: true });
+  BBG.tree({
+    x: 40, y: 120, size: 16, level: 104, gap: 22, arrows: true,
+    root: { label: '', minW: 90, tag: 'root', children: [
+      { label: 'b', note: '[best: 35, bet: 29, bee: 20,\nbe: 15, buy: 14]', children: [
+        { label: 'be: 15', note: '[best: 35, bet: 29, bee: 20,\nbe: 15, beer: 10]', children: [
+          { label: 'bee: 20', leaf: true, note: '[bee: 20, beer: 10]', children: [word('beer: 10')] },
+          { label: 'bes', note: '[best: 35]', children: [word('best: 35')] },
+          word('bet: 29'),
+        ] },
+        { label: 'bu', note: '[buy: 14]', children: ['buy: 14'] },
+      ] },
+      { label: 'w', note: '[win: 11]', children: [
+        { label: 'wi', note: '[win: 11]', children: ['win: 11'] },
+      ] },
+    ] },
+  });
+</script>
+<script src="../assets/bbg-parts.js"></script>
+</body>
+</html>

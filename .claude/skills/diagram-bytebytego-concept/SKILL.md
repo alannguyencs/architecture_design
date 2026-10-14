@@ -17,16 +17,16 @@ for boxes and arrows), `diagram-bytebytego-animated` (looping GIF).
 
 The skill is being built in the order of report item 8.2
 (`docs/reports/261014_bytebytego.md`). Done: the setup, the core helpers and the
-`table`, `cells`, `sequence`, `timeline` and `ring` components. Planned, each to
-be added as `BBG.<name>(spec)`: `tree` (with a mind-map mode), then `spatial`,
-`code`, `venn`, `funnel`. Until a component exists, draw with the core helpers.
+`table`, `cells`, `sequence`, `timeline`, `ring` and `tree` components. Planned,
+each to be added as `BBG.<name>(spec)`: `spatial`, `code`, `venn`, `funnel`. Until a
+component exists, draw with the core helpers.
 
 ## Files
 
 | Path (relative to this skill) | What it is |
 |---|---|
-| `assets/bbg-concept.js` | Core helpers on `window.BBG` (`el`, `group`, `text`, `label`, `measure`, `icon`, `layer`, `define`) and the components `BBG.table`, `BBG.cells`, `BBG.sequence`, `BBG.timeline`, `BBG.ring` |
-| `assets/bbg-concept.css` | Styles for drawn marks: `.c-box`, `.c-outline`, `.c-cell`, `.c-line`, `.c-thin`, `.c-dash`, `.c-strike`, `.c-muted`, `.c-event`, `.c-lock`, `.c-note`, `.c-window`, fills `.c-green` … `.c-orange`, line colours `.c-red-line` / `.c-blue-line` / `.c-green-line`, ring marks `.c-ring-line`, `.c-node`, `.c-key`, `.c-*-arc`, `text.mono` |
+| `assets/bbg-concept.js` | Core helpers on `window.BBG` (`el`, `group`, `text`, `label`, `measure`, `icon`, `layer`, `define`) and the components `BBG.table`, `BBG.cells`, `BBG.sequence`, `BBG.timeline`, `BBG.ring`, `BBG.tree` |
+| `assets/bbg-concept.css` | Styles for drawn marks: `.c-box`, `.c-outline`, `.c-cell`, `.c-line`, `.c-thin`, `.c-dash`, `.c-strike`, `.c-muted`, `.c-event`, `.c-lock`, `.c-note`, `.c-window`, fills `.c-green` … `.c-orange`, line colours `.c-red-line` / `.c-blue-line` / `.c-green-line`, ring marks `.c-ring-line`, `.c-node`, `.c-key`, `.c-*-arc`, tree marks `.c-leaf`, `.c-note-group`, `text.mono` |
 | `assets/bbg-flow.css` | The flow look's tokens and building blocks (generated copy) |
 | `assets/bbg-icons.js` | Shared icon sprite and edge markers (generated copy) |
 | `assets/bbg-parts.css`, `assets/bbg-parts.js` | Shared extra parts: edge styles, labels, shapes, boxes, variants (generated copies) |
@@ -39,6 +39,9 @@ be added as `BBG.<name>(spec)`: `tree` (with a mind-map mode), then `spatial`,
 | `templates/rate-limiter-sliding-counter.html` | Book figure: rate-limiter 4-11 (sliding window counter) — `timeline` with windows, stacks, a marker and spans |
 | `templates/ring-gallery.html` | One sample of each `ring` option: hash-space ticks, virtual-node ranges, replicas, coordinator put/ACK, heartbeat mesh, a removed server |
 | `templates/consistent-hashing-lookup.html` | Book figure: consistent-hashing 5-7 (server lookup) — `ring` with servers, keys and clockwise hops |
+| `templates/tree-gallery.html` | One sample of each `tree` option: trie with a highlighted path, quadtree with edge labels, folder tree, short mind map |
+| `templates/autocomplete-trie-cache.html` | Book figure: autocomplete 13-8 (top-k cached at each trie node) — `tree` with notes |
+| `templates/chapter-summary-message-queue.html` | Book figure: the message-queue chapter summary — `tree` in `mind` mode; every Volume 2 summary has this shape |
 | `scripts/render.py` | HTML → PNG (`--scale`, `--webp`, `--compare`, `--variant`; generated copy) |
 
 Needs Python `playwright` (with Chromium: `python3 -m playwright install chromium`) and Pillow.
@@ -165,6 +168,25 @@ BBG.ring({ cx: 620, cy: 420, r: 230,
 
 `at(id)` returns a node's position; `point(deg, radius)` any point on or off the
 ring. Put the server legend in HTML (`.bx f-purple` …), as the template does.
+
+**`BBG.tree`** — tries, quadtrees, folder trees and chapter mind maps.
+
+```js
+BBG.tree({ x: 40, y: 120, mode: 'down' | 'mind' | 'right', arrows: true, level: 100, gap: 22,
+  root: { label: '', tag: 'root', children: [
+    { label: 'b', note: '[best: 35, bet: 29]', children: [               // note: cached list beside it
+      { label: 'bee: 20', leaf: true, hl: true, edge: { label: 'nw', color: 'blue', bold: true, dash: true } },
+      'bet: 29' ] },                                                     // a string is a plain node
+    { label: '4m', kind: 'circle' }, { label: '80', kind: 'square' },   // also 'box', 'text', 'folder'
+  ] } });
+```
+
+`down` is a top-down tree with straight edges; `mind` is a left-to-right mind map
+with curved branches (the root is a box, the rest plain text unless `kind: 'box'`);
+`right` is an indented tree with elbow lines (folders). Leaves take consecutive
+slots and each parent sits in the middle of its children; notes and the labels
+beside circles and squares get room reserved on the left. Give nodes an `id` to
+use `at(id, side)`.
 
 ## Adding a component
 

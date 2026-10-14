@@ -54,3 +54,7 @@ svg .c-pink-arc   { stroke: var(--pink); }
 svg .c-purple-arc { stroke: var(--purple); }
 svg .c-green-arc  { stroke: var(--green); }
 svg .c-orange-arc { stroke: var(--orange); }
+
+/* tree marks */
+svg .c-leaf { stroke: #2f9e6e; stroke-width: 3.5; }
+svg .c-note-group { fill: none; stroke: var(--green-dash); stroke-width: 2.5; stroke-dasharray: 8 6; }

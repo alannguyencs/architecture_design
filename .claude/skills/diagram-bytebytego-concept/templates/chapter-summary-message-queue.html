@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Message Queue Chapter Summary</title>
+<!-- Book-figure template: System Design Interview Volume 2, distributed message queue
+     chapter summary (a left-to-right mind map) in the ByteByteGo look. One BBG.tree call
+     with mode 'mind'; every Volume 2 chapter summary has the same shape, so swap the data.
+     Canvas 1280 × 1240 CSS px (render at --scale 1). -->
+<link rel="stylesheet" href="../assets/bbg-flow.css">
+<link rel="stylesheet" href="../assets/bbg-parts.css">
+<link rel="stylesheet" href="../assets/bbg-concept.css">
+<style>
+  .canvas { width: 1280px; height: 1240px; }
+</style>
+</head>
+<body>
+<div class="canvas">
+<script src="../assets/bbg-icons.js"></script>
+<div class="title" style="left:30px; top:28px; font-size:48px;">Message Queue: Chapter Summary</div>
+</div>
+<script src="../assets/bbg-concept.js"></script>
+<script>
+  // Step boxes get the step colours; everything under them is plain text.
+  const step = (label, cls, children) => ({ label, kind: 'box', cls, children });
+  BBG.tree({
+    x: 40, y: 120, mode: 'mind', size: 17, level: 46, gap: 8,
+    root: { label: 'Message Queue', cls: 'c-green', children: [
+      step('step 1', 'c-soft', [
+        { label: 'functional req', children: ['producers send messages to msg queue', 'consumers consume messages from the msg queue',
+                                               'messages can be repeatedly consumed', 'message ordering'] },
+        { label: 'non-functional req', children: ['configurable throughput and latency', 'scalable', 'persistent and durable'] },
+      ]),
+      step('step 2', 'c-yellow', [
+        { label: 'message models', children: ['point-to-point', 'publish-subscribe'] },
+        'topics, partitions, brokers',
+        'consumer group',
+        { label: 'high-level design', children: ['producer', 'consumer', { label: 'broker', children: ['data storage', 'state storage'] },
+                                                  'metadata storage', 'coordination service'] },
+      ]),
+      step('step 3', 'c-blue', [
+        'data storage', 'message data structure', 'batching', 'producer flow',
+        { label: 'consumer flow', children: ['push model', 'pull model'] },
+        'consumer rebalancing', 'state storage, metadata storage',
+        { label: 'replication', children: ['in-sync replicas'] },
+        'scalability',
+        { label: 'delivery semantics', children: ['at-most once', 'at-least once', 'exactly once'] },
+      ]),
+      step('step 4', 'c-pink', ['wrap up']),
+    ] },
+  });
+</script>
+<script src="../assets/bbg-parts.js"></script>
+</body>
+</html>
