@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Drive Web App</title>
+<!-- Book-figure template: System Design Interview, design Google Drive figure 15-1 (the web
+     app: a sidebar, a search box and the file list) as a ByteByteGo wireframe: a browser
+     frame, BBM.sidebar, BBM.search and a BBM.list with columns. Generic "Drive" name.
+     Canvas 1240 × 720 CSS px (render at --scale 1). -->
+<link rel="stylesheet" href="../assets/bbg-flow.css">
+<link rel="stylesheet" href="../assets/bbg-parts.css">
+<link rel="stylesheet" href="../assets/bbg-mockup.css">
+<style>
+  .canvas { width: 1240px; height: 720px; }
+</style>
+</head>
+<body>
+<div class="canvas">
+<script src="../assets/bbg-icons.js"></script>
+<div class="title" style="left:30px; top:28px; font-size:48px;">Drive Web App</div>
+</div>
+<script src="../assets/bbg-mockup.js"></script>
+<script>
+  const { frame, sidebar, search, list, h, css, ui, icon } = BBM;
+  const app = frame({ kind: 'browser', x: 30, y: 110, w: 1180, h: 580, url: 'drive.example/my-files', flush: true });
+  const header = css(h('div', 'm-row-flex', css(h('div', 'm-row-flex', icon('folder', 30), h('b', null, 'Drive')), { width: '190px', fontSize: '20px' }),
+    css(search({ placeholder: 'Search Drive', size: 15 }), { flex: 1, maxWidth: '600px' }), css(ui('gear', 24), { marginLeft: 'auto' })),
+    { padding: '10px 16px', borderBottom: '2px solid var(--m-line)' });
+  const newBtn = css(h('div', 'm-btn secondary', BBM.ui('plus', 20, 'var(--m-accent)'), ' New'), { width: '110px', borderRadius: '22px', margin: '4px 0 10px 4px' });
+  const main = h('div', 'm-main',
+    css(h('div', 'm-row-flex', h('b', null, 'My files ▾'), css(h('div', 'm-row-flex', ['users', 'trash', 'more'].map(i => ui(i, 20))), { marginLeft: 'auto', width: 'auto', color: '#555' })), { fontSize: '17px' }),
+    list({ size: 15, head: ['Name', 'Owner', 'Last modified'], rows: [
+      { icon: 'folder', cells: ['Recipes', 'Alex', '1:41 PM Alex'] },
+      { icon: 'folder', cells: ['Salad', 'Alex', '1:31 PM Alex'] },
+      { icon: 'folder', cells: ['Soup', 'Alex', '1:32 PM Alex'] },
+      { icon: 'doc', fill: 'var(--blue)', cells: ['Apple cake', 'me', '1:52 PM me'] },
+      { icon: 'doc', fill: 'var(--blue)', cells: ['BBQ', 'me', '1:55 PM me'] },
+    ] }));
+  app.body.append(header, h('div', 'm-split',
+    sidebar([{ icon: 'home', label: 'My files', on: true }, { icon: 'users', label: 'Shared with me' }, { icon: 'clock', label: 'Recent' },
+             { icon: 'star', label: 'Starred' }, { icon: 'trash', label: 'Trash' }, { icon: 'lock', label: 'Backups' }], { w: 200, top: newBtn }),
+    main));
+</script>
+<script src="../assets/bbg-parts.js"></script>
+</body>
+</html>

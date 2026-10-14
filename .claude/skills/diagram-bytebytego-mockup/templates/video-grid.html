@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Video Home Page</title>
+<!-- Book-figure template: System Design Interview, design YouTube figure 14-1 (the home page:
+     a sidebar and a grid of video thumbnails) as a ByteByteGo wireframe: a browser frame,
+     BBM.sidebar, BBM.search and BBM.card thumbs. Generic "Video" name, no logo.
+     Canvas 1240 × 780 CSS px (render at --scale 1). -->
+<link rel="stylesheet" href="../assets/bbg-flow.css">
+<link rel="stylesheet" href="../assets/bbg-parts.css">
+<link rel="stylesheet" href="../assets/bbg-mockup.css">
+<style>
+  .canvas { width: 1240px; height: 780px; }
+</style>
+</head>
+<body>
+<div class="canvas">
+<script src="../assets/bbg-icons.js"></script>
+<div class="title" style="left:30px; top:28px; font-size:48px;">Video Home Page</div>
+</div>
+<script src="../assets/bbg-mockup.js"></script>
+<script>
+  const { frame, sidebar, search, card, h, css } = BBM;
+  const page = frame({ kind: 'browser', x: 30, y: 110, w: 1180, h: 640, url: 'video.example', flush: true });
+  const header = css(h('div', 'm-row-flex', css(h('b', null, '▶ Video'), { fontSize: '20px', width: '160px' }),
+    css(search({ placeholder: 'Search', size: 15 }), { flex: 1, maxWidth: '520px', margin: '0 auto' }),
+    BBM.avatar({ size: 32, fill: 'var(--purple)' })), { padding: '10px 16px', borderBottom: '2px solid var(--m-line)' });
+  const fills = ['var(--green)', 'var(--blue)', 'var(--pink)', 'var(--orange)', 'var(--purple)', 'var(--yellow)', 'var(--green-soft)', 'var(--blue)'];
+  const grid = css(h('div', 'm-thumbs', fills.map(f => card({ kind: 'thumb', img: { h: 120, fill: f, play: true }, title: '85%', sub: '55%' }))), { '--m-cols': 4 });
+  const main = h('div', 'm-main', grid);
+  page.body.append(header, h('div', 'm-split',
+    sidebar([{ icon: 'home', label: 'Home', on: true }, { icon: 'star', label: 'Trending' }, { icon: 'users', label: 'Subscriptions' },
+             { icon: 'grid', label: 'Library' }, { icon: 'clock', label: 'History' }, { icon: 'play', label: 'Your videos' }], { w: 190 }),
+    main));
+</script>
+<script src="../assets/bbg-parts.js"></script>
+</body>
+</html>

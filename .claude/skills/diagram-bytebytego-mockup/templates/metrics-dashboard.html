@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Metrics Dashboard</title>
+<!-- Book-figure template: System Design Interview Volume 2, metrics monitoring figure 21 (a
+     dashboard of time-series panels) as a ByteByteGo wireframe: an app window with BBM.panel
+     boxes, each holding a BBG.timeline chart from the concept skill (bbg-concept.js). Light
+     panels, no product name. Canvas 1240 × 820 CSS px (render at --scale 1). -->
+<link rel="stylesheet" href="../assets/bbg-flow.css">
+<link rel="stylesheet" href="../assets/bbg-parts.css">
+<link rel="stylesheet" href="../assets/bbg-mockup.css">
+<link rel="stylesheet" href="../assets/bbg-concept.css">
+<style>
+  .canvas { width: 1240px; height: 820px; }
+</style>
+</head>
+<body>
+<div class="canvas">
+<script src="../assets/bbg-icons.js"></script>
+<div class="title" style="left:30px; top:28px; font-size:48px;">Metrics Dashboard</div>
+</div>
+<script src="../assets/bbg-concept.js"></script>
+<script src="../assets/bbg-mockup.js"></script>
+<script>
+  const { frame, panel } = BBM;
+  frame({ kind: 'window', app: 'Dashboard — Home   ⏱ last 1 hour', x: 30, y: 110, w: 1180, h: 680 });
+
+  // A wavy series: base level, wave height, a little seeded noise.
+  const series = (n, base, amp, seed) => Array.from({ length: n + 1 }, (_, i) => {
+    const noise = Math.sin(i * 12.9898 + seed * 78.233) * 43758.5453 % 1;
+    return [i, base + amp * Math.sin(i / 2.2 + seed) + amp * 0.6 * noise];
+  });
+  const chart = (p, lines, yTo, label) => BBG.timeline({ x: p.inner.x + 40, y: p.inner.y + 6, width: p.inner.w - 60, plotH: p.inner.h - 44,
+    from: 0, to: 24, ticks: [0, 6, 12, 18, 24], tickLabel: t => `20:${String(30 + t).padStart(2, '0')}`, size: 11, arrow: false,
+    yFrom: 0, yTo, yLabel: label, series: lines });
+
+  const a = panel({ x: 50, y: 170, w: 760, h: 230, title: 'Server requests', light: true });
+  chart(a, [{ points: series(24, 90, 25, 1), color: 'blue' }, { points: series(24, 55, 15, 2), color: 'green' }], 150, 'req/s');
+  const b = panel({ x: 830, y: 170, w: 360, h: 230, title: 'Memory / CPU', light: true });
+  chart(b, [{ points: series(24, 6, 2, 3), color: 'red' }, { points: series(24, 4, 1.5, 4), color: 'blue' }], 10, '%');
+  const c = panel({ x: 50, y: 420, w: 560, h: 350, title: 'Page load time', light: true });
+  chart(c, [{ points: series(24, 3, 1.2, 5), color: 'red' }, { points: series(24, 2, 0.8, 6), color: 'green' }], 5, 'seconds');
+  const d = panel({ x: 630, y: 420, w: 560, h: 350, title: 'Traffic in / out', light: true });
+  chart(d, [{ points: series(24, 1.2, 0.5, 7), color: 'green' }, { points: series(24, 0.6, 0.4, 8), color: 'blue' }], 2, 'kB');
+</script>
+<script src="../assets/bbg-parts.js"></script>
+</body>
+</html>

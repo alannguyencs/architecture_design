@@ -22,7 +22,9 @@
     css(node, { position: 'absolute', left: `${x}px`, top: `${y}px` });
     if (w) node.style.width = `${w}px`;
     if (hgt) node.style.height = `${hgt}px`;
-    canvas().append(node);
+    // Keep HTML under the concept drawing layer (BBG.layer), so charts and maps stay visible.
+    const layer = canvas().querySelector(':scope > svg.layer.concept');
+    if (layer) canvas().insertBefore(node, layer); else canvas().append(node);
     return node;
   }
 
@@ -162,7 +164,7 @@
     s.rows.forEach(r => {
       const lead = r.icon ? icon(r.icon, r.iconSize || 28, r.fill) : r.avatar ? avatar(r.avatar) : r.img ? img(r.img) : null;
       const row = h('div', `m-li${r.hl ? ' hl' : ''}`, lead);
-      if (r.cells) row.append(r.cells.map((c, i) => h('span', `m-cell${i === 0 ? ' w2 m-title' : ''}`, c)));
+      if (r.cells) row.append(...r.cells.map((c, i) => h('span', `m-cell${i === 0 ? ' w2 m-title' : ''}`, c)));
       else {
         row.append(h('div', 'm-col', h('span', 'm-title', r.title ?? ''), r.sub ? h('span', 'm-sub', r.sub) : null, r.subBar ? bar(r.subBar, 'thin') : null));
         if (r.meta) row.append(h('span', 'm-meta', r.meta));
@@ -292,11 +294,19 @@
   }
 
   // ---- dashboard panel: a dark box whose inner rect hosts BBG.timeline / BBG.spatial ----
-  // const p = BBM.panel({ x, y, w, h, title }); p.inner → { x, y, w, h } in canvas px.
+  // const p = BBM.panel({ x, y, w, h, title, light }); p.inner → { x, y, w, h } in canvas px.
+  // light: true gives a white panel, so concept charts' dark labels stay readable.
   function panel(s) {
-    const el = place(h('div', 'm-panel', s.title ? h('div', 'm-ptitle', s.title) : null), s.x, s.y, s.w, s.h);
+    const el = place(h('div', `m-panel${s.light ? ' light' : ''}`, s.title ? h('div', 'm-ptitle', s.title) : null), s.x, s.y, s.w, s.h);
     const pad = s.pad ?? 16, top = s.title ? 30 : pad;
     return { el, inner: { x: s.x + pad, y: s.y + top, w: s.w - 2 * pad, h: s.h - top - pad } };
+  }
+
+  // Where an element sits on the canvas: { x, y, w, h }. Use it to draw a concept part
+  // (BBG.timeline, BBG.spatial) into a slot inside a frame, after the frame is laid out.
+  function rect(node) {
+    const r = node.getBoundingClientRect(), c = canvas().getBoundingClientRect();
+    return { x: r.left - c.left, y: r.top - c.top, w: r.width, h: r.height };
   }
 
   // ---- Animation (Web Animations, seekable by scripts/render_gif.py) ----
@@ -328,7 +338,7 @@
 
   const BBM = {
     h, css, place, ui, icon, bar, bars, img, avatar, chip,
-    frame, search, list, form, card, kvpanel, filetree, sidebar, panel, tabs, fab,
+    frame, search, list, form, card, kvpanel, filetree, sidebar, panel, tabs, fab, rect,
     LOOP: 3000, states, slideIn, scroll, animate: anim,
   };
   window.BBM = BBM;

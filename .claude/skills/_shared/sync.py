@@ -16,7 +16,7 @@ and, into some skills only:
     assets/bbg-flow.css   copy (flow, concept, mockup: the flow look's tokens and building blocks)
     scripts/render_gif.py copy (animated, concept, mockup: HTML → looping GIF)
 and from one skill to another (the master stays in the first skill):
-    concept assets/bbg-concept.js → mockup assets/bbg-concept.js (dashboards and map panels)
+    concept assets/bbg-concept.js and .css → mockup assets/ (dashboards and map panels)
 """
 
 import argparse
@@ -31,7 +31,8 @@ SKILLS = ["diagram-bytebytego-flow", "diagram-bytebytego-animated", "diagram-byt
 ONLY = {"assets/bbg-flow.css": ["diagram-bytebytego-flow", "diagram-bytebytego-concept", "diagram-bytebytego-mockup"],
         "scripts/render_gif.py": ["diagram-bytebytego-animated", "diagram-bytebytego-concept", "diagram-bytebytego-mockup"]}
 # Copies from one skill to another: {(target skill, path): (source skill, path)}
-CROSS = {("diagram-bytebytego-mockup", "assets/bbg-concept.js"): ("diagram-bytebytego-concept", "assets/bbg-concept.js")}
+CROSS = {("diagram-bytebytego-mockup", "assets/bbg-concept.js"): ("diagram-bytebytego-concept", "assets/bbg-concept.js"),
+         ("diagram-bytebytego-mockup", "assets/bbg-concept.css"): ("diagram-bytebytego-concept", "assets/bbg-concept.css")}
 NOTE = "Generated from .claude/skills/_shared/{src} by _shared/sync.py. Edit the master copy, not this file."
 
 
@@ -81,7 +82,8 @@ def main() -> None:
 
     for (skill, rel), (src_skill, src_rel) in CROSS.items():
         src = HERE.parent / src_skill / src_rel
-        content = f"// Copied from .claude/skills/{src_skill}/{src_rel} by _shared/sync.py. Edit the master copy, not this file.\n" + src.read_text()
+        note = f"Copied from .claude/skills/{src_skill}/{src_rel} by _shared/sync.py. Edit the master copy, not this file."
+        content = (f"/* {note} */\n" if rel.endswith(".css") else f"// {note}\n") + src.read_text()
         dest = HERE.parent / skill / rel
         if dest.exists() and dest.read_text() == content:
             continue

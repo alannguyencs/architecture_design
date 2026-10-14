@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Notification Types</title>
+<!-- Book-figure template: System Design Interview, notification system figure 10-1 (the same
+     alert as a push notification, an SMS and an email) as a ByteByteGo wireframe: three
+     BBM.frame phones with banner, bubble and email cards. Canvas 1240 × 860 CSS px. -->
+<link rel="stylesheet" href="../assets/bbg-flow.css">
+<link rel="stylesheet" href="../assets/bbg-parts.css">
+<link rel="stylesheet" href="../assets/bbg-mockup.css">
+<style>
+  .canvas { width: 1240px; height: 860px; }
+</style>
+</head>
+<body>
+<div class="canvas">
+<script src="../assets/bbg-icons.js"></script>
+<div class="title" style="left:30px; top:28px; font-size:48px;">Three Kinds of Notification</div>
+</div>
+<script src="../assets/bbg-mockup.js"></script>
+<script>
+  const { frame, card, h, css, ui, bar } = BBM;
+
+  // Push: banners on the lock screen.
+  const push = frame({ kind: 'phone', x: 50, y: 110, w: 340, h: 680, time: '12:43', caption: 'Push notification' });
+  css(push.body, { background: 'linear-gradient(180deg, #bcd9f5 0%, #d7fbe5 100%)' });
+  push.body.append(
+    css(h('div', null, '12:43'), { fontSize: '58px', fontWeight: 300, textAlign: 'center', marginTop: '18px' }),
+    css(h('div', null, 'Wednesday, January 8'), { textAlign: 'center', fontWeight: 600, marginBottom: '18px' }),
+    card({ kind: 'banner', icon: 'bell', fill: 'var(--green)', title: 'Stocks', meta: 'now', text: ['95%', '70%', '50%'] }),
+    card({ kind: 'banner', icon: 'chat', fill: 'var(--orange)', title: 'Shop', meta: '4:01 PM', text: ['90%', '55%'] }));
+
+  // SMS: an alert in a message thread.
+  const sms = frame({ kind: 'phone', x: 450, y: 110, w: 340, h: 680, time: '9:41', title: 'Messages', left: 'back', titleFill: 'var(--grey-fill)',
+                      caption: 'SMS' });
+  sms.body.append(css(h('div', null, 'Today 2:32 PM'), { textAlign: 'center', fontSize: '12px', color: '#777' }),
+    card({ kind: 'bubble', text: ['100%', '95%', '90%', '100%', '70%', '85%', '40%'] }),
+    css(h('div', 'm-box', ui('camera', 20), bar('60%')), { marginTop: 'auto' }));
+
+  // Email: the same alert in the inbox.
+  const mail = frame({ kind: 'phone', x: 850, y: 110, w: 340, h: 680, time: '1:43', title: 'Inbox', left: 'back', right: 'more',
+                       titleFill: 'var(--grey-fill)', caption: 'Email' });
+  mail.body.append(css(h('div', null, 'Make your screen time count'), { fontWeight: 800, fontSize: '16px' }),
+    card({ kind: 'email', from: 'Sender', subject: '55%', img: { h: 260, fill: 'var(--green)', label: 'Happy New Year!' }, text: ['90%', '70%'] }));
+</script>
+<script src="../assets/bbg-parts.js"></script>
+</body>
+</html>

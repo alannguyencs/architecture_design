@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Nearby Search Results</title>
+<!-- Book-figure template: System Design Interview Volume 2, proximity service figure 1 (a
+     nearby search: filters, a result list and a map with numbered pins) as a ByteByteGo
+     wireframe: a browser frame with BBM.form filters, a BBM.list, and a BBG.spatial street
+     map from the concept skill drawn into the slot BBM.rect reports. Generic business
+     names. Canvas 1240 × 760 CSS px (render at --scale 1). -->
+<link rel="stylesheet" href="../assets/bbg-flow.css">
+<link rel="stylesheet" href="../assets/bbg-parts.css">
+<link rel="stylesheet" href="../assets/bbg-mockup.css">
+<link rel="stylesheet" href="../assets/bbg-concept.css">
+<style>
+  .canvas { width: 1240px; height: 760px; }
+</style>
+</head>
+<body>
+<div class="canvas">
+<script src="../assets/bbg-icons.js"></script>
+<div class="title" style="left:30px; top:28px; font-size:48px;">Nearby Search</div>
+</div>
+<script src="../assets/bbg-concept.js"></script>
+<script src="../assets/bbg-mockup.js"></script>
+<script>
+  const { frame, search, form, list, h, css, chip, rect } = BBM;
+  const page = frame({ kind: 'browser', x: 30, y: 110, w: 1180, h: 620, url: 'reviews.example/search?find=food', flush: true });
+  const header = css(h('div', 'm-row-flex', css(h('b', null, 'Reviews'), { width: '170px', fontSize: '20px' }),
+    css(search({ value: 'food', size: 15 }), { flex: 1 }), css(search({ value: 'Market St, San Francisco', size: 15 }), { flex: 1 })),
+    { padding: '10px 16px', borderBottom: '2px solid var(--m-line)' });
+  const filters = css(h('div', 'm-main', css(h('b', null, 'Distance'), { fontSize: '15px' }),
+    form({ size: 14, fields: [{ kind: 'radio', label: 'Bird’s-eye view', on: true }, { kind: 'radio', label: 'Driving (5 mi)' },
+                              { kind: 'radio', label: 'Biking (2 mi)' }, { kind: 'radio', label: 'Walking (1 mi)' }, { kind: 'radio', label: 'Within 4 blocks' }] })),
+    { flex: 'none', width: '210px', borderRight: '2px solid var(--m-line)' });
+  const stars = n => chip('★'.repeat(n), 'var(--orange)');
+  const results = h('div', 'm-main', list({ size: 15, rows: [
+    { img: { w: 96, h: 72, fill: 'var(--green)' }, title: '1. Bowl House', sub: '0.3 mi · Salads', meta: '$$' },
+    { img: { w: 96, h: 72, fill: 'var(--orange)' }, title: '2. Wing Spot', sub: '0.4 mi · Chicken wings', meta: '$' },
+    { img: { w: 96, h: 72, fill: 'var(--pink)' }, title: '3. Corner Deli', sub: '0.6 mi · Sandwiches', meta: '$$' },
+  ] }));
+  results.querySelectorAll('.m-li .m-col').forEach((c, i) => c.append(css(stars([4, 5, 4][i]), { alignSelf: 'flex-start' }), BBM.bar('85%', 'thin')));
+  const mapSlot = css(h('div'), { flex: 'none', width: '330px' });
+  page.body.append(header, h('div', 'm-split', filters, results, mapSlot));
+
+  // Draw the map into the slot, now that the layout has placed it.
+  const m = rect(mapSlot);
+  BBG.spatial({ x: m.x + 10, y: m.y + 10, width: m.w - 20, height: m.h - 20, base: 'streets', streets: { angle: 18, spacing: 58 },
+    points: [{ at: [0.35, 0.3], cls: 'c-pink', label: '1' }, { at: [0.62, 0.45], cls: 'c-pink', label: '2' },
+             { at: [0.42, 0.7], cls: 'c-pink', label: '3' }, { at: [0.55, 0.55], cls: 'c-yellow', r: 11, label: 'you' }] });
+</script>
+<script src="../assets/bbg-parts.js"></script>
+</body>
+</html>

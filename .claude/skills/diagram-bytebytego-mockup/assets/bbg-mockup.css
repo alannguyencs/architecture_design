@@ -126,7 +126,7 @@
 .m-card { flex: none; display: flex; flex-direction: column; gap: 8px; padding: 12px; border: 2px dashed var(--grey-line); border-radius: 10px; background: #fff; }
 .m-card.solid { border-style: solid; border-color: var(--ink); }
 .m-banner { flex: none; display: flex; gap: 10px; padding: 10px 12px; border: 2.5px solid var(--ink); border-radius: 14px; background: rgba(255, 255, 255, 0.92); }
-.m-bubble { align-self: flex-start; max-width: 80%; padding: 10px 12px; border: 2px solid var(--ink); border-radius: 16px; background: var(--grey-fill); display: flex; flex-direction: column; gap: 6px; }
+.m-bubble { align-self: flex-start; width: 78%; padding: 10px 12px; border: 2px solid var(--ink); border-radius: 16px; background: var(--grey-fill); display: flex; flex-direction: column; gap: 6px; }
 .m-bubble.me { align-self: flex-end; background: var(--blue); }
 .m-thumbs { display: grid; grid-template-columns: repeat(var(--m-cols, 4), 1fr); gap: 12px; }
 
@@ -153,3 +153,4 @@
 .m-seg > div { flex: 1; text-align: center; padding: 10px 0 8px; border-bottom: 3px solid transparent; margin-bottom: -2px; }
 .m-seg > div.on { color: var(--m-accent); border-bottom-color: var(--m-accent); }
 .m-fab { position: absolute; width: 58px; height: 58px; border-radius: 50%; border: 2.5px solid var(--ink); background: #fff; display: flex; align-items: center; justify-content: center; box-shadow: 0 3px 0 var(--ink); }
+.m-panel.light { background: #fff; color: var(--ink); border-color: var(--grey-line); border-width: 2.5px; border-radius: 10px; }
