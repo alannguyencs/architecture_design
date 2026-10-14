@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Form Gallery</title>
+<!-- BBM.form checked on two more book figures, drawn as generic, unbranded wireframes:
+     a wallet's sign-in step offered at checkout (payment system 3) and a hosted checkout
+     page with an order summary and card fields (payment system 5). Every field is an empty
+     box; both pages carry the "Mockup" badge. Canvas 1280 × 820 CSS px. -->
+<link rel="stylesheet" href="../assets/bbg-flow.css">
+<link rel="stylesheet" href="../assets/bbg-parts.css">
+<link rel="stylesheet" href="../assets/bbg-mockup.css">
+<style>
+  .canvas { width: 1280px; height: 820px; }
+</style>
+</head>
+<body>
+<div class="canvas">
+<script src="../assets/bbg-icons.js"></script>
+<div class="title" style="left:30px; top:28px; font-size:44px;">form</div>
+</div>
+<script src="../assets/bbg-mockup.js"></script>
+<script>
+  const { frame, form, list, h, css, place, img } = BBM;
+
+  // Payment 3: pay with a wallet account, or by card.
+  const wallet = frame({ kind: 'browser', x: 30, y: 110, w: 520, h: 640, url: 'pay.example/checkout', badge: 'Mockup', caption: 'payment system 3' });
+  wallet.body.append(
+    css(h('div', null, 'Pay'), { fontSize: '32px', fontWeight: 800, textAlign: 'center', marginTop: '10px' }),
+    css(h('div', null, 'Pay with your wallet account'), { fontSize: '20px', fontWeight: 700, textAlign: 'center' }),
+    css(h('div', 'm-col', BBM.bar('80%'), BBM.bar('60%')), { alignItems: 'center' }),
+    css(form({ size: 16, fields: [{ label: 'Account' }, { label: 'Passcode' }, { kind: 'check', label: 'Stay signed in' }],
+               buttons: [{ label: 'Sign in' }, { label: 'Pay by card', kind: 'secondary' }], divider: 'or' }), { padding: '0 40px' }),
+  );
+
+  // Payment 5: hosted checkout page.
+  const pay = frame({ kind: 'browser', x: 600, y: 110, w: 650, h: 640, url: 'checkout.example/pay', badge: 'Mockup', caption: 'payment system 5' });
+  const split = h('div', 'm-split');
+  const left = h('div', 'm-main',
+    css(h('div', null, 'Shop'), { fontWeight: 800 }),
+    css(h('div', null, '$129.00'), { fontSize: '28px', fontWeight: 800 }),
+    list({ size: 14, rows: [{ img: { w: 40, h: 40, fill: 'var(--blue)' }, title: 'Pure set', sub: 'Qty 1', meta: '$65.00' },
+                            { img: { w: 40, h: 40, fill: 'var(--pink)' }, title: 'Glow cream', sub: 'Qty 2', meta: '$64.00' }] }));
+  const right = css(h('div', 'm-main', form({ size: 14,
+    fields: [{ label: 'Email' }, { label: 'Card information', kind: 'card' }, { label: 'Name on card' }, { label: 'Country or region', kind: 'select', bar: '45%' }],
+    buttons: [{ label: 'Pay' }] })), { borderLeft: '2px solid var(--m-line)' });
+  split.append(left, right);
+  pay.body.classList.add('flush');
+  pay.body.append(split);
+</script>
+<script src="../assets/bbg-parts.js"></script>
+</body>
+</html>

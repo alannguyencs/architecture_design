@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Hotel Booking Checkout</title>
+<!-- Book-figure template: System Design Interview Volume 2, hotel reservation figure 9 (the
+     last booking step) as a ByteByteGo wireframe: BBM.form with a stepper, price lines, card
+     fields left as empty boxes, and a button. Generic names, no real brand; the "Mockup"
+     badge marks it as a wireframe. Canvas 1000 × 980 CSS px (render at --scale 1). -->
+<link rel="stylesheet" href="../assets/bbg-flow.css">
+<link rel="stylesheet" href="../assets/bbg-parts.css">
+<link rel="stylesheet" href="../assets/bbg-mockup.css">
+<style>
+  .canvas { width: 1000px; height: 980px; }
+</style>
+</head>
+<body>
+<div class="canvas">
+<script src="../assets/bbg-icons.js"></script>
+<div class="title" style="left:30px; top:28px; font-size:48px;">Hotel Booking: Final Step</div>
+<div class="tlist" style="left:560px; top:220px; font-size:17px; line-height:1.7;">
+  The reservation is made only<br>when the user submits this page.<br>
+  Submitting twice must not book<br>twice: the request carries the<br>reservation ID (idempotency).
+</div>
+</div>
+<script src="../assets/bbg-mockup.js"></script>
+<script>
+  const { frame, form, h, css, chip } = BBM;
+  const phone = frame({ kind: 'phone', x: 90, y: 110, w: 420, h: 850, time: '9:41', title: 'Booking', right: 'menu',
+                        titleFill: 'var(--blue)', badge: 'Mockup' });
+  const stay = h('div', 'm-col',
+    css(h('div', 'm-row-flex', css(h('span', null, 'Hotel'), { color: '#666' }), chip('4-star', 'var(--yellow)')), { fontSize: '15px' }),
+    css(h('b', null, 'Union Square Hotel'), { fontSize: '18px' }),
+    css(h('div', 'm-row-flex', h('div', 'm-col', css(h('span', null, 'Check-in'), { color: '#666', fontSize: '13px' }), h('b', null, 'Wed, Jul 7')),
+                                h('div', 'm-col', css(h('span', null, 'Check-out'), { color: '#666', fontSize: '13px' }), h('b', null, 'Sat, Jul 10'))),
+        { marginTop: '6px' }));
+  phone.body.append(
+    form({ steps: ['Selection', 'Details', 'Final step'], current: 2, size: 14 }),
+    css(h('div', null, 'Almost done — a few details to confirm your stay.'), { fontSize: '17px', fontWeight: 800, textAlign: 'center' }),
+    stay,
+    form({ size: 15, lines: [['King room, 3 nights', '$508'], ['Tax 14 %', '$71.12'], ['City fees', '$13.62']], total: ['Total', '$592.74'],
+           fields: [{ label: 'Card number', kind: 'card' }, { label: 'Name on card' }, { label: 'Expiry date', w: '50%' }],
+           note: 'No charge now — only holds the room', buttons: [{ label: 'Complete booking' }] }),
+  );
+</script>
+<script src="../assets/bbg-parts.js"></script>
+</body>
+</html>
