@@ -43,6 +43,24 @@ Related skills: `diagram-bytebytego-flow` (architecture boxes and arrows),
 
 Needs Python `playwright` (Chromium), Pillow, and `ffmpeg` for GIFs.
 
+## Templates
+
+| Template | Book figure (as a wireframe) | Parts |
+|---|---|---|
+| `newsfeed-phone.html` | news feed 11-1 | phone `frame`, post `card`s, placeholders |
+| `autocomplete-search.html` | autocomplete 13-1 | `search` with bold completions |
+| `search-list-gallery.html` | autocomplete 13-3, google-drive 15-2 and 15-9, nearby friends 1 | `search`, `list`, `tabs`, `fab` |
+| `hotel-checkout.html` | hotel reservation 9 | `form`: stepper, price lines, empty card fields, Mockup badge |
+| `form-gallery.html` | payment system 3 and 5 (generic, unbranded) | `form` with sign-in and checkout layouts |
+| `url-headers.html` | URL shortener 8-1 | `kvpanel` with red boxes |
+| `panel-tree-gallery.html` | autocomplete 13-12, distributed email 9, google-drive 15-3 | `kvpanel`, `filetree` |
+| `notification-phones.html` | notification system 10-1 | three phones: banner, bubble, email `card`s |
+| `video-grid.html` | design YouTube 14-1 | browser `frame`, `sidebar`, thumb `card`s |
+| `drive-desktop.html` | design Google Drive 15-1 | browser `frame`, `sidebar`, `list` with columns |
+| `metrics-dashboard.html` | metrics monitoring 21 | `panel`s holding `BBG.timeline` charts |
+| `proximity-search.html` | proximity service 1 | filters, results `list`, `BBG.spatial` map via `rect` |
+| `animated-screens.html` | — | typing, banner, feed scroll, folder opening (GIF, `--loop-ms 3000`) |
+
 ## Make a mockup
 
 1. Copy a template; set the `.canvas` size. Load order: `bbg-flow.css`,

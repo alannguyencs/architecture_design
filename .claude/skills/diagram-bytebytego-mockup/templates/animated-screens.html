@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Animated Screens</title>
+<!-- The four screen animations in one looping GIF: typing into a search box while the
+     suggestions change (BBM.states), a notification banner sliding in (BBM.slideIn), a feed
+     scrolling (BBM.scroll), and a folder opening (BBM.states on two trees). One loop is
+     3 s, so render with --loop-ms 3000:
+       render_gif.py animated-screens.html out.gif --loop-ms 3000
+     Canvas 1280 × 820 CSS px. -->
+<link rel="stylesheet" href="../assets/bbg-flow.css">
+<link rel="stylesheet" href="../assets/bbg-parts.css">
+<link rel="stylesheet" href="../assets/bbg-mockup.css">
+<style>
+  .canvas { width: 1280px; height: 820px; }
+</style>
+</head>
+<body>
+<div class="canvas">
+<script src="../assets/bbg-icons.js"></script>
+<div class="title" style="left:30px; top:28px; font-size:44px;">Animated screens</div>
+</div>
+<script src="../assets/bbg-mockup.js"></script>
+<script>
+  const { frame, search, card, filetree, place, h, css, states, slideIn, scroll } = BBM;
+  BBM.LOOP = 3000;   // keep in step with render_gif.py --loop-ms
+
+  // 1. Typing: one search box per prefix, shown in turn.
+  const words = ['dinner ideas', 'dinner recipes', 'diner near me', 'dining table', 'dinosaur', 'dinner rolls', 'dinnerware'];
+  const prefixes = ['d', 'di', 'din', 'dinn', 'dinne', 'dinner'];
+  states(prefixes.map(p => place(search({ value: p, caret: true, size: 16,
+    suggestions: words.filter(w => w.startsWith(p)).slice(0, 5) }), 40, 120, 360)));
+  place(h('div', 'm-caption', 'typing: suggestions follow the prefix'), 220, 400);
+
+  // 2. Banner sliding in on the lock screen.
+  const lock = frame({ kind: 'phone', x: 450, y: 110, w: 250, h: 480, time: '12:43', caption: 'banner slides in' });
+  css(lock.body, { background: 'linear-gradient(180deg, #bcd9f5 0%, #d7fbe5 100%)' });
+  lock.body.append(css(h('div', null, '12:43'), { fontSize: '44px', fontWeight: 300, textAlign: 'center', marginTop: '10px' }));
+  const banner = card({ kind: 'banner', icon: 'bell', fill: 'var(--green)', title: 'Stocks', meta: 'now', text: ['95%', '60%'] });
+  lock.body.append(banner);
+  slideIn(banner, { from: [0, -140], at: [0.15, 0.35] });
+
+  // 3. Feed scrolling inside a phone.
+  const feed = frame({ kind: 'phone', x: 740, y: 110, w: 250, h: 480, time: '10:52', title: 'Feed', titleFill: 'var(--green-soft)', caption: 'feed scrolls' });
+  const strip = css(h('div', 'm-col'), { gap: '10px' });
+  ['var(--blue)', 'var(--orange)', 'var(--purple)', 'var(--pink)', 'var(--green)'].forEach((f, i) =>
+    strip.append(card({ kind: 'post', avatar: f, lines: ['60%', '35%'], body: ['90%', '70%'], img: i % 2 ? { h: 80, fill: f } : null })));
+  feed.body.append(strip);
+  scroll(strip, { dy: 420, at: [0.1, 0.9] });
+
+  // 4. Folder opening: the closed tree, then the open one.
+  states([
+    place(filetree({ size: 17, items: [{ name: 'drive', depth: 0, open: true }, { name: 'user1', depth: 1 }, { name: 'user2', depth: 1 }] }), 1030, 140),
+    place(filetree({ size: 17, items: [{ name: 'drive', depth: 0, open: true }, { name: 'user1', depth: 1, open: true },
+      { name: 'recipes', depth: 2 }, { name: 'soup.txt', depth: 2, file: true }, { name: 'user2', depth: 1 }] }), 1030, 140),
+  ]);
+  place(h('div', 'm-caption', 'folder opens'), 1120, 400);
+</script>
+<script src="../assets/bbg-parts.js"></script>
+</body>
+</html>
