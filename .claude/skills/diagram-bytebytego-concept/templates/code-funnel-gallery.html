@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Code and Funnel Gallery</title>
+<!-- One sample of each code theme and the funnel, modelled on book figures: SQL prefix query
+     (autocomplete 13-4), HTML source (web crawler 9-3), task config in an editor window
+     (YouTube 14-13), nslookup in a terminal (distributed email 2), and QPS per step as an
+     inverted pyramid (hotel reservation 1). Render it to check the components:
+     canvas 1280 × 1000. -->
+<link rel="stylesheet" href="../assets/bbg-flow.css">
+<link rel="stylesheet" href="../assets/bbg-parts.css">
+<link rel="stylesheet" href="../assets/bbg-concept.css">
+<style>
+  .canvas { width: 1280px; height: 1000px; }
+</style>
+</head>
+<body>
+<div class="canvas">
+<script src="../assets/bbg-icons.js"></script>
+<div class="title" style="left:30px; top:28px; font-size:44px;">code and funnel</div>
+</div>
+<script src="../assets/d3-hierarchy.min.js"></script>
+<script src="../assets/bbg-concept.js"></script>
+<script>
+  BBG.code({ x: 30, y: 110, lang: 'sql', size: 22, text: `
+SELECT * FROM frequency_table
+WHERE query LIKE \`prefix%\`
+ORDER BY frequency DESC
+LIMIT 5` });
+
+  BBG.code({ x: 30, y: 300, lang: 'html', size: 14, text: `
+<html class="client-nojs" lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8"/>
+    <title>Wikipedia, the free encyclopedia</title>
+  </head>
+  <body>
+    <li><a href="/wiki/Cong_Weixi" title="Cong Weixi">Cong Weixi</a></li>
+    <li><a href="/wiki/Kay_Hagan" title="Kay Hagan">Kay Hagan</a></li>
+  </body>
+</html>` });
+
+  BBG.code({ x: 700, y: 110, lang: 'js', theme: 'dark', size: 15, title: 'download.task', text: `
+task {
+  name 'download-input'
+  type 'Download'
+  input {
+    url config.url
+  }
+  output { it->
+    context.inputVideo = it.file
+  }
+  next 'transcode'
+}` });
+
+  BBG.code({ x: 30, y: 590, lang: 'shell', theme: 'terminal', size: 15, text: `
+draws-mbp:~ draw$ nslookup
+> set q=mx
+> gmail.com
+Server:         192.168.86.1
+Address:        192.168.86.1#53
+
+Non-authoritative answer:
+gmail.com    mail exchanger = 5 gmail-smtp-in.l.google.com.
+gmail.com    mail exchanger = 10 alt1.gmail-smtp-in.l.google.com.` });
+
+  BBG.funnel({ x: 720, y: 520, width: 520, height: 400, size: 19, levels: [
+    { label: 'View hotel / room detail\n(QPS = 300)', cls: 'c-soft' },
+    { label: 'Order booking page\n(QPS = 30)', cls: 'c-yellow' },
+    { label: 'Reserve rooms\n(QPS = 3)', cls: 'c-pink' },
+  ] });
+</script>
+<script src="../assets/bbg-parts.js"></script>
+</body>
+</html>

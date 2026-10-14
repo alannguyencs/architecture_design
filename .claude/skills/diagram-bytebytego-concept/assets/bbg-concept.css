@@ -58,3 +58,45 @@ svg .c-orange-arc { stroke: var(--orange); }
 /* tree marks */
 svg .c-leaf { stroke: #2f9e6e; stroke-width: 3.5; }
 svg .c-note-group { fill: none; stroke: var(--green-dash); stroke-width: 2.5; stroke-dasharray: 8 6; }
+
+/* spatial marks */
+svg .c-sea { fill: #eef4fb; }
+svg .c-land { fill: #d6d6d6; stroke: #fff; stroke-width: 0.6; }
+/* A highlighted country: the colour class must beat .c-land's grey */
+svg .c-land.c-green  { fill: var(--green); }   svg .c-land.c-blue   { fill: var(--blue); }
+svg .c-land.c-pink   { fill: var(--pink); }    svg .c-land.c-purple { fill: var(--purple); }
+svg .c-land.c-orange { fill: var(--orange); }  svg .c-land.c-yellow { fill: var(--yellow); }
+svg .c-land.c-green, svg .c-land.c-blue, svg .c-land.c-pink, svg .c-land.c-purple,
+svg .c-land.c-orange, svg .c-land.c-yellow { stroke: var(--ink); stroke-width: 1.2; }
+svg .c-graticule { fill: none; stroke: #b9c7d8; stroke-width: 1; stroke-dasharray: 4 4; }
+svg .c-blocks { fill: #ece9e2; }
+svg .c-road { fill: none; stroke: #fff; stroke-width: 9; }
+svg .c-road-major { stroke: #fbf1c7; stroke-width: 15; }
+svg .c-grid-line { fill: none; stroke: var(--ink); stroke-width: 2; }
+svg .c-grid-bold { fill: none; stroke: var(--ink); stroke-width: 6; }
+svg .c-cell-fill { opacity: 0.75; }
+svg.layer.concept text.c-map-label { paint-order: stroke; stroke: #fff; stroke-width: 4px; }
+svg .c-area { stroke: var(--ink); stroke-width: 3; opacity: 0.85; }
+svg .c-radius { fill: rgba(108, 224, 156, 0.18); stroke: var(--ink); stroke-width: 3; }
+svg .c-hilbert { stroke: var(--edge-blue); stroke-width: 3; }
+svg .c-callout { stroke: #555; }
+svg .c-callout-dot { fill: var(--edge-blue); }
+
+/* code */
+svg .c-code-light .c-code-bg { fill: #fff; stroke: var(--grey-line); stroke-width: 2.5; }
+svg .c-code-dark .c-code-bg { fill: #23272e; }
+svg .c-code-terminal .c-code-bg { fill: #0d0d0d; }
+svg.layer.concept .c-code-dark text, svg.layer.concept .c-code-dark .c-code-title { fill: #d7dae0; }
+svg.layer.concept .c-code-terminal text { fill: #3ef05a; }
+svg .k-kw { fill: #2f5fd0; font-weight: 700; }
+svg .k-str { fill: #1f8f4e; }
+svg .k-num { fill: #c26a00; }
+svg .k-com { fill: #8a8a8a; font-style: italic; }
+svg .k-attr { fill: #8a3fd1; }
+svg .k-prompt { fill: #fff; font-weight: 700; }
+svg.layer.concept .c-code-dark .k-kw { fill: #7fb2ff; }
+svg.layer.concept .c-code-dark .k-str { fill: #9ad27a; }
+svg.layer.concept .c-code-dark .k-num { fill: #f2a65a; }
+
+/* venn */
+svg .c-set { opacity: 0.6; mix-blend-mode: multiply; }

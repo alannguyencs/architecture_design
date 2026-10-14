@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Geohash: Divide the World</title>
+<!-- Book-figure template: System Design Interview Volume 2, proximity service figure 8
+     (geohash: divide the world into quadrants, then each quadrant again) in the
+     ByteByteGo look. Two BBG.spatial calls on the Natural Earth world base (Mercator,
+     square like a map tile), with 2-bit labels and the zoomed quadrant in bold.
+     Canvas 1280 × 760 CSS px (render at --scale 1). -->
+<link rel="stylesheet" href="../assets/bbg-flow.css">
+<link rel="stylesheet" href="../assets/bbg-parts.css">
+<link rel="stylesheet" href="../assets/bbg-concept.css">
+<style>
+  .canvas { width: 1280px; height: 760px; }
+</style>
+</head>
+<body>
+<div class="canvas">
+<script src="../assets/bbg-icons.js"></script>
+<div class="title" style="left:30px; top:28px; font-size:48px;">Geohash: Divide the World</div>
+<div class="pill" style="left:85px; top:118px; width:250px; height:44px; font-size:22px;">Level 1: 2 bits</div>
+<div class="pill" style="left:715px; top:118px; width:250px; height:44px; font-size:22px;">Level 2: 4 bits</div>
+</div>
+<script src="../assets/d3-hierarchy.min.js"></script>
+<script src="../assets/world-110m.js"></script>
+<script src="../assets/bbg-concept.js"></script>
+<script>
+  const world = { projection: 'mercator', crop: [-180, -85, 180, 85] };
+  const level1 = BBG.spatial({
+    x: 60, y: 180, width: 300, height: 300, base: 'world', world,
+    grid: { cols: 2, rows: 2, labels: [['01', '11'], ['00', '10']], size: 34, bold: [[0, 0]] },
+  });
+  const bits = ['01', '11', '00', '10'];   // level-1 cells, top-left first
+  const sub = ['01', '11', '00', '10'];
+  const labels = [0, 1, 2, 3].map(r => [0, 1, 2, 3].map(c => {
+    const parent = bits[Math.floor(r / 2) * 2 + Math.floor(c / 2)], child = sub[(r % 2) * 2 + (c % 2)];
+    return `${parent} ${child}`;
+  }));
+  BBG.spatial({
+    x: 560, y: 180, width: 560, height: 560, base: 'world', world,
+    grid: { cols: 4, rows: 4, labels, size: 30 },
+    splits: [{ rect: [0, 0, 0.5, 0.5], cols: 1, rows: 1, bold: true }],
+  });
+  // The zoomed quadrant: from level 1's top-left cell to level 2's bold block.
+  const [ax, ay] = level1.xy([0.5, 0.25]);
+  BBG.el('path', { d: `M${ax + 4} ${ay} C${ax + 150} ${ay} 430 330 552 320`, class: 'c-line', 'marker-end': 'url(#m-arrow)' }, BBG.layer());
+</script>
+<script src="../assets/bbg-parts.js"></script>
+</body>
+</html>

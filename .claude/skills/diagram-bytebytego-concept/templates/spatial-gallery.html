@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Spatial Gallery</title>
+<!-- One sample of each spatial option, modelled on book figures: search radius on streets
+     (proximity 3), geofence (proximity 17), nine geohash cells with friends (nearby friends
+     14), routing tiles with a road graph (google maps 5), expanding search area on a plain
+     grid (proximity 12), quadtree squares (proximity 13), Hilbert curve (proximity 16), and
+     upload centres on a world map with highlighted countries (YouTube 14-24).
+     Render it to check the component: canvas 1280 × 1500. -->
+<link rel="stylesheet" href="../assets/bbg-flow.css">
+<link rel="stylesheet" href="../assets/bbg-parts.css">
+<link rel="stylesheet" href="../assets/bbg-concept.css">
+<style>
+  .canvas { width: 1280px; height: 1500px; }
+  .cap { position: absolute; transform: translateX(-50%); font-size: 18px; font-weight: 700; white-space: nowrap; }
+</style>
+</head>
+<body>
+<div class="canvas">
+<script src="../assets/bbg-icons.js"></script>
+<div class="title" style="left:30px; top:28px; font-size:44px;">spatial</div>
+<div class="cap" style="left:200px; top:440px;">search radius</div>
+<div class="cap" style="left:620px; top:440px;">geofence</div>
+<div class="cap" style="left:1050px; top:440px;">nine geohash cells</div>
+<div class="cap" style="left:420px; top:780px;">routing tiles</div>
+<div class="cap" style="left:1050px; top:780px;">Hilbert curve</div>
+<div class="cap" style="left:420px; top:1050px;">increase the search area</div>
+<div class="cap" style="left:1050px; top:1050px;">quadtree: split until small</div>
+<div class="cap" style="left:640px; top:1470px;">upload centres</div>
+</div>
+<script src="../assets/d3-hierarchy.min.js"></script>
+<script src="../assets/world-110m.js"></script>
+<script src="../assets/bbg-concept.js"></script>
+<script>
+  // Row 1: street maps.
+  BBG.spatial({ x: 30, y: 100, width: 340, height: 320, base: 'streets',
+    circles: [{ at: [0.5, 0.5], r: 110 }],
+    points: [{ at: [0.5, 0.5], label: 'me', cls: 'c-yellow', r: 11 }, { at: [0.3, 0.33], cls: 'c-pink' }, { at: [0.66, 0.3], cls: 'c-pink' },
+             { at: [0.62, 0.62], cls: 'c-pink' }, { at: [0.27, 0.62], cls: 'c-pink' }] });
+  BBG.spatial({ x: 450, y: 100, width: 340, height: 320, base: 'streets', streets: { angle: 0, spacing: 64 },
+    polygons: [{ points: [[0.25, 0.3], [0.68, 0.3], [0.85, 0.42], [0.66, 0.78], [0.25, 0.78], [0.2, 0.55]], cls: 'c-blue', label: 'Geofence' }] });
+  BBG.spatial({ x: 880, y: 100, width: 340, height: 320, base: 'streets', streets: { angle: 30, spacing: 60 },
+    grid: { cols: 3, rows: 3, size: 16, labels: [['9q8zn6', '9q8znd', '9q8znf'], ['9q8zn3', '9q8zn9', '9q8znc'], ['9q8zn2', '9q8zn8', '9q8znb']],
+            hl: [[1, 1, 'c-soft']] },
+    points: [{ at: [0.42, 0.48], cls: 'c-green' }, { at: [0.5, 0.42], cls: 'c-green' }, { at: [0.55, 0.62], cls: 'c-green' }, { at: [0.36, 0.72], cls: 'c-green' }] });
+
+  // Row 2: routing tiles, Hilbert curve.
+  BBG.spatial({ x: 30, y: 490, width: 780, height: 270, base: 'streets', streets: { angle: -10, spacing: 54 },
+    grid: { cols: 3, rows: 1 },
+    splits: [{ rect: [0, 0, 1, 0.16], cols: 3, rows: 1, labels: [['Routing tile 1', 'Routing tile 2', 'Routing tile 3']], size: 17 }],
+    paths: [{ points: [[0.06, 0.8], [0.16, 0.45], [0.27, 0.7], [0.4, 0.38], [0.52, 0.66], [0.62, 0.42], [0.76, 0.7], [0.88, 0.35], [0.95, 0.78]], color: 'red', width: 4 }],
+    points: [[0.06, 0.8], [0.16, 0.45], [0.27, 0.7], [0.4, 0.38], [0.52, 0.66], [0.62, 0.42], [0.76, 0.7], [0.88, 0.35], [0.95, 0.78]].map(at => ({ at, cls: 'c-pink', r: 8 })) });
+  BBG.spatial({ x: 900, y: 490, width: 300, height: 270, base: 'plain', hilbert: { order: 3 } });
+
+  // Row 3: plain grids.
+  // Each step highlights a (2i+1) × (2i+1) block around the centre cell.
+  [0, 1, 2].forEach(i => {
+    const hl = [];
+    for (let c = 3 - i; c <= 3 + i; c++) for (let r = 3 - i; r <= 3 + i; r++) hl.push([c, r, 'c-green']);
+    BBG.spatial({ x: 30 + i * 270, y: 830, width: 200, height: 200, grid: { cols: 7, rows: 7, hl } });
+    if (i < 2) BBG.el('path', { d: `M${240 + i * 270} 930 H${290 + i * 270}`, class: 'c-line', 'marker-end': 'url(#m-arrow)' }, BBG.layer());
+  });
+  BBG.spatial({ x: 900, y: 830, width: 300, height: 200,
+    grid: { cols: 2, rows: 2, size: 15, labels: [['NW (40m)', ''], ['SW (70m)', 'SE (60m)']] },
+    splits: [{ rect: [0.5, 0, 1, 0.5], cols: 2, rows: 2, labels: [['10m', '11m'], ['4m', '5m']], size: 14 }] });
+
+  // Row 4: world with highlighted countries and callouts.
+  BBG.spatial({ x: 190, y: 1110, width: 900, height: 330, base: 'world',
+    world: { countries: { USA: 'c-purple', BRA: 'c-green', CHN: 'c-pink', DEU: 'c-blue' } },
+    callouts: [{ ll: [-100, 40], dx: 70, dy: -48, label: 'North America upload centre' },
+               { ll: [-52, -10], dx: -60, dy: 60, label: 'South America upload centre' },
+               { ll: [10, 51], dx: 30, dy: -60, label: 'Europe upload centre' },
+               { ll: [104, 35], dx: 40, dy: -60, label: 'Asia upload centre' }] });
+</script>
+<script src="../assets/bbg-parts.js"></script>
+</body>
+</html>

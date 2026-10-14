@@ -991,3 +991,279 @@ BBG.define('tree', spec => {
   };
   return g;
 });
+
+// ---------------------------------------------------------------------------
+// spatial — maps and spatial grids: a base (plain square, world outline or a
+// schematic street grid) with grids, subdivided cells, points, search circles,
+// polygons, routes, callouts and a Hilbert curve on top.
+//
+// BBG.spatial({
+//   x, y, width: 600, height: 300,             the frame (top-left and size)
+//   base: 'plain' | 'world' | 'streets',
+//   world:   { projection: 'equirect' | 'mercator', crop: [lonMin, latMin, lonMax, latMax],
+//              countries: { USA: 'c-purple', CHN: 'c-pink' }, graticule: 30, axes: true }
+//              (needs assets/world-110m.js loaded first)
+//   streets: { angle: -28, spacing: 70, major: 3 },
+//   grid:    { cols: 2, rows: 2, labels: [['01', '11'], ['00', '10']], size: 40, hl: [[0, 0, 'c-green']], bold: [[0, 0]] },
+//   splits:  [{ rect: [0, 0, 0.5, 0.5], cols: 2, rows: 2, labels: [['01 01', '01 11'], …], bold: true }],
+//   points:  [{ at: [fx, fy] | ll: [lon, lat], label, cls: 'c-green', r: 9, icon: 'user', size: 32 }],
+//   circles: [{ at, r: 110, label, dash: true }],
+//   polygons:[{ points: [[fx, fy], …], cls: 'c-blue', label }],
+//   paths:   [{ points: [[fx, fy], …], color: 'red', arrow: true, width: 5 }],
+//   callouts:[{ at | ll, dx: 0, dy: -80, label }],      a thin line to a label outside the point
+//   hilbert: { order: 3 },
+//   size: 15, frame: true, parent
+// })
+// Positions: at = fractions of the frame (0..1, from the top-left); ll = longitude,
+// latitude on a world base. Returns the <g>; g.xy([fx, fy]) and g.ll([lon, lat]) give
+// page positions.
+// ---------------------------------------------------------------------------
+BBG.define('spatial', spec => {
+  const s = { x: 0, y: 0, width: 600, height: 300, base: 'plain', size: 15, frame: true, ...spec };
+  const W = s.width, H = s.height, fs = s.size;
+  const g = BBG.group(s.parent || BBG.layer(), s.x, s.y, 'c-spatial');
+  const clipId = `c-map-${Math.random().toString(36).slice(2, 9)}`;
+  BBG.el('rect', { width: W, height: H }, BBG.el('clipPath', { id: clipId }, BBG.el('defs', {}, g)));
+  const inner = BBG.el('g', { 'clip-path': `url(#${clipId})` }, g);
+
+  // Projection for the world base: lon/lat → frame px.
+  const wo = s.world || {};
+  const crop = wo.crop || [-180, -60, 180, 85];
+  const merc = lat => Math.log(Math.tan(Math.PI / 4 + Math.max(-85, Math.min(85, lat)) * Math.PI / 360));
+  const py = wo.projection === 'mercator' ? merc : lat => lat;
+  const ll = ([lon, lat]) => [(lon - crop[0]) / (crop[2] - crop[0]) * W, (py(crop[3]) - py(lat)) / (py(crop[3]) - py(crop[1])) * H];
+  const fxy = p => (p.ll ? ll(p.ll) : [p.at[0] * W, p.at[1] * H]);
+  const toXY = pt => (Array.isArray(pt) ? [pt[0] * W, pt[1] * H] : fxy(pt));
+
+  // Base.
+  if (s.base === 'world') {
+    BBG.el('rect', { width: W, height: H, class: 'c-sea' }, inner);
+    if (wo.graticule) {
+      for (let lon = -180; lon <= 180; lon += wo.graticule) { const [x] = ll([lon, 0]); BBG.el('path', { d: `M${x} 0 V${H}`, class: 'c-graticule' }, inner); }
+      for (let lat = -90; lat <= 90; lat += wo.graticule) { const [, y] = ll([0, lat]); BBG.el('path', { d: `M0 ${y} H${W}`, class: 'c-graticule' }, inner); }
+    }
+    if (!window.BBG_WORLD) console.warn('BBG.spatial: world-110m.js not loaded; the world base is empty');
+    const fills = wo.countries || {};
+    Object.entries(window.BBG_WORLD || {}).forEach(([code, c]) => {
+      const d = c.rings.map(r => {
+        let out = '';
+        for (let i = 0; i < r.length; i += 2) { const [px, pyy] = ll([r[i], r[i + 1]]); out += `${i ? 'L' : 'M'}${px.toFixed(1)} ${pyy.toFixed(1)}`; }
+        return out + 'Z';
+      }).join('');
+      BBG.el('path', { d, class: `c-land ${fills[code] || ''}`.trim() }, inner);
+    });
+  } else if (s.base === 'streets') {
+    const st = { angle: -28, spacing: 70, major: 3, ...(s.streets || {}) };
+    BBG.el('rect', { width: W, height: H, class: 'c-blocks' }, inner);
+    const roads = BBG.el('g', { transform: `rotate(${st.angle} ${W / 2} ${H / 2})` }, inner);
+    const span = Math.hypot(W, H);
+    for (let i = -Math.ceil(span / st.spacing); i <= Math.ceil(span / st.spacing); i++) {
+      const o = i * st.spacing, major = i % st.major === 0;
+      const cls = major ? 'c-road c-road-major' : 'c-road';
+      BBG.el('path', { d: `M${W / 2 + o} ${H / 2 - span} V${H / 2 + span}`, class: cls }, roads);
+      BBG.el('path', { d: `M${W / 2 - span} ${H / 2 + o * 1.3} H${W / 2 + span}`, class: cls }, roads);
+    }
+  } else {
+    BBG.el('rect', { width: W, height: H, class: 'c-white' }, inner);
+  }
+
+  // Grids and subdivisions.
+  const cellGrid = (x0, y0, w, h, cols, rows, opts = {}) => {
+    const cw = w / cols, ch = h / rows;
+    (opts.hl || []).forEach(([c, r, cls]) => BBG.el('rect', { x: x0 + c * cw, y: y0 + r * ch, width: cw, height: ch, class: `c-cell-fill ${cls || 'c-green'}` }, inner));
+    for (let c = 1; c < cols; c++) BBG.el('path', { d: `M${x0 + c * cw} ${y0} V${y0 + h}`, class: 'c-grid-line' }, inner);
+    for (let r = 1; r < rows; r++) BBG.el('path', { d: `M${x0} ${y0 + r * ch} H${x0 + w}`, class: 'c-grid-line' }, inner);
+    const lab = opts.labels;
+    if (lab) for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++) {
+      const t = typeof lab === 'function' ? lab(c, r) : (lab[r] || [])[c];
+      if (t !== undefined && t !== '') BBG.text(inner, x0 + (c + 0.5) * cw, y0 + (r + 0.5) * ch, t, { size: opts.size || fs * 1.4, weight: 700, cls: 'c-map-label' });
+    }
+    (opts.bold || []).forEach(([c, r]) => BBG.el('rect', { x: x0 + c * cw, y: y0 + r * ch, width: cw, height: ch, class: 'c-grid-bold' }, inner));
+  };
+  if (s.grid) cellGrid(0, 0, W, H, s.grid.cols, s.grid.rows, s.grid);
+  (s.splits || []).forEach(sp => {
+    const [a, b, c, d] = sp.rect;
+    cellGrid(a * W, b * H, (c - a) * W, (d - b) * H, sp.cols || 2, sp.rows || 2, { ...sp, bold: null });
+    if (sp.bold) BBG.el('rect', { x: a * W, y: b * H, width: (c - a) * W, height: (d - b) * H, class: 'c-grid-bold' }, inner);
+  });
+
+  // Hilbert curve over the whole frame.
+  if (s.hilbert) {
+    const n = 2 ** s.hilbert.order, pts = [];
+    for (let i = 0; i < n * n; i++) {
+      let t = i, x = 0, y = 0;
+      for (let k = 1; k < n; k *= 2) {
+        const rx = 1 & (t / 2), ry = 1 & (t ^ rx);
+        if (ry === 0) { if (rx === 1) { x = k - 1 - x; y = k - 1 - y; } [x, y] = [y, x]; }
+        x += k * rx; y += k * ry; t = Math.floor(t / 4);
+      }
+      pts.push([(x + 0.5) / n * W, (1 - (y + 0.5) / n) * H]);
+    }
+    BBG.el('path', { d: pts.map((p, i) => `${i ? 'L' : 'M'}${p[0]} ${p[1]}`).join(''), class: 'c-line c-hilbert' }, inner);
+  }
+
+  // Shapes on top.
+  (s.polygons || []).forEach(p => {
+    const pts = p.points.map(toXY);
+    BBG.el('path', { d: pts.map((q, i) => `${i ? 'L' : 'M'}${q[0]} ${q[1]}`).join('') + 'Z', class: `c-area ${p.cls || 'c-blue'}` }, inner);
+    if (p.label) {
+      const cx = pts.reduce((a, q) => a + q[0], 0) / pts.length, cy = pts.reduce((a, q) => a + q[1], 0) / pts.length;
+      BBG.text(inner, cx, cy, p.label, { size: fs * 1.15, weight: 800 });
+    }
+  });
+  (s.paths || []).forEach(p => {
+    const pts = p.points.map(toXY);
+    BBG.el('path', { d: pts.map((q, i) => `${i ? 'L' : 'M'}${q[0]} ${q[1]}`).join(''), class: `c-line${p.color ? ` c-${p.color}-line` : ''}`,
+      'stroke-width': p.width || 4, 'marker-end': p.arrow ? (p.color ? `url(#m-arrow-${p.color})` : 'url(#m-arrow)') : null }, inner);
+  });
+  (s.circles || []).forEach(c => {
+    const [x, y] = fxy(c);
+    BBG.el('circle', { cx: x, cy: y, r: c.r, class: `c-radius${c.dash === false ? '' : ' c-dash'}` }, inner);
+    if (c.label) BBG.label(inner, x, y - c.r, c.label, { size: fs });
+  });
+  (s.points || []).forEach(p => {
+    const [x, y] = fxy(p);
+    if (p.icon) BBG.icon(inner, p.icon, x, y, p.size || 32, p.size || 32);
+    else BBG.el('circle', { cx: x, cy: y, r: p.r || 9, class: `c-node ${p.cls || 'c-green'}` }, inner);
+    if (p.label) BBG.label(inner, x + (p.r || (p.icon ? (p.size || 32) / 2 : 9)) + 6, y, p.label, { size: fs, anchor: 'start' });
+  });
+  // Callouts may leave the frame, so they are drawn outside the clip.
+  (s.callouts || []).forEach(c => {
+    const [x, y] = fxy(c), tx = x + (c.dx || 0), ty = y + (c.dy ?? -80);
+    BBG.el('path', { d: `M${x} ${y} L${tx} ${ty}`, class: 'c-thin c-callout' }, g);
+    BBG.el('circle', { cx: x, cy: y, r: 4, fill: '#111' }, g);
+    const right = (c.dx || 0) >= 0;
+    BBG.el('circle', { cx: tx, cy: ty, r: 5, class: 'c-callout-dot' }, g);
+    BBG.text(g, tx + (right ? 12 : -12), ty, c.label, { size: fs, weight: 700, anchor: right ? 'start' : 'end' });
+  });
+  if (s.frame) BBG.el('rect', { width: W, height: H, class: 'c-outline' }, g);
+  if (s.base === 'world' && wo.axes) {
+    for (let lon = -150; lon <= 150; lon += 50) { const [x] = ll([lon, 0]); BBG.text(g, x, H + fs * 1.1, lon, { size: fs * 0.85, weight: 500 }); }
+    for (let lat = -75; lat <= 75; lat += 25) { const [, yy] = ll([0, lat]); if (yy > 4 && yy < H - 4) BBG.text(g, -8, yy, lat, { size: fs * 0.85, weight: 500, anchor: 'end' }); }
+  }
+
+  g.xy = f => [s.x + f[0] * W, s.y + f[1] * H];
+  g.ll = p => { const [a, b] = ll(p); return [s.x + a, s.y + b]; };
+  return g;
+});
+
+// ---------------------------------------------------------------------------
+// code — a block of code with light syntax colouring.
+//
+// BBG.code({ x, y, text: 'SELECT * FROM t', lang: 'sql' | 'html' | 'js' | 'shell' | 'plain',
+//            theme: 'light' | 'dark' | 'terminal', size: 15, width, title: 'task.groovy',
+//            frame: true, parent })
+// dark adds an editor window bar; terminal is green on black. Leading spaces are kept.
+// Returns the <g> with width and height.
+// ---------------------------------------------------------------------------
+BBG.define('code', spec => {
+  const s = { x: 0, y: 0, lang: 'plain', theme: 'light', size: 15, frame: true, ...spec };
+  const fs = s.size, lh = fs * 1.5, pad = 16;
+  const RULES = {
+    sql: [[/--.*$/g, 'k-com'], [/'[^']*'|`[^`]*`/g, 'k-str'],
+          [/\b(SELECT|FROM|WHERE|AND|OR|NOT|IN|LIKE|ORDER|GROUP|BY|LIMIT|DESC|ASC|INSERT|INTO|VALUES|UPDATE|SET|DELETE|JOIN|ON|AS|CREATE|TABLE|PRIMARY|KEY|UNIQUE|BEGIN|COMMIT|NULL)\b/gi, 'k-kw'],
+          [/\b\d+(\.\d+)?\b/g, 'k-num']],
+    html: [[/<!--[\s\S]*?-->/g, 'k-com'], [/"[^"]*"/g, 'k-str'], [/<\/?[a-zA-Z][\w-]*|\/?>/g, 'k-kw'], [/\b[\w-]+(?==)/g, 'k-attr']],
+    js: [[/\/\/.*$/g, 'k-com'], [/'[^']*'|"[^"]*"/g, 'k-str'],
+         [/\b(const|let|var|function|return|if|else|for|while|new|class|import|from|export|await|async|true|false|null|task|input|output|next)\b/g, 'k-kw'],
+         [/\b\d+(\.\d+)?\b/g, 'k-num']],
+    shell: [[/^[^$>\n]*[$>]\s?/g, 'k-prompt'], [/(^|\s)#.*$/g, 'k-com']],
+    plain: [],
+  };
+  const rules = RULES[s.lang] || [];
+  // Split one line into [text, class] pieces; earlier rules win where matches overlap.
+  const tokens = line => {
+    const marks = new Array(line.length).fill(null);
+    rules.forEach(([re, cls]) => {
+      re.lastIndex = 0;
+      let m;
+      while ((m = re.exec(line))) {
+        if (!m[0].length) { re.lastIndex++; continue; }
+        let free = true;
+        for (let i = m.index; i < m.index + m[0].length; i++) if (marks[i]) { free = false; break; }
+        if (free) for (let i = m.index; i < m.index + m[0].length; i++) marks[i] = cls;
+      }
+    });
+    const out = [];
+    for (let i = 0; i < line.length; i++) {
+      if (out.length && out[out.length - 1][1] === marks[i]) out[out.length - 1][0] += line[i];
+      else out.push([line[i], marks[i]]);
+    }
+    return out;
+  };
+  const lines = String(s.text).replace(/^\n+|\s+$/g, '').split('\n');
+  const tw = Math.max(...lines.map(l => BBG.measure(l, { size: fs, weight: 500, mono: true })));
+  const bar = s.theme === 'dark' || s.title ? 30 : 0;
+  const w = s.width || Math.ceil(tw + 2 * pad), h = Math.ceil(lines.length * lh + 2 * pad - (lh - fs) + bar);
+  const g = BBG.group(s.parent || BBG.layer(), s.x, s.y, `c-code c-code-${s.theme}`);
+  if (s.frame) BBG.el('rect', { width: w, height: h, rx: 10, class: 'c-code-bg' }, g);
+  if (bar) {
+    ['#ff5f57', '#febc2e', '#28c840'].forEach((c, i) => BBG.el('circle', { cx: 18 + i * 18, cy: 16, r: 6, fill: c }, g));
+    if (s.title) BBG.text(g, w / 2, 16, s.title, { size: fs * 0.8, weight: 600, cls: 'c-code-title' });
+  }
+  lines.forEach((line, i) => {
+    const t = BBG.el('text', { x: pad, y: bar + pad + i * lh + fs / 2, 'dominant-baseline': 'central', 'font-size': fs, class: 'mono c-code-text', style: 'white-space: pre' }, g);
+    tokens(line).forEach(([str, cls]) => { BBG.el('tspan', { class: cls }, t).textContent = str; });
+  });
+  g.width = w; g.height = h;
+  return g;
+});
+
+// ---------------------------------------------------------------------------
+// venn — two or three overlapping sets (CAP theorem).
+//
+// BBG.venn({ cx, cy, r: 150, spread: 0.62,
+//            sets: [{ label: 'Consistency', cls: 'c-blue' }, …],         2 or 3 sets
+//            overlaps: { '01': 'CA', '12': 'CP', '02': 'AP', '012': '' }, parent })
+// Three sets sit top, bottom-left, bottom-right. Returns the <g>.
+// ---------------------------------------------------------------------------
+BBG.define('venn', spec => {
+  const s = { cx: 0, cy: 0, r: 150, spread: 0.62, size: 22, ...spec };
+  const n = s.sets.length, d = s.r * s.spread;
+  const angles = n === 3 ? [-90, 150, 30] : [180, 0];
+  const centres = angles.map(a => [s.cx + d * Math.cos(a * Math.PI / 180), s.cy + d * Math.sin(a * Math.PI / 180)]);
+  const g = BBG.el('g', { class: 'c-venn' }, s.parent || BBG.layer());
+  s.sets.forEach((set, i) => BBG.el('circle', { cx: centres[i][0], cy: centres[i][1], r: s.r, class: `c-set ${set.cls || 'c-green'}` }, g));
+  s.sets.forEach((set, i) => BBG.el('circle', { cx: centres[i][0], cy: centres[i][1], r: s.r, class: 'c-outline' }, g));
+  // Set labels sit in the part of each circle away from the others.
+  s.sets.forEach((set, i) => {
+    const [x, y] = centres[i], k = 0.55 * s.r / d;
+    BBG.text(g, s.cx + (x - s.cx) * (1 + k), s.cy + (y - s.cy) * (1 + k), set.label, { size: s.size, weight: 700 });
+  });
+  Object.entries(s.overlaps || {}).forEach(([key, label]) => {
+    if (!label) return;
+    const idx = key.split('').map(Number);
+    let x = idx.reduce((a, i) => a + centres[i][0], 0) / idx.length, y = idx.reduce((a, i) => a + centres[i][1], 0) / idx.length;
+    if (idx.length === 2 && n === 3) {
+      // Push a pairwise overlap away from the third circle, so it does not sit in the triple area.
+      const other = [0, 1, 2].find(i => !idx.includes(i));
+      x += (x - centres[other][0]) * 0.32; y += (y - centres[other][1]) * 0.32;
+    }
+    BBG.text(g, x, y, label, { size: s.size * 0.9, weight: 800 });
+  });
+  return g;
+});
+
+// ---------------------------------------------------------------------------
+// funnel — stacked levels that narrow (QPS per step, conversion funnels).
+//
+// BBG.funnel({ x, y, width: 600, height: 300, levels: [{ label: 'View hotel\n(QPS=300)', cls: 'c-soft' }, …],
+//              tip: 0.15, upright: false, size: 18, parent })
+// The first level is the widest; upright: true turns it into a pyramid (widest at the bottom).
+// Returns the <g>.
+// ---------------------------------------------------------------------------
+BBG.define('funnel', spec => {
+  const s = { x: 0, y: 0, width: 600, height: 300, tip: 0.15, upright: false, size: 18, ...spec };
+  const n = s.levels.length, lh = s.height / n, W = s.width;
+  const g = BBG.group(s.parent || BBG.layer(), s.x, s.y, 'c-funnel');
+  const half = f => (W / 2) * (1 - (1 - s.tip) * f);          // half width at fraction f of the height
+  s.levels.forEach((lv, i) => {
+    const f0 = i / n, f1 = (i + 1) / n;
+    let top = i * lh, bot = (i + 1) * lh, wTop = half(f0), wBot = half(f1);
+    if (s.upright) { top = s.height - (i + 1) * lh; bot = s.height - i * lh; [wTop, wBot] = [wBot, wTop]; }
+    BBG.el('path', { d: `M${W / 2 - wTop} ${top} H${W / 2 + wTop} L${W / 2 + wBot} ${bot} H${W / 2 - wBot} Z`,
+      class: `c-box ${lv.cls || 'c-white'}` }, g);
+    BBG.text(g, W / 2, (top + bot) / 2, lv.label, { size: s.size, weight: 600 });
+  });
+  return g;
+});

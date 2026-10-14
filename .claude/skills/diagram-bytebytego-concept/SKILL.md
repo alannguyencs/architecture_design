@@ -17,16 +17,17 @@ for boxes and arrows), `diagram-bytebytego-animated` (looping GIF).
 
 The skill is being built in the order of report item 8.2
 (`docs/reports/261014_bytebytego.md`). Done: the setup, the core helpers and the
-`table`, `cells`, `sequence`, `timeline`, `ring` and `tree` components. Planned,
-each to be added as `BBG.<name>(spec)`: `spatial`, `code`, `venn`, `funnel`. Until a
-component exists, draw with the core helpers.
+`table`, `cells`, `sequence`, `timeline`, `ring`, `tree`, `spatial`, `code`, `venn`
+and `funnel` components — every component the report planned. Still open: helpers
+whose output `render_gif.py` can animate.
 
 ## Files
 
 | Path (relative to this skill) | What it is |
 |---|---|
-| `assets/bbg-concept.js` | Core helpers on `window.BBG` (`el`, `group`, `text`, `label`, `measure`, `icon`, `layer`, `define`) and the components `BBG.table`, `BBG.cells`, `BBG.sequence`, `BBG.timeline`, `BBG.ring`, `BBG.tree` |
+| `assets/bbg-concept.js` | Core helpers on `window.BBG` (`el`, `group`, `text`, `label`, `measure`, `icon`, `layer`, `define`) and the components `BBG.table`, `BBG.cells`, `BBG.sequence`, `BBG.timeline`, `BBG.ring`, `BBG.tree`, `BBG.spatial`, `BBG.code`, `BBG.venn`, `BBG.funnel` |
 | `assets/bbg-concept.css` | Styles for drawn marks: `.c-box`, `.c-outline`, `.c-cell`, `.c-line`, `.c-thin`, `.c-dash`, `.c-strike`, `.c-muted`, `.c-event`, `.c-lock`, `.c-note`, `.c-window`, fills `.c-green` … `.c-orange`, line colours `.c-red-line` / `.c-blue-line` / `.c-green-line`, ring marks `.c-ring-line`, `.c-node`, `.c-key`, `.c-*-arc`, tree marks `.c-leaf`, `.c-note-group`, `text.mono` |
+| `assets/world-110m.js` | Country outlines for the `spatial` world base: Natural Earth 1:110m Admin 0 v5.1.2 (public domain), 177 countries, 117 KB; rebuild with `scripts/build_world.py` |
 | `assets/d3-hierarchy.min.js` | d3-hierarchy 3.1.2 (ISC licence, header kept), stored locally so rendering never needs the network; `BBG.tree` uses its tidy layout for top-down trees |
 | `assets/bbg-flow.css` | The flow look's tokens and building blocks (generated copy) |
 | `assets/bbg-icons.js` | Shared icon sprite and edge markers (generated copy) |
@@ -43,6 +44,11 @@ component exists, draw with the core helpers.
 | `templates/tree-gallery.html` | One sample of each `tree` option: trie with a highlighted path, quadtree with edge labels, folder tree, short mind map |
 | `templates/autocomplete-trie-cache.html` | Book figure: autocomplete 13-8 (top-k cached at each trie node) — `tree` with notes |
 | `templates/chapter-summary-message-queue.html` | Book figure: the message-queue chapter summary — `tree` in `mind` mode; every Volume 2 summary has this shape |
+| `templates/spatial-gallery.html` | One sample of each `spatial` option: search radius, geofence, nine geohash cells, routing tiles, Hilbert curve, growing search area, quadtree squares, world with highlighted countries |
+| `templates/geohash-world-grid.html` | Book figure: proximity 8 (geohash divides the world) — two `spatial` calls on the world base |
+| `templates/code-funnel-gallery.html` | `code` in its three themes (SQL, HTML, editor, terminal) and a `funnel` (hotel QPS) |
+| `templates/cap-theorem.html` | Book figure: key-value 6-1 (CAP theorem) — `venn` with three sets |
+| `scripts/build_world.py` | Downloads the pinned Natural Earth file and writes `assets/world-110m.js` |
 | `scripts/render.py` | HTML → PNG (`--scale`, `--webp`, `--compare`, `--variant`; generated copy) |
 
 Needs Python `playwright` (with Chromium: `python3 -m playwright install chromium`) and Pillow.
@@ -54,8 +60,9 @@ Needs Python `playwright` (with Chromium: `python3 -m playwright install chromiu
    1. stylesheets `bbg-flow.css`, `bbg-parts.css`, `bbg-concept.css`;
    2. `<script src="../assets/bbg-icons.js">` as the first child of `.canvas`;
    3. hand-placed HTML (title, pills, boxes) inside `.canvas`;
-   4. after `.canvas`: `d3-hierarchy.min.js`, `bbg-concept.js`, then the page's
-      own `<script>`, then `bbg-parts.js` last.
+   4. after `.canvas`: `d3-hierarchy.min.js`, `world-110m.js` (only for world
+      maps), `bbg-concept.js`, then the page's own `<script>`, then `bbg-parts.js`
+      last.
 2. In the page script, get the drawing surface with `const svg = BBG.layer()` and
    build from data:
    - `BBG.el(tag, attrs, parent)` — any SVG element (`'rect'`, `'path'`, …);
@@ -190,6 +197,34 @@ half as wide as with one column per leaf); notes and the labels beside circles
 and squares are counted in the spacing. `mind` and `right` give every leaf its own
 row and centre each parent on its children — a tidy layout would let text at
 different depths collide there. Give nodes an `id` to use `at(id, side)`.
+
+**`BBG.spatial`** — maps and spatial grids.
+
+```js
+BBG.spatial({ x: 60, y: 180, width: 560, height: 560,
+  base: 'plain' | 'world' | 'streets',
+  world: { projection: 'mercator', crop: [-180, -85, 180, 85], countries: { USA: 'c-purple' }, graticule: 30, axes: true },
+  streets: { angle: -28, spacing: 70 },
+  grid: { cols: 4, rows: 4, labels: [['01 01', …], …], hl: [[1, 1, 'c-green']], bold: [[0, 0]] },
+  splits: [{ rect: [0, 0, 0.5, 0.5], cols: 2, rows: 2, labels, bold: true }],   // subdivide part of the frame
+  points: [{ at: [0.5, 0.5], label: 'me', cls: 'c-yellow' }, { ll: [-100, 40], icon: 'user' }],
+  circles: [{ at: [0.5, 0.5], r: 110 }], polygons: [{ points: [[0.2, 0.3], …], label: 'Geofence' }],
+  paths: [{ points: [...], color: 'red' }], callouts: [{ ll: [104, 35], dx: 40, dy: -60, label: 'Asia' }],
+  hilbert: { order: 3 } });
+```
+
+`at` is a fraction of the frame (0..1 from the top-left); `ll` is longitude,
+latitude on a world base. Country codes are Natural Earth `ADM0_A3` (USA, CHN,
+BRA, DEU …). Street-level figures use the schematic `streets` base instead of real
+map tiles: those need attribution and the network, and a drawn street grid fits
+the ByteByteGo look better.
+
+**`BBG.code`** — `BBG.code({ x, y, text, lang: 'sql' | 'html' | 'js' | 'shell' | 'plain', theme: 'light' | 'dark' | 'terminal', title, size })`.
+Light syntax colouring; `dark` adds an editor window bar; leading spaces are kept.
+
+**`BBG.venn`** — `BBG.venn({ cx, cy, r, sets: [{ label, cls }, …], overlaps: { '01': 'CA', '02': 'CP', '12': 'AP' } })`, two or three sets.
+
+**`BBG.funnel`** — `BBG.funnel({ x, y, width, height, levels: [{ label, cls }, …], upright: false })`; the first level is the widest, `upright` makes a pyramid.
 
 ## Adding a component
 

@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>CAP Theorem</title>
+<!-- Book-figure template: System Design Interview, key-value store figure 6-1 (CAP theorem)
+     in the ByteByteGo look. One BBG.venn call with three sets and the three pairwise
+     overlaps labelled. Canvas 900 × 880 CSS px (render at --scale 1). -->
+<link rel="stylesheet" href="../assets/bbg-flow.css">
+<link rel="stylesheet" href="../assets/bbg-parts.css">
+<link rel="stylesheet" href="../assets/bbg-concept.css">
+<style>
+  .canvas { width: 900px; height: 880px; }
+</style>
+</head>
+<body>
+<div class="canvas">
+<script src="../assets/bbg-icons.js"></script>
+<div class="title" style="left:30px; top:28px; font-size:48px;">CAP Theorem</div>
+<div class="tlist" style="left:150px; top:760px; font-size:16px; line-height:1.6;">
+  <b>CA</b> consistency + availability<br><b>CP</b> consistency + partition tolerance<br><b>AP</b> availability + partition tolerance
+</div>
+</div>
+<script src="../assets/d3-hierarchy.min.js"></script>
+<script src="../assets/bbg-concept.js"></script>
+<script>
+  BBG.venn({
+    cx: 440, cy: 470, r: 190, spread: 0.62, size: 26,
+    sets: [{ label: 'Consistency', cls: 'c-blue' }, { label: 'Availability', cls: 'c-green' }, { label: 'Partition\nTolerance', cls: 'c-yellow' }],
+    overlaps: { '01': 'CA', '02': 'CP', '12': 'AP' },
+  });
+</script>
+<script src="../assets/bbg-parts.js"></script>
+</body>
+</html>
