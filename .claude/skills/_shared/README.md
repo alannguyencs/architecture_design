@@ -1,14 +1,16 @@
 # Shared ByteByteGo kit
 
-Master copies of the parts that `diagram-bytebytego-flow` and
-`diagram-bytebytego-animated` share. Each skill keeps its own copy so it still
-works when copied on its own; `sync.py` keeps the copies in step.
+Master copies of the parts that `diagram-bytebytego-flow`,
+`diagram-bytebytego-animated` and `diagram-bytebytego-concept` share. Each skill
+keeps its own copy so it still works when copied on its own; `sync.py` keeps the
+copies in step.
 
 | File | What it is | Copied to (in each skill) |
 |---|---|---|
 | `bbg-icons.svg` | Icon `<symbol>`s and edge `<marker>`s | `assets/bbg-icons.js` (wrapped so a `<script>` tag inserts the sprite) |
 | `bbg-parts.css` | Edge styles, edge labels, shapes, fills, boxes, legend, labelled steps | `assets/bbg-parts.css` |
 | `bbg-parts.js` | Draws `.shp` outlines; applies the page variant (`#v=name`) | `assets/bbg-parts.js` |
+| `bbg-flow.css` | The flow look's tokens and building blocks | `assets/bbg-flow.css` (flow and concept only) |
 | `render.py` | HTML → PNG, with `--compare` and `--variant` | `scripts/render.py` |
 | `sync.py` | Writes the copies; `--check` exits 1 if any copy is stale | — |
 

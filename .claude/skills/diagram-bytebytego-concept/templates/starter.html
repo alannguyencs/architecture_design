@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Concept Starter</title>
+<!-- Starter page for the concept skill: the load order, the shared icons, and the core
+     helpers (BBG.el / group / text / icon / layer) drawing from data — a strip of cells
+     from an array and servers placed on a circle by angle. Copy it to start a new
+     diagram. Canvas 1280 × 620 CSS px (render at --scale 1). -->
+<link rel="stylesheet" href="../assets/bbg-flow.css">
+<link rel="stylesheet" href="../assets/bbg-parts.css">
+<link rel="stylesheet" href="../assets/bbg-concept.css">
+<style>
+  .canvas { width: 1280px; height: 620px; }
+</style>
+</head>
+<body>
+<div class="canvas">
+<script src="../assets/bbg-icons.js"></script>
+
+<div class="title" style="left:30px; top:28px; font-size:44px;">Concept starter</div>
+<div class="pill" style="left:100px; top:120px; width:250px; height:44px; font-size:22px;">Cells from data</div>
+<div class="pill" style="left:780px; top:120px; width:250px; height:44px; font-size:22px;">Points on a circle</div>
+
+</div>
+<script src="../assets/bbg-concept.js"></script>
+<script>
+  const svg = BBG.layer();
+
+  // A partition log: one cell per message, committed ones filled.
+  const offsets = [0, 1, 2, 3, 4, 5, 6, 7];
+  const committed = 5, cw = 56, ch = 56;
+  const log = BBG.group(svg, 60, 250);
+  offsets.forEach((o, i) => {
+    BBG.el('rect', { x: i * cw, y: 0, width: cw, height: ch, class: `c-cell ${i < committed ? 'c-green' : ''}` }, log);
+    BBG.text(log, i * cw + cw / 2, ch / 2, o, { size: 20, weight: 700 });
+  });
+  BBG.text(log, committed * cw, ch + 34, 'committed offset', { size: 16 });
+  BBG.el('path', { d: `M${committed * cw} ${ch + 18} V${ch + 4}`, class: 'c-line', 'marker-end': 'url(#m-arrow)' }, log);
+  BBG.icon(log, 'stream', offsets.length * cw + 70, ch / 2, 88, 43);
+  BBG.text(log, offsets.length * cw + 70, ch + 34, 'partition', { size: 16 });
+
+  // Servers on a circle, placed by angle.
+  const cx = 905, cy = 390, r = 150;
+  BBG.el('circle', { cx, cy, r, class: 'c-line' }, svg);
+  ['s0', 's1', 's2', 's3'].forEach((name, i) => {
+    const a = (i / 4) * 2 * Math.PI - Math.PI / 2;
+    const x = cx + r * Math.cos(a), y = cy + r * Math.sin(a);
+    BBG.icon(svg, 'server', x, y, 58, 56);
+    BBG.text(svg, x + (Math.cos(a) >= 0 ? 52 : -52), y, name, { size: 18, weight: 700 });
+  });
+</script>
+<script src="../assets/bbg-parts.js"></script>
+</body>
+</html>

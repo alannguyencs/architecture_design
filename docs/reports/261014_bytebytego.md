@@ -343,7 +343,7 @@ Animation can come later. Several of these suit the animated skill's approach we
 
 ### 8.2 Build `diagram-bytebytego-concept` (Proposal 2, section 6)
 
-- [ ] Set up the skill: `SKILL.md`, the `bbg-flow.css` tokens, the shared icon set and the same `render.py`.
+- [x] Set up the skill: `SKILL.md`, the `bbg-flow.css` tokens, the shared icon set and the same `render.py`.
 - [ ] Build `table` and `cells` (71 images), with `distributed-message-queue/figure-24` and `real-time-gaming-leaderboard/figure-22` as templates.
 - [ ] Build `sequence` and `timeline` (54 images), with `digital-wallet/figure-7` and `design-a-rate-limiter/figure-4-11` as templates.
 - [ ] Build `ring` (23 images), with `design-consistent-hashing/figure-5-7` as the template.

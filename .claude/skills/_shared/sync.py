@@ -12,6 +12,8 @@ What it writes into each skill:
     assets/bbg-parts.css  copy
     assets/bbg-parts.js   copy
     scripts/render.py     copy
+and, into the flow and concept skills only:
+    assets/bbg-flow.css   copy (the flow look's tokens and building blocks)
 """
 
 import argparse
@@ -20,7 +22,9 @@ import sys
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-SKILLS = ["diagram-bytebytego-flow", "diagram-bytebytego-animated"]
+SKILLS = ["diagram-bytebytego-flow", "diagram-bytebytego-animated", "diagram-bytebytego-concept"]
+# Files only some skills get: {path inside the skill: [skill, ...]}
+ONLY = {"assets/bbg-flow.css": ["diagram-bytebytego-flow", "diagram-bytebytego-concept"]}
 NOTE = "Generated from .claude/skills/_shared/{src} by _shared/sync.py. Edit the master copy, not this file."
 
 
@@ -35,6 +39,7 @@ def build() -> dict:
     )
     css = f"/* {NOTE.format(src='bbg-parts.css')} */\n" + (HERE / "bbg-parts.css").read_text()
     js = f"// {NOTE.format(src='bbg-parts.js')}\n" + (HERE / "bbg-parts.js").read_text()
+    flow_css = f"/* {NOTE.format(src='bbg-flow.css')} */\n" + (HERE / "bbg-flow.css").read_text()
     shebang, rest = (HERE / "render.py").read_text().split("\n", 1)
     render = f"{shebang}\n# {NOTE.format(src='render.py')}\n{rest}"
     return {
@@ -42,6 +47,7 @@ def build() -> dict:
         "assets/bbg-parts.css": css,
         "assets/bbg-parts.js": js,
         "scripts/render.py": render,
+        "assets/bbg-flow.css": flow_css,
     }
 
 
@@ -54,6 +60,8 @@ def main() -> None:
     stale = []
     for skill in SKILLS:
         for rel, content in files.items():
+            if rel in ONLY and skill not in ONLY[rel]:
+                continue
             dest = HERE.parent / skill / rel
             if dest.exists() and dest.read_text() == content:
                 continue

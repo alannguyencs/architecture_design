@@ -1,0 +1,26 @@
+/* ByteByteGo concept look: styles for drawings built by bbg-concept.js.
+   Loaded after bbg-flow.css (tokens: --ink, --green, --green-soft, --grey-fill,
+   --grey-line, --blue, --pink, --yellow, --purple, --orange) and bbg-parts.css. */
+
+/* The concept layer sits above the back layers and edges, below later HTML boxes. */
+svg.layer.concept { pointer-events: none; }
+svg.layer.concept text { font-family: var(--font); fill: var(--ink); }
+
+/* Shared marks that every component uses */
+svg .c-box  { fill: #fff; stroke: var(--ink); stroke-width: 3; stroke-linejoin: round; }
+svg .c-cell { fill: #fff; stroke: var(--ink); stroke-width: 2.5; }
+svg .c-line { fill: none; stroke: var(--ink); stroke-width: 3; stroke-linejoin: round; stroke-linecap: round; }
+svg .c-thin { fill: none; stroke: var(--ink); stroke-width: 2; }
+svg .c-dash { stroke-dasharray: 10 7; }
+svg .c-muted { fill: #8a8a8a; }
+
+/* Fills, same names as the .f-* classes in bbg-parts.css */
+svg .c-white  { fill: #fff; }
+svg .c-green  { fill: var(--green); }
+svg .c-soft   { fill: var(--green-soft); }
+svg .c-grey   { fill: var(--grey-fill); }
+svg .c-blue   { fill: var(--blue); }
+svg .c-yellow { fill: var(--yellow); }
+svg .c-pink   { fill: var(--pink); }
+svg .c-purple { fill: var(--purple); }
+svg .c-orange { fill: var(--orange); }

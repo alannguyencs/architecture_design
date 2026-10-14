@@ -16,7 +16,7 @@ Related skills: `diagram-bytebytego-animated` (looping GIF) and
 
 | Path (relative to this skill) | What it is |
 |---|---|
-| `assets/bbg-flow.css` | Colour tokens and building blocks: `.title`, `.pill`, `.step`, `.bx.white/.green/.soft/.grey/.blue`, `.card` / `.card.tool` + `.tag`, `.t` (centred bold label), `.icon` (centred SVG), `svg .section`, `svg .group`, `svg.edges > path` (+ `.thin`) |
+| `assets/bbg-flow.css` | (Generated copy) Colour tokens and building blocks: `.title`, `.pill`, `.step`, `.bx.white/.green/.soft/.grey/.blue`, `.card` / `.card.tool` + `.tag`, `.t` (centred bold label), `.icon` (centred SVG), `svg .section`, `svg .group`, `svg.edges > path` (+ `.thin`) |
 | `assets/bbg-icons.js` | Shared icon sprite and edge markers (generated — see "Shared kit" below) |
 | `assets/bbg-parts.css` | Shared extra parts: edge styles, `.elabel`, `.shp` shapes, `.f-*` fills, `.hbox`, `.split`, `.tlist`, `.mono`, `.hl`, `.failed`, `.qstrip`, `svg .lane`, `svg .solid`, `.legend`, `.step.lbl` / `.step.sm` (generated copy) |
 | `assets/bbg-parts.js` | Draws `.shp` outlines and applies the page variant (generated copy) |
@@ -104,9 +104,10 @@ any gap by editing the template; re-render until both sides match.
 
 ## Shared kit
 
-`assets/bbg-icons.js`, `assets/bbg-parts.css`, `assets/bbg-parts.js` and
-`scripts/render.py` are copies of the master files in `.claude/skills/_shared/`,
-shared with `diagram-bytebytego-animated`. To add an icon or a part, edit the
+`assets/bbg-flow.css`, `assets/bbg-icons.js`, `assets/bbg-parts.css`,
+`assets/bbg-parts.js` and `scripts/render.py` are copies of the master files in
+`.claude/skills/_shared/`, shared with `diagram-bytebytego-animated` and
+`diagram-bytebytego-concept`. To add an icon or a part, edit the
 master and run `python3 .claude/skills/_shared/sync.py` (`--check` reports stale
 copies). Never edit the copies here.
 
