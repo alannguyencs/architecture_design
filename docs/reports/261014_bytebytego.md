@@ -328,3 +328,33 @@ Animation can come later. Several of these suit the animated skill's approach we
 - Some images repeat: consistent-hashing 5-14 and 5-15 look the same as 5-8 and 5-9, unique-id-generator 7-5 and 7-6 are the same picture, and YouTube 14-10 … 14-21 and message-queue 25–27 are variants of one base picture (section 5.4). The number of distinct pictures to build is lower than the counts above.
 - Every image is listed, with its group and building block, in `261014_bytebytego_figures.csv`. The per-icon and per-edge needs of the 283 drawable images are not recorded there yet.
 - The images in `data/system-design-interview/` are ByteByteGo's copyrighted figures. They are kept local only (`.gitignore`) and used as references; anything rebuilt from them should stay internal.
+
+## 8. Action items
+
+### 8.1 Update both skills (Proposal 1, section 5)
+
+- [ ] Move the icon `<symbol>`s into one shared file, `.claude/skills/_shared/bbg-icons.svg`, and keep each skill self-contained by copying it in with a small sync script.
+- [ ] Add the new icon groups from section 5.1: clients, network, compute, storage, messaging, domain and markers.
+- [ ] Add the edge styles from section 5.2 to the flow skill: diagonal, curved, dashed and dotted with a legend, double-headed, undirected, labelled, coloured, hollow block arrows, and span arrows.
+- [ ] Add the shapes and styles from section 5.3: diamond, hexagon, circle and ellipse nodes, header and split boxes, text-list and monospace boxes, highlighted and failed states, lane dividers, solid groups, small queue strips, legend, brace and labelled step circles.
+- [ ] Add a book-figure template to the flow skill, rebuilt from `scale-from-zero-to-millions-of-users/figure-1-11`.
+- [ ] Add a book-figure template to the animated skill, rebuilt from `design-youtube/figure-14-4`.
+- [ ] Add a "variant" pattern (one base page plus a class that switches the highlight or the steps), and test it on YouTube 14-10 … 14-21 and message-queue 25–27.
+
+### 8.2 Build `diagram-bytebytego-concept` (Proposal 2, section 6)
+
+- [ ] Set up the skill: `SKILL.md`, the `bbg-flow.css` tokens, the shared icon set and the same `render.py`.
+- [ ] Build `table` and `cells` (71 images), with `distributed-message-queue/figure-24` and `real-time-gaming-leaderboard/figure-22` as templates.
+- [ ] Build `sequence` and `timeline` (54 images), with `digital-wallet/figure-7` and `design-a-rate-limiter/figure-4-11` as templates.
+- [ ] Build `ring` (23 images), with `design-consistent-hashing/figure-5-7` as the template.
+- [ ] Build `tree` with a mind-map mode (24 images), with `design-a-search-autocomplete-system/figure-13-8` and one `chapter-summary` as templates.
+- [ ] Use an existing layout library (`d3-hierarchy` for trees, `d3-scale` for axes) instead of writing layout code from scratch.
+- [ ] Build `spatial`, `code`, `venn` and `funnel` when they are needed, and pick an open base-map source (e.g. Natural Earth) for the ~21 map images.
+- [ ] Make the helpers output paths that `render_gif.py` can animate (ring walk, sliding window, sequence message, offset stepping).
+
+### 8.3 Keep this report up to date
+
+- [ ] Fill in the icons and edge styles each of the 283 drawable images needs in `261014_bytebytego_figures.csv`.
+- [ ] Decide the borderline calls in section 7 (google-drive 15-8, payment 12, email 12, message-queue 7, 17, 23, google-maps 9) and update the counts.
+- [ ] Re-run the coverage count after each skill update, and mark the images that become drawable in the CSV.
+- [ ] Keep every figure rebuilt from the book internal, and keep `data/` and `data.zip` out of git.
