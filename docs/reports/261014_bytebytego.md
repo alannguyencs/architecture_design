@@ -8,28 +8,28 @@
 
 The book figures are drawn in draw.io style, so neither skill can copy them pixel for pixel. The question here is different: can the skill draw the same content, restyled in the ByteByteGo look?
 
-- **283 of 515** images (55 %) can be drawn once the skills are updated (section 5). They are boxes, icons, dashed groups and arrows, but nearly all of them need icons or edge styles that the skills do not have yet, so few can be drawn today.
-- **232 of 515** images (45 %) cannot be drawn. They need a kind of picture the two skills have no building blocks for.
+- **285 of 515** images (55 %) can be drawn once the skills are updated (section 5). They are boxes, icons, dashed groups and arrows, but nearly all of them need icons or edge styles that the skills do not have yet, so few can be drawn today.
+- **230 of 515** images (45 %) cannot be drawn. They need a kind of picture the two skills have no building blocks for.
 
 | Missing building block | Images | Where most of them are |
 |---|---|---|
 | Table | 36 | leaderboard, email, proximity, hotel |
-| Strip or grid of identical cells | 35 | message queue, S3, stock exchange, key-value store |
+| Strip or grid of identical cells | 34 | message queue, S3, stock exchange, key-value store |
 | Geographic map / spatial grid | 29 | proximity, Google Maps |
 | Sequence diagram | 28 | digital wallet, ad-click, hotel, chat |
-| Timeline, chart, before/after frames | 26 | rate limiter, ad-click, message queue |
+| Timeline, chart, before/after frames | 25 | rate limiter, ad-click, message queue |
 | Hash ring | 23 | consistent hashing, key-value store |
 | Mind map (chapter summaries) | 14 | one per Volume 2 chapter |
 | Tree (trie, quadtree, Merkle, folders) | 10 | autocomplete, proximity |
 | Code block | 6 | hotel, autocomplete |
 | Venn, funnel | 2 | key-value store, hotel |
 | Out of scope (screenshots, logos, cartoons) | 23 | spread across chapters |
-| **Total** | **232** | |
+| **Total** | **230** | |
 
 Proposal:
 
-1. **Update both skills** with a shared icon set, more edge styles and a few extra shapes. This makes the 283 drawable images easy to build (section 5).
-2. **Make one new skill**, `diagram-bytebytego-concept`, for the 209 "concept" images — tables, cell grids, sequences, timelines, rings, trees and mind maps, maps and spatial grids (section 6). About 188 of them can be drawn fully; the other ~21 sit on real map imagery and need a base map.
+1. **Update both skills** with a shared icon set, more edge styles and a few extra shapes. This makes the 285 drawable images easy to build (section 5).
+2. **Make one new skill**, `diagram-bytebytego-concept`, for the 207 "concept" images — tables, cell grids, sequences, timelines, rings, trees and mind maps, maps and spatial grids (section 6). About 186 of them can be drawn fully; the other ~21 sit on real map imagery and need a base map.
 3. **Leave 23 images out of scope**: screenshots, product UIs, logo grids and one cartoon (section 4.11).
 
 ## 2. Coverage per chapter
@@ -55,8 +55,8 @@ The file prefix is the chapter number in Volume 1 (`figure-4-*` = chapter 4). Vo
 | design-google-drive | 15 | 8 | 7 |
 | proximity-service | 25 | 3 | 22 |
 | nearby-friends | 15 | 8 | 7 |
-| google-maps | 22 | 9 | 13 |
-| distributed-message-queue | 37 | 20 | 17 |
+| google-maps | 22 | 10 | 12 |
+| distributed-message-queue | 37 | 21 | 16 |
 | metrics-monitoring-and-alerting-system | 23 | 14 | 9 |
 | ad-click-event-aggregation | 30 | 18 | 12 |
 | hotel-reservation-system | 20 | 7 | 13 |
@@ -66,7 +66,7 @@ The file prefix is the chapter number in Volume 1 (`figure-4-*` = chapter 4). Vo
 | payment-system | 13 | 9 | 4 |
 | digital-wallet | 30 | 21 | 9 |
 | stock-exchange | 25 | 12 | 13 |
-| **Total** | **515** | **283** | **232** |
+| **Total** | **515** | **285** | **230** |
 
 The architecture-heavy chapters (scale from zero, framework, news feed, YouTube, notification) are almost fully drawable. The algorithm-heavy ones (consistent hashing, proximity, autocomplete, Google Maps) are mostly not.
 
@@ -83,7 +83,7 @@ Both skills place items at fixed `left` / `top` positions on an HTML page and sc
 
 Neither skill has a way to place items by computed geometry (on a circle, in a grid, along a time axis, by latitude and longitude). Every position is typed by hand.
 
-## 4. Images the skills cannot draw (232)
+## 4. Images the skills cannot draw (230)
 
 Grouped by the missing building block. Each image is counted once, under its main block; a few also need a second block (noted in brackets). In the tables, `5-4` means `figure-5-4` and `21` in a Volume 2 chapter means `figure-21-…`.
 
@@ -110,7 +110,7 @@ Schema tables, record rows, ranking lists.
 | gaming-leaderboard | 1, 5, 8, 14, 20, 22, 23, 24, 25 | Rankings, sorted set, DynamoDB tables, scatter-gather |
 | stock-exchange | 2, 12, 17 | Level-1 quotes; Order / Execution classes; event sourcing vs not |
 
-### 4.2 Strips and grids of identical cells — 35
+### 4.2 Strips and grids of identical cells — 34
 
 Arrays, buckets, queue partitions and logs drawn as cells, segment files, bit layouts, linked lists.
 
@@ -122,7 +122,7 @@ Arrays, buckets, queue partitions and logs drawn as cells, segment files, bit la
 | unique-id-generator | 7-5, 7-6 | Snowflake 64-bit layout (same picture twice) |
 | web-crawler | 9-6, 9-7, 9-8 | Front and back FIFO queues |
 | youtube | 14-22 | Video split into GOP cells |
-| google-maps | 9, 19 | Location batches; route as tile cells r_1…r_7 |
+| google-maps | 19 | Route as tile cells r_1…r_7 |
 | distributed-message-queue | 5, 9, 14, 21, 24, 35 | Partitions, offsets, segments, ISR, tagged messages |
 | ad-click-aggregation | 26 | Snapshot of per-minute counts |
 | s3-object-storage | 1, 2, 12, 13, 16, 17, 20, 26 | Block storage, inode blocks, segment files, erasure-coding grids, compaction (13 and 26 also need a table) |
@@ -158,7 +158,7 @@ Lifelines, with messages ordered by time from top to bottom.
 | payment-system | 11 | Retries |
 | digital-wallet | 5, 6, 7, 8, 9, 11, 12, 15 | 2PC, TCC phases, out-of-order, event sourcing over time |
 
-### 4.5 Timelines, charts and before/after frames — 26
+### 4.5 Timelines, charts and before/after frames — 25
 
 A time axis with ticks, a plot with axes, or the same structure shown at several moments.
 
@@ -166,7 +166,7 @@ A time axis with ticks, a plot with axes, or the same structure shown at several
 |---|---|---|
 | rate-limiter | 4-6, 4-8, 4-9, 4-10, 4-11 | Token bucket over time; fixed, sliding-log, sliding-counter windows |
 | notification-system | 10-12 | Metric line chart |
-| distributed-message-queue | 13, 17, 28, 29, 30, 31 | Batch-size trade-off chart; rebalance, broker crash / add, partition increase / decrease as frames |
+| distributed-message-queue | 13, 28, 29, 30, 31 | Batch-size trade-off chart; broker crash / add, partition increase / decrease as frames |
 | metrics-monitoring | 3, 4, 18 | CPU line chart; time-series points; delta encoding on a time axis |
 | ad-click-aggregation | 12, 13, 14, 15, 16 | Event vs processing time, watermark, tumbling and sliding windows |
 | hotel-reservation | 11, 12, 14 | Race condition and locking on a time axis |
@@ -229,9 +229,9 @@ These are not diagrams. A skill would gain little from supporting them.
 | Logo grids | chat-system 12-1; distributed-message-queue 1; metrics-monitoring 1; distributed-email 1 | Skip — real brand marks |
 | Cartoon | rate-limiter 4-4 (token bucket with coins) | Draw by hand, or use 4-5 instead |
 
-## 5. Proposal 1 — update both skills (for the 283 drawable images)
+## 5. Proposal 1 — update both skills (for the 285 drawable images)
 
-The 283 images fit the skills' model, but nearly all of them need parts that are missing. The same parts are needed by both skills, so they should live in shared files instead of two separate sprites.
+The 285 images fit the skills' model, but nearly all of them need parts that are missing. The same parts are needed by both skills, so they should live in shared files instead of two separate sprites.
 
 ### 5.1 Shared icon set
 
@@ -287,9 +287,9 @@ The flow skill only draws orthogonal lines. Many drawable images need more:
 - Add one template per skill rebuilt from a book figure — for example `scale-from-zero/figure-1-11` (the full stack with CDN and cache) for flow, and `design-youtube/figure-14-4` (upload flow) for animated. The current templates are ByteByteGo posts; a book-figure template shows how the new icons fit together.
 - Many book figures are variants of one base picture: YouTube 14-10, 14-11, 14-14, 14-16, 14-18, 14-20 and 14-21 differ only in which box is highlighted; message-queue 25, 26 and 27 differ only in the ack setting. A small "variant" pattern (one base page plus a class that switches the highlight or the steps) would let one template produce a whole set.
 
-## 6. Proposal 2 — new skill `diagram-bytebytego-concept` (for 209 images, about 188 fully)
+## 6. Proposal 2 — new skill `diagram-bytebytego-concept` (for 207 images, about 186 fully)
 
-The 209 images in sections 4.1–4.10 share one need: their positions come from **computed geometry or data**, not from hand placement. A ring needs points at angles; a grid needs rows × columns; a sequence diagram needs lifelines and time steps; a tree needs a layout. Typing hundreds of `left` / `top` values by hand would be slow and error-prone, and adding them to the flow skill would turn a simple hand-placement skill into a layout engine.
+The 207 images in sections 4.1–4.10 share one need: their positions come from **computed geometry or data**, not from hand placement. A ring needs points at angles; a grid needs rows × columns; a sequence diagram needs lifelines and time steps; a tree needs a layout. Typing hundreds of `left` / `top` values by hand would be slow and error-prone, and adding them to the flow skill would turn a simple hand-placement skill into a layout engine.
 
 So the proposal is one new skill that keeps the same ByteByteGo look (it reuses `bbg-flow.css` tokens and the shared icon set from section 5.1), but builds the drawing from data with a small JavaScript helper library.
 
@@ -298,9 +298,9 @@ So the proposal is one new skill that keeps the same ByteByteGo look (it reuses 
 | Component | Input (example) | Images |
 |---|---|---|
 | `table` | header + rows; key markers; highlight or strike a row; optional cylinder frame | 36 |
-| `cells` | strip or grid of N cells; filled / highlighted / faded cells; labels and offsets; span arrows; queue end caps | 35 |
+| `cells` | strip or grid of N cells; filled / highlighted / faded cells; labels and offsets; span arrows; queue end caps | 34 |
 | `sequence` | lifelines, messages, separators, lock bars, time brackets | 28 |
-| `timeline` | time axis and ticks, stacked squares per slot, windows, simple line / candlestick charts, before / after frames | 26 |
+| `timeline` | time axis and ticks, stacked squares per slot, windows, simple line / candlestick charts, before / after frames | 25 |
 | `ring` | servers and keys by angle or hash; arcs; virtual nodes; coordinator with request / ACK arrows | 23 |
 | `tree` | nodes by level, parent links, highlighted path; left-to-right mode for mind maps | 24 (10 trees + 14 mind maps) |
 | `spatial` | a square or world-outline base, recursive grid (geohash / quadtree), points, radius circle, polygon | 29 (about 8 fully; the rest need a base map) |
@@ -313,8 +313,8 @@ About maps: only about 8 of the 29 map images are abstract (the globe, plain geo
 
 ### 6.2 Suggested build order
 
-1. `table` and `cells` — 71 images, and they share grid layout code. Rebuild `distributed-message-queue/figure-24` (ISR offsets) and `real-time-gaming-leaderboard/figure-22` as templates.
-2. `sequence` and `timeline` — 54 images. Rebuild `digital-wallet/figure-7` (TCC try phase) and `design-a-rate-limiter/figure-4-11`.
+1. `table` and `cells` — 70 images, and they share grid layout code. Rebuild `distributed-message-queue/figure-24` (ISR offsets) and `real-time-gaming-leaderboard/figure-22` as templates.
+2. `sequence` and `timeline` — 53 images. Rebuild `digital-wallet/figure-7` (TCC try phase) and `design-a-rate-limiter/figure-4-11`.
 3. `ring` — 23 images, nearly all of consistent hashing. Rebuild `design-consistent-hashing/figure-5-7`.
 4. `tree` with mind-map mode — 24 images. Rebuild `design-a-search-autocomplete-system/figure-13-8` and one `chapter-summary`.
 5. `spatial`, `code`, `venn`, `funnel` — add when needed.
@@ -324,9 +324,9 @@ Animation can come later. Several of these suit the animated skill's approach we
 ## 7. Notes
 
 - To copy the book figures in their **original** draw.io look, the `diagram-draw-io` skill is the right tool — its template is `scale-from-zero-to-millions-of-users/figure-1-6`. This report is only about drawing the same content in the ByteByteGo look.
-- Some calls are borderline and could move either way: multi-panel "before / after" figures made of plain boxes (google-drive 15-8, payment 12, email 12) were counted as drawable; figures whose meaning depends on per-partition cells (message-queue 7, 23) were counted as drawable, and google-maps 9 and message-queue 17 as not. Moving them would change the totals by a few images, not the proposals.
+- Seven calls were borderline. All seven are drawable: the multi-panel "before / after" figures made of plain boxes (google-drive 15-8, payment 12, email 12) and the figures with a few per-partition cells (message-queue 7, 23) were already counted that way; message-queue 17 (consumer rebalancing) and google-maps 9 (location batches) moved from "cannot draw" to drawable, because section 5 added small cell strips (`.qstrip`) and span arrows to the shared kit. This changed the totals from 283 / 232 to 285 / 230.
 - Some images repeat: consistent-hashing 5-14 and 5-15 look the same as 5-8 and 5-9, unique-id-generator 7-5 and 7-6 are the same picture, and YouTube 14-10 … 14-21 and message-queue 25–27 are variants of one base picture (section 5.4). The number of distinct pictures to build is lower than the counts above.
-- Every image is listed, with its group and building block, in `261014_bytebytego_figures.csv`. For the 283 drawable images it also lists the icons, edge styles and parts each one needs, what the kit still lacks, and any brand logos.
+- Every image is listed, with its group and building block, in `261014_bytebytego_figures.csv`. For the 285 drawable images it also lists the icons, edge styles and parts each one needs, what the kit still lacks, and any brand logos.
 - The images in `data/system-design-interview/` are ByteByteGo's copyrighted figures. They are kept local only (`.gitignore`) and used as references; anything rebuilt from them should stay internal.
 
 ## 8. Action items
@@ -344,8 +344,8 @@ Animation can come later. Several of these suit the animated skill's approach we
 ### 8.2 Build `diagram-bytebytego-concept` (Proposal 2, section 6)
 
 - [x] Set up the skill: `SKILL.md`, the `bbg-flow.css` tokens, the shared icon set and the same `render.py`.
-- [x] Build `table` and `cells` (71 images), with `distributed-message-queue/figure-24` and `real-time-gaming-leaderboard/figure-22` as templates.
-- [x] Build `sequence` and `timeline` (54 images), with `digital-wallet/figure-7` and `design-a-rate-limiter/figure-4-11` as templates.
+- [x] Build `table` and `cells` (70 images), with `distributed-message-queue/figure-24` and `real-time-gaming-leaderboard/figure-22` as templates.
+- [x] Build `sequence` and `timeline` (53 images), with `digital-wallet/figure-7` and `design-a-rate-limiter/figure-4-11` as templates.
 - [x] Build `ring` (23 images), with `design-consistent-hashing/figure-5-7` as the template.
 - [x] Build `tree` with a mind-map mode (24 images), with `design-a-search-autocomplete-system/figure-13-8` and one `chapter-summary` as templates.
 - [x] Use an existing layout library (`d3-hierarchy` for trees, `d3-scale` for axes) instead of writing layout code from scratch. Outcome: `d3-hierarchy` is used for top-down trees (stored in the skill; the quadtree comes out half as wide); mind maps keep one row per leaf, because the tidy layout made text overlap there (5 overlaps in the message-queue summary); `d3-scale` was not adopted — the timeline needs only a linear map and explicit ticks, and the library brings five more packages.
@@ -354,7 +354,7 @@ Animation can come later. Several of these suit the animated skill's approach we
 
 ### 8.3 Keep this report up to date
 
-- [x] Fill in the icons and edge styles each of the 283 drawable images needs in `261014_bytebytego_figures.csv`. Outcome: every drawable image now lists its icons, edge styles, parts, real gaps (`not_in_kit`), brand logos and, where an apparent gap is already covered, the kit part to use (`in_kit_hint`). 200 of the 283 can be drawn with the kit as it is; 20 more need only a brand logo, drawn as a look-alike or a labelled box; 63 need something the kit lacks — most often a person icon without a laptop (13), tinted icons or coloured outlines (8), filled zone backgrounds (7), stacked boxes for multiple instances (7) and more edge colours (7).
-- [ ] Decide the borderline calls in section 7 (google-drive 15-8, payment 12, email 12, message-queue 7, 17, 23, google-maps 9) and update the counts.
+- [x] Fill in the icons and edge styles each of the 285 drawable images needs in `261014_bytebytego_figures.csv`. Outcome: every drawable image now lists its icons, edge styles, parts, real gaps (`not_in_kit`), brand logos and, where an apparent gap is already covered, the kit part to use (`in_kit_hint`). 202 of the 285 can be drawn with the kit as it is; 20 more need only a brand logo, drawn as a look-alike or a labelled box; 63 need something the kit lacks — most often a person icon without a laptop (13), tinted icons or coloured outlines (8), filled zone backgrounds (7), stacked boxes for multiple instances (7) and more edge colours (7).
+- [x] Decide the borderline calls in section 7 (google-drive 15-8, payment 12, email 12, message-queue 7, 17, 23, google-maps 9) and update the counts. Outcome: all seven are drawable; message-queue 17 and google-maps 9 moved from "cannot draw", giving 285 drawable / 230 not.
 - [ ] Re-run the coverage count after each skill update, and mark the images that become drawable in the CSV.
 - [ ] Keep every figure rebuilt from the book internal, and keep `data/` and `data.zip` out of git.
