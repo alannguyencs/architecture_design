@@ -6,12 +6,12 @@
 <!-- BBM.kvpanel and BBM.filetree checked on three more book figures, as wireframes:
      a cached autocomplete response's headers with cache-control boxed (autocomplete 13-12),
      an email's header details with the authentication results boxed (distributed email 9),
-     and a folder tree before and after expanding (google-drive 15-3). Canvas 1280 × 900. -->
+     and a folder tree before and after expanding (google-drive 15-3). Canvas 1280 × 960. -->
 <link rel="stylesheet" href="../assets/bbg-flow.css">
 <link rel="stylesheet" href="../assets/bbg-parts.css">
 <link rel="stylesheet" href="../assets/bbg-mockup.css">
 <style>
-  .canvas { width: 1280px; height: 900px; }
+  .canvas { width: 1280px; height: 960px; }
 </style>
 </head>
 <body>
@@ -59,10 +59,10 @@
   ] }), 560, 600);
   place(css(h('div', null, 'expand'), { fontWeight: 700, fontSize: '18px' }), 360, 650);
   const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-  svg.setAttribute('width', 1280); svg.setAttribute('height', 900); svg.setAttribute('class', 'layer edges');
+  svg.setAttribute('width', 1280); svg.setAttribute('height', 960); svg.setAttribute('class', 'layer edges');
   svg.innerHTML = '<path class="dash" d="M340 690 H520" marker-end="url(#m-arrow)"/>';
   document.querySelector('.canvas').append(svg);
-  place(h('div', 'm-caption', 'google-drive 15-3'), 640, 870);
+  place(h('div', 'm-caption', 'google-drive 15-3'), 640, 925);
 </script>
 <script src="../assets/bbg-parts.js"></script>
 </body>

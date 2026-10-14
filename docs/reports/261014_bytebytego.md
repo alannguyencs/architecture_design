@@ -385,7 +385,7 @@ Action items:
 - [x] Build `frame` and the placeholder parts (text bars, pastel image block, avatar circle). Template: `design-a-news-feed-system/figure-11-1` (phone with feed cards).
 - [x] Build `search` and `list`. Template: `design-a-search-autocomplete-system/figure-13-1` (search box with suggestions); check it on 13-3, google-drive 15-2 and 15-9, nearby-friends 1.
 - [x] Build `form`. Template: `hotel-reservation-system/figure-9` (stepper, price lines, card fields, button); check it on payment 3 and 5 drawn as generic, unbranded pages.
-- [ ] Build `kvpanel` and `filetree`. Template: `design-a-url-shortener/figure-8-1` (headers with red boxes); check it on 13-12, distributed-email 9 and google-drive 15-3.
+- [x] Build `kvpanel` and `filetree`. Template: `design-a-url-shortener/figure-8-1` (headers with red boxes); check it on 13-12, distributed-email 9 and google-drive 15-3.
 - [ ] Build `card` and the composite screens that reuse concept parts: notification 10-1 (three phones), youtube 14-1 (video grid), google-drive 15-1 (desktop app), metrics 21 (dashboard with `BBG.timeline`), proximity 1 (list plus map with `BBG.spatial`).
 - [ ] Add a small browser-page part (window dots, URL bar, link lines) to `_shared/bbg-parts`, so the flow skill can draw web-crawler 9-1 and payment-system 4, which list "browser window with page content" as their only gap.
 - [ ] Add animation helpers that `render_gif.py` can seek: typing into the search box while the suggestion list changes (autocomplete), a notification banner sliding in, a feed scrolling, a folder opening.
