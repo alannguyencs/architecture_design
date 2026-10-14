@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>News Feed</title>
+<!-- Book-figure template: System Design Interview, news feed figure 11-1 (a phone showing
+     feed posts) as a ByteByteGo wireframe: BBM.frame with feed cards made of placeholder
+     bars, a picture block and a video block. Canvas 900 × 900 CSS px (render at --scale 1). -->
+<link rel="stylesheet" href="../assets/bbg-flow.css">
+<link rel="stylesheet" href="../assets/bbg-parts.css">
+<link rel="stylesheet" href="../assets/bbg-mockup.css">
+<style>
+  .canvas { width: 900px; height: 900px; }
+</style>
+</head>
+<body>
+<div class="canvas">
+<script src="../assets/bbg-icons.js"></script>
+<div class="title" style="left:30px; top:28px; font-size:48px;">News Feed</div>
+<div class="tlist" style="left:520px; top:200px; font-size:17px; line-height:1.7;">
+  Each post: author, time,<br>text, and a picture or video.<br>Newest posts from friends<br>come first.
+</div>
+</div>
+<script src="../assets/bbg-mockup.js"></script>
+<script>
+  const phone = BBM.frame({ kind: 'phone', x: 90, y: 110, w: 380, h: 760, time: '10:52', title: 'Feed', left: 'menu', right: 'bell',
+    titleFill: 'var(--green-soft)',
+    tabs: [{ icon: 'home', label: 'Feed', on: true }, { icon: 'users', label: 'Friends' }, { icon: 'chat', label: 'Chat' }, { icon: 'bell', label: 'Alerts' }] });
+  phone.body.append(
+    BBM.card({ kind: 'post', avatar: 'var(--blue)', lines: ['55%', '30%'], body: ['95%', '80%', '88%'] }),
+    BBM.card({ kind: 'post', avatar: 'var(--orange)', lines: ['50%', '28%'], body: ['90%', '70%'], img: { h: 170, play: true } }),
+    BBM.card({ kind: 'post', avatar: 'var(--purple)', lines: ['60%', '25%'], body: ['85%'] }),
+  );
+</script>
+<script src="../assets/bbg-parts.js"></script>
+</body>
+</html>

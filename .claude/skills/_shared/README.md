@@ -1,7 +1,8 @@
 # Shared ByteByteGo kit
 
 Master copies of the parts that `diagram-bytebytego-flow`,
-`diagram-bytebytego-animated` and `diagram-bytebytego-concept` share. Each skill
+`diagram-bytebytego-animated`, `diagram-bytebytego-concept` and
+`diagram-bytebytego-mockup` share. Each skill
 keeps its own copy so it still works when copied on its own; `sync.py` keeps the
 copies in step.
 
@@ -10,9 +11,12 @@ copies in step.
 | `bbg-icons.svg` | Icon `<symbol>`s and edge `<marker>`s | `assets/bbg-icons.js` (wrapped so a `<script>` tag inserts the sprite) |
 | `bbg-parts.css` | Edge styles, edge labels, shapes, fills, boxes, legend, labelled steps | `assets/bbg-parts.css` |
 | `bbg-parts.js` | Draws `.shp` outlines; applies the page variant (`#v=name`) | `assets/bbg-parts.js` |
-| `bbg-flow.css` | The flow look's tokens and building blocks | `assets/bbg-flow.css` (flow and concept only) |
+| `bbg-flow.css` | The flow look's tokens and building blocks | `assets/bbg-flow.css` (flow, concept, mockup) |
 | `render.py` | HTML → PNG, with `--compare` and `--variant` | `scripts/render.py` |
-| `render_gif.py` | HTML → looping GIF: seeks every animation frame by frame, encodes with ffmpeg | `scripts/render_gif.py` (animated and concept only) |
+| `render_gif.py` | HTML → looping GIF: seeks every animation frame by frame, encodes with ffmpeg | `scripts/render_gif.py` (animated, concept, mockup) |
+
+`sync.py` also copies the concept skill's own `assets/bbg-concept.js` into the mockup
+skill, whose dashboards and map panels use `BBG.timeline` and `BBG.spatial`.
 | `sync.py` | Writes the copies; `--check` exits 1 if any copy is stale | — |
 
 ```bash

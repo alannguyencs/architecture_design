@@ -13,8 +13,10 @@ What it writes into each skill:
     assets/bbg-parts.js   copy
     scripts/render.py     copy
 and, into some skills only:
-    assets/bbg-flow.css   copy (flow and concept: the flow look's tokens and building blocks)
-    scripts/render_gif.py copy (animated and concept: HTML → looping GIF)
+    assets/bbg-flow.css   copy (flow, concept, mockup: the flow look's tokens and building blocks)
+    scripts/render_gif.py copy (animated, concept, mockup: HTML → looping GIF)
+and from one skill to another (the master stays in the first skill):
+    concept assets/bbg-concept.js → mockup assets/bbg-concept.js (dashboards and map panels)
 """
 
 import argparse
@@ -23,10 +25,13 @@ import sys
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-SKILLS = ["diagram-bytebytego-flow", "diagram-bytebytego-animated", "diagram-bytebytego-concept"]
+SKILLS = ["diagram-bytebytego-flow", "diagram-bytebytego-animated", "diagram-bytebytego-concept",
+          "diagram-bytebytego-mockup"]
 # Files only some skills get: {path inside the skill: [skill, ...]}
-ONLY = {"assets/bbg-flow.css": ["diagram-bytebytego-flow", "diagram-bytebytego-concept"],
-        "scripts/render_gif.py": ["diagram-bytebytego-animated", "diagram-bytebytego-concept"]}
+ONLY = {"assets/bbg-flow.css": ["diagram-bytebytego-flow", "diagram-bytebytego-concept", "diagram-bytebytego-mockup"],
+        "scripts/render_gif.py": ["diagram-bytebytego-animated", "diagram-bytebytego-concept", "diagram-bytebytego-mockup"]}
+# Copies from one skill to another: {(target skill, path): (source skill, path)}
+CROSS = {("diagram-bytebytego-mockup", "assets/bbg-concept.js"): ("diagram-bytebytego-concept", "assets/bbg-concept.js")}
 NOTE = "Generated from .claude/skills/_shared/{src} by _shared/sync.py. Edit the master copy, not this file."
 
 
@@ -73,6 +78,17 @@ def main() -> None:
             if not args.check:
                 dest.parent.mkdir(parents=True, exist_ok=True)
                 dest.write_text(content)
+
+    for (skill, rel), (src_skill, src_rel) in CROSS.items():
+        src = HERE.parent / src_skill / src_rel
+        content = f"// Copied from .claude/skills/{src_skill}/{src_rel} by _shared/sync.py. Edit the master copy, not this file.\n" + src.read_text()
+        dest = HERE.parent / skill / rel
+        if dest.exists() and dest.read_text() == content:
+            continue
+        stale.append(dest)
+        if not args.check:
+            dest.parent.mkdir(parents=True, exist_ok=True)
+            dest.write_text(content)
 
     verb = "out of date" if args.check else "updated"
     for p in stale:
