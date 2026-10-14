@@ -23,3 +23,4 @@ results/
 
 # Third-party reference images (ByteByteGo posts, book figures) — kept local only
 data/examples/
+data/system-design-interview/
