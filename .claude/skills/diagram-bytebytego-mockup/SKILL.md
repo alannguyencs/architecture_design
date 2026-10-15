@@ -81,7 +81,7 @@ Needs Python `playwright` (Chromium), Pillow, and `ffmpeg` for GIFs.
    - `list({ head, rows: [{ icon | avatar | img, title, sub, meta, more, hl, cells }], size })`
    - `form({ steps, current, heading, lines, total, fields: [{ label, kind: 'box' | 'card' | 'select' | 'check' | 'radio', bar }], note, buttons, divider, size })`
    - `card({ kind: 'post' | 'banner' | 'bubble' | 'thumb' | 'email', … })`
-   - `kvpanel({ rows: [[key, value, { mark, color, chip }] | { group }], size, mono })`
+   - `kvpanel({ rows: [[key, value, { mark, color, chip }] | { group }], size, mono, gap })` — `gap` is the row spacing in px (default 4); about 13 leaves room for a `.step.sm` beside each row
    - `filetree({ items: [{ name, depth, open, file }], size })`
    - `sidebar(items, { w, top })` for app windows; `panel({ x, y, w, h, title })` → `{ inner }`, a dark dashboard box whose inner rect hosts `BBG.timeline` / `BBG.spatial`
    - Placeholders: `bar(w, 'dark' | 'thin')`, `bars([…])`, `img({ h, fill, play, label })`, `avatar({ size, fill, icon })`, `chip(text, fill)`; icons: `ui('search')` (line icons), `icon('folder')` (shared sprite)

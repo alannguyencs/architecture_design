@@ -96,7 +96,15 @@ python3 .claude/skills/diagram-bytebytego-animated/scripts/render.py \
    frame runs straight back into the first. If you change `--loop`, pass the same
    value as `--loop-ms`.
 5. Streaks are automatic for every `svg.edges > path`; add `class="no-flow"` to
-   a path to skip it. With the shared kit, use `marker-end="url(#m-tri)"` for this
+   a path to skip it (use it on failure and fallback branches, so the motion
+   follows the happy path). To **stagger** them — a story told in order, such as a
+   pipeline — put `data-step="1"`, `"2"`, … on the edges, matching the numbered
+   steps: the streak script cuts the loop into one slot per step and runs each
+   streak only in its own slot; edges with the same step (a fan-out) run together.
+   Without any `data-step` all streaks run at once, as before. One slot should be
+   about 0.6–0.8 s, so for more than three or four steps lengthen the loop in the
+   page — `:root { --loop: 5.25s; --half: 2.625s; --third: 1.75s; }` for 7 × 0.75 s
+   — and render with the same `--loop-ms`, picking a `--frame-ms` that divides it. With the shared kit, use `marker-end="url(#m-tri)"` for this
    skill's filled head; the edge classes, `.elabel`, `.shp` shapes, `.step.lbl`
    (labels like `3a.1`) and variants (`data-hl` / `data-only`) work as in
    `diagram-bytebytego-flow`.

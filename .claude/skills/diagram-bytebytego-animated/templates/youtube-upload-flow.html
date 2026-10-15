@@ -128,13 +128,28 @@
 
 </div>
 <script>
-  // Add a green streak copy of every flow line (pathLength 1000 makes the dash
-  // the same share of every path). Mark a path class="no-flow" to skip it.
-  document.querySelectorAll('svg.edges > path:not(.no-flow)').forEach(p => {
+  // Streaks: a green copy of every flow line (pathLength 1000 makes the dash the same share
+  // of every path); class="no-flow" skips one. Without data-step every streak runs over the
+  // whole loop at once. Give edges data-step="1", "2", … and the loop is cut into one slot per
+  // step: each streak runs only in its own slot, so the motion follows the story; edges with
+  // the same step (parallel work) run together. Uses element.animate, which render_gif.py seeks.
+  const loopMs = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--loop')) * 1000;
+  const edges = [...document.querySelectorAll('svg.edges > path:not(.no-flow)')];
+  const steps = Math.max(0, ...edges.map(p => +p.dataset.step || 0));
+  edges.forEach(p => {
     const f = p.cloneNode();
-    f.removeAttribute('marker-start'); f.removeAttribute('marker-end');
+    ['marker-start', 'marker-end', 'data-step'].forEach(a => f.removeAttribute(a));
     f.setAttribute('class', 'flow'); f.setAttribute('pathLength', '1000');
     p.after(f);
+    const step = +p.dataset.step;
+    if (!steps || !step) return;
+    const a = (step - 1) / steps, b = step / steps;
+    f.style.animation = 'none';
+    // Park the dash 110 units clear of both ends while it waits, so its round cap never
+    // shows as a dot at the start or the end of the line.
+    f.animate([{ offset: 0, strokeDashoffset: 110 }, { offset: a, strokeDashoffset: 110 },
+               { offset: b, strokeDashoffset: -1110 }, { offset: 1, strokeDashoffset: -1110 }],
+              { duration: loopMs, iterations: Infinity });
   });
 </script>
 <script src="../assets/bbg-parts.js"></script>

@@ -641,7 +641,9 @@ BBG.define('sequence', spec => {
 //   windows: [{ from, to, h: 180, label, cls: 'c-soft', line: 'ink' | 'blue' | 'green' | 'dash', row }],
 //            no row → a box standing on the axis in the plot area; row → a box in that row
 //   rows:    [{ label: 'Event Time' }], rowH: 44
-//   events:  [{ row: 0, t: 30, label: '1' }],  numbered circles on a row
+//   events:  [{ row: 0, t: 30, label: '1', note: 'miss', noteColor: '#d33' }],  numbered circles on a row;
+//            note = a word under the circle on a white backing (the grid never crosses it)
+//   (row labels keep 10 px clear of the row's leftmost event or window)
 //   markers: [{ t: 78, label: 'Current time' }],
 //   spans:   [{ from, to, label, y }],          measure arrows; y in plot coordinates (0 = axis, up is +)
 //   series:  [{ points: [[t, v], …], color }], yFrom, yTo     line chart in the plot area
@@ -716,8 +718,13 @@ BBG.define('timeline', spec => {
   }
 
   // Rows: label, row windows, events.
+  // A row label keeps 10 px clear of the row's leftmost mark (an event circle or a window),
+  // so an event at the start of the axis never touches it.
+  const rowLeft = i => Math.min(0,
+    ...(s.events || []).filter(e => e.row === i).map(e => tx(e.t) - 12),
+    ...(s.windows || []).filter(w => w.row === i).map(w => tx(w.from)));
   rows.forEach((r, i) => {
-    if (r.label) BBG.text(g, -16, rowTop(i) + s.rowH / 2, r.label, { size: fs, weight: 700, anchor: 'end' });
+    if (r.label) BBG.text(g, Math.min(-16, rowLeft(i) - 10), rowTop(i) + s.rowH / 2, r.label, { size: fs, weight: 700, anchor: 'end' });
     if (r.line) BBG.el('path', { d: `M0 ${rowTop(i) + s.rowH / 2} H${s.width}`, class: 'c-thin' }, g);
   });
   (s.windows || []).filter(w => w.row !== undefined).forEach(w => {
@@ -730,6 +737,12 @@ BBG.define('timeline', spec => {
     const cx = tx(e.t), cy = rowTop(e.row) + s.rowH / 2;
     BBG.el('circle', { cx, cy, r: 12, class: `c-event ${e.cls || ''}`.trim() }, g);
     if (e.label !== undefined) BBG.text(g, cx, cy, e.label, { size: 13, weight: 700 });
+    // note: a word under the circle (an outcome such as 'miss' / 'hit'), on a white backing
+    // so the dashed grid never runs through it.
+    if (e.note) {
+      const n = BBG.label(g, cx, cy + 12 + fs * 0.85, e.note, { size: fs * 0.95, weight: 700, padX: 4, padY: 1 });
+      if (e.noteColor) n.querySelector('text').style.fill = e.noteColor;
+    }
   });
 
   // Markers and spans on top.
@@ -773,7 +786,10 @@ BBG.define('timeline', spec => {
 //           { id: 'v', at: 120, kind: 'empty' },          empty marker
 //           { id: 'coord', at: 270, kind: 'box', label: 'coordinator' },
 //           { id: 'x', at: 90, label: 's1_0', r: 20 }],   label defaults to id
-//   hops:   [{ from: 'k0', to: 's0', dash: true, color: 'red', out: 34 }],   clockwise, outside the ring
+//   hops:   [{ from: 'k0', to: 's0', dash: true, color: 'red', out: 34,      clockwise, outside the ring
+//              end: 0 }],                end → turn this hop's arrowhead round the target by that many degrees
+//   spread: 32,                             min degrees between arrowheads of hops that share a target
+//                                           (widened to keep 22 px apart on small nodes; 0 = off)
 //   arcs:   [{ from: 's2', to: 's1', cls: 'c-pink-arc', out: 0 | 22, arrow: true, label }],
 //   links:  [{ from: 'coord', to: 's0', label: 'put(key1, val1)', back: 'ACK', backDash: true,
 //              dash, color, pair: true }],  back → a second arrow returning; pair → both ways, unlabelled
@@ -828,16 +844,37 @@ BBG.define('ring', spec => {
   const head = c => (c ? `url(#m-arrow-${c})` : 'url(#m-arrow)');
   const clockwise = (a, b) => ((b - a) % 360 + 360) % 360;
 
-  // Hops: from a key, out of the ring, clockwise to the owner, back in.
-  (s.hops || []).forEach(h => {
+  // Hops: from a key, out of the ring, clockwise to the owner, back in. The last leg
+  // lands on the owner's edge; hops that share an owner have their landing points
+  // spread round it, or their arrowheads would pile up in one spot.
+  const legAt = (n, deg) => [n.x + Math.cos(deg * Math.PI / 180) * (n.rr + 2), n.y + Math.sin(deg * Math.PI / 180) * (n.rr + 2)];
+  const toward = (n, px, py) => Math.atan2(py - n.y, px - n.x) * 180 / Math.PI;
+  const rel = (a, b) => ((a - b) % 360 + 540) % 360 - 180;   // a − b, in (−180, 180]
+  const hops = (s.hops || []).map(h => {
     const A = nodes[h.from], B = nodes[h.to];
-    const out = h.out ?? 34, R = s.r + out;
+    const R = s.r + (h.out ?? 34);
     const sweep = clockwise(A.at, B.at);
     const pad = Math.min(10, sweep / 3);
     const [x2, y2] = pt(A.at + pad, R), [x3, y3] = pt(B.at - pad, R);
-    // Straight legs from each node's edge to the outer arc, pointing at the node's centre.
-    const leg = (n, px, py) => { const dx = px - n.x, dy = py - n.y, l = Math.hypot(dx, dy); return [n.x + dx / l * (n.rr + 2), n.y + dy / l * (n.rr + 2)]; };
-    const [x1, y1] = leg(A, x2, y2), [x4, y4] = leg(B, x3, y3);
+    return { h, A, B, R, sweep, pad, x2, y2, x3, y3, land: toward(B, x3, y3) };
+  });
+  const spread = s.spread ?? 32;
+  const byTarget = {};
+  hops.forEach(o => (byTarget[o.h.to] = byTarget[o.h.to] || []).push(o));
+  Object.values(byTarget).forEach(group => {
+    if (group.length < 2 || !spread) return;
+    const base = group[0].land;
+    // Nested hops: the innermost (smallest R) lands nearest the side it arrives from, the
+    // outer ones further round towards the outside — clockwise on screen — so legs never cross.
+    group.sort((a, b) => a.R - b.R || a.sweep - b.sweep);
+    const centre = base + group.reduce((sum, o) => sum + rel(o.land, base), 0) / group.length;
+    // At least 22 px of node edge between neighbouring heads, so small nodes spread wider.
+    const step = Math.max(spread, 22 / (group[0].B.rr + 2) * 180 / Math.PI);
+    group.forEach((o, i) => { o.land = centre + (i - (group.length - 1) / 2) * step; });
+  });
+  hops.forEach(({ h, A, R, sweep, pad, x2, y2, x3, y3, B, land }) => {
+    const [x1, y1] = legAt(A, toward(A, x2, y2));
+    const [x4, y4] = legAt(B, land + (h.end || 0));
     const large = sweep - 2 * pad > 180 ? 1 : 0;
     const d = `M${x1} ${y1} L${x2} ${y2} A${R} ${R} 0 ${large} 1 ${x3} ${y3} L${x4} ${y4}`;
     BBG.el('path', { d, class: `c-line${h.dash ? ' c-dash' : ''}${colour(h.color)}`, 'stroke-width': 2.5, 'marker-end': head(h.color) }, mid);
@@ -1095,6 +1132,7 @@ BBG.define('tree', spec => {
 //   grid:    { cols: 2, rows: 2, labels: [['01', '11'], ['00', '10']], size: 40, hl: [[0, 0, 'c-green']], bold: [[0, 0]] },
 //   splits:  [{ rect: [0, 0, 0.5, 0.5], cols: 2, rows: 2, labels: [['01 01', '01 11'], …], bold: true }],
 //   points:  [{ at: [fx, fy] | ll: [lon, lat], label, cls: 'c-green', r: 9, icon: 'user', size: 32 }],
+//            (a point outside the frame — at < 0 or > 1 — is drawn unclipped beside it; clip: false forces that)
 //   circles: [{ at, r: 110, label, dash: true }],
 //   polygons:[{ points: [[fx, fy], …], cls: 'c-blue', label }],
 //   paths:   [{ points: [[fx, fy], …], color: 'red', arrow: true, width: 5 }],
@@ -1209,11 +1247,15 @@ BBG.define('spatial', spec => {
     BBG.el('circle', { cx: x, cy: y, r: c.r, class: `c-radius${c.dash === false ? '' : ' c-dash'}` }, inner);
     if (c.label) BBG.label(inner, x, y - c.r, c.label, { size: fs });
   });
+  // A point placed outside the frame (at < 0 or > 1, or ll beyond the crop) is drawn
+  // unclipped, beside the map — e.g. the nearest thing a search does not read.
   (s.points || []).forEach(p => {
     const [x, y] = fxy(p);
-    if (p.icon) BBG.icon(inner, p.icon, x, y, p.size || 32, p.size || 32);
-    else BBG.el('circle', { cx: x, cy: y, r: p.r || 9, class: `c-node ${p.cls || 'c-green'}` }, inner);
-    if (p.label) BBG.label(inner, x + (p.r || (p.icon ? (p.size || 32) / 2 : 9)) + 6, y, p.label, { size: fs, anchor: 'start' });
+    const out = p.clip === false || x < 0 || x > W || y < 0 || y > H;
+    const layer = out ? g : inner;
+    if (p.icon) BBG.icon(layer, p.icon, x, y, p.size || 32, p.size || 32);
+    else BBG.el('circle', { cx: x, cy: y, r: p.r || 9, class: `c-node ${p.cls || 'c-green'}` }, layer);
+    if (p.label) BBG.label(layer, x + (p.r || (p.icon ? (p.size || 32) / 2 : 9)) + 6, y, p.label, { size: fs, anchor: 'start' });
   });
   // Callouts may leave the frame, so they are drawn outside the clip.
   (s.callouts || []).forEach(c => {

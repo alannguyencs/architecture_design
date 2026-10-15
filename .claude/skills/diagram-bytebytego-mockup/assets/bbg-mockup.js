@@ -241,11 +241,13 @@
 
   // ---- kvpanel ----
   // BBM.kvpanel({ rows: [['Request URL', 'https://…'], { group: 'Response headers' }, ['status', '301', { mark: true, color: 'green' }]],
-  //               size: 14, mono: true })
-  // mark: true draws a red box round the row (mark: 'black' for black).
+  //               size: 14, mono: true, gap: 4 })
+  // mark: true draws a red box round the row (mark: 'black' for black). gap is the space
+  // between rows in px (default 4); about 13 leaves room for a .step.sm beside each row.
   function kvpanel(s) {
     const node = h('div', 'm-kv');
     if (s.size) node.style.setProperty('--m-fs', `${s.size}px`);
+    if (s.gap != null) node.style.rowGap = `${s.gap}px`;
     s.rows.forEach(r => {
       if (!Array.isArray(r)) { node.append(h('div', 'group', r.group)); return; }
       const [k, v, o = {}] = r;

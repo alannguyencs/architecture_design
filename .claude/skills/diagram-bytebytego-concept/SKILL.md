@@ -161,7 +161,11 @@ BBG.timeline({ x: 110, y: 200, width: 740, from: 0, to: 180, tickEvery: 30, unit
 ```
 
 Span `y` is measured up from the axis (negative = below it). `tx(t)` and `py(v)`
-return page positions for extra marks.
+return page positions for extra marks. An event's `note` (with `noteColor`) puts a
+word such as `miss` / `hit` under its circle on a white backing, so the dashed
+`grid` never strikes through it; other text inside the rows should use `BBG.label`
+for the same reason. Row labels move left by themselves to stay clear of an event
+at the very start of the axis.
 
 **`BBG.ring`** — a hash ring.
 
@@ -178,7 +182,11 @@ BBG.ring({ cx: 620, cy: 420, r: 230,
 ```
 
 `at(id)` returns a node's position; `point(deg, radius)` any point on or off the
-ring. Put the server legend in HTML (`.bx f-purple` …), as the template does.
+ring. Several hops into one server: give each a different `out` (innermost = the
+shortest sweep) and their arrowheads are spread round the server automatically,
+the innermost nearest the side it comes from, so the legs never cross; `spread: 32`
+on the ring sets the minimum degrees between heads (widened to keep 22 px apart on
+small nodes; `0` turns it off), and `end: ±deg` on one hop turns just that head. Put the server legend in HTML (`.bx f-purple` …), as the template does.
 
 **`BBG.tree`** — tries, quadtrees, folder trees and chapter mind maps.
 
@@ -217,7 +225,9 @@ BBG.spatial({ x: 60, y: 180, width: 560, height: 560,
 ```
 
 `at` is a fraction of the frame (0..1 from the top-left); `ll` is longitude,
-latitude on a world base. Country codes are Natural Earth `ADM0_A3` (USA, CHN,
+latitude on a world base. A point outside the frame (`at` below 0 or above 1) is
+drawn unclipped beside the map — the nearest thing a search does *not* read;
+`clip: false` forces that. Country codes are Natural Earth `ADM0_A3` (USA, CHN,
 BRA, DEU …). Street-level figures use the schematic `streets` base instead of real
 map tiles: those need attribution and the network, and a drawn street grid fits
 the ByteByteGo look better.
